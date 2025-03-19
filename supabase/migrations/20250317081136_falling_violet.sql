@@ -24,6 +24,11 @@ CREATE TABLE profiles (
   name TEXT NOT NULL,
   age INTEGER,
   behavior_features JSONB DEFAULT '{}',
+  sensory_preferences JSONB DEFAULT '{}',
+  communication_style JSONB DEFAULT '{}',
+  interests JSONB DEFAULT '{}',
+  routines JSONB DEFAULT '{}',
+  triggers JSONB DEFAULT '{}',
   created_at TIMESTAMPTZ DEFAULT now(),
   updated_at TIMESTAMPTZ DEFAULT now()
 );

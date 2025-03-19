@@ -31,7 +31,6 @@ This is a Next.js-based application designed to help parents communicate with au
    ```env
    NEXT_PUBLIC_SUPABASE_URL=<your_supabase_url>
    NEXT_PUBLIC_SUPABASE_ANON_KEY=<your_supabase_anon_key>
-   DIFY_API_KEY=<your_dify_api_key>
    ```
 4. Run the development server:
    ```sh
