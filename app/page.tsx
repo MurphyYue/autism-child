@@ -36,14 +36,6 @@ export default function Home() {
             href="/chat"
           />
         </div>
-
-        <div className="mt-16 text-center">
-          <Button asChild size="lg">
-            <Link href="/auth/login">
-              Get Started
-            </Link>
-          </Button>
-        </div>
       </main>
     </div>
   );
