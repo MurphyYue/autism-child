@@ -31,10 +31,18 @@ export default function Home() {
           />
           <FeatureCard
             icon={<MessageCircle className="h-8 w-8" />}
-            title="AI Communication"
-            description="Get AI-assisted communication suggestions"
+            title="Simulated Conversation"
+            description="Practice communication with AI assistance"
             href="/chat"
           />
+        </div>
+
+        <div className="mt-16 text-center">
+          <Button asChild size="lg">
+            <Link href="/auth/login">
+              Get Started
+            </Link>
+          </Button>
         </div>
       </main>
     </div>
