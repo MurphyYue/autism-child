@@ -6,10 +6,10 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
+import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { useToast } from '@/hooks/use-toast';
 import { useAuth } from '@/components/auth-provider';
 import { supabase } from '@/lib/supabase';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
 interface CreateProfileDialogProps {
   open: boolean;
@@ -23,12 +23,25 @@ export default function CreateProfileDialog({
   onSuccess,
 }: CreateProfileDialogProps) {
   const [name, setName] = useState('');
-  const [age, setAge] = useState('');
-  const [sensoryPreferences, setSensoryPreferences] = useState('');
-  const [communicationStyle, setCommunicationStyle] = useState('');
-  const [interests, setInterests] = useState('');
-  const [routines, setRoutines] = useState('');
-  const [triggers, setTriggers] = useState('');
+  const [age, setAge] = useState('1');
+  const [gender, setGender] = useState('male');
+  const [diagnosisAge, setDiagnosisAge] = useState('1');
+  const [diagnosisSource, setDiagnosisSource] = useState('non-psychologist');
+  const [severity, setSeverity] = useState('none');
+  
+  // Behavior indicators
+  const [canInitiateConversation, setCanInitiateConversation] = useState('yes');
+  const [canExpressNeeds, setCanExpressNeeds] = useState('yes');
+  const [hasFriends, setHasFriends] = useState('yes');
+  const [hasSelfStimulation, setHasSelfStimulation] = useState('yes');
+  const [isInSchool, setIsInSchool] = useState('yes');
+  const [canPerformDailyTasks, setCanPerformDailyTasks] = useState('yes');
+  
+  // Sensory responses
+  const [sensoryResponse, setSensoryResponse] = useState('');
+  const [specialInterests, setSpecialInterests] = useState('');
+  const [environmentalResponse, setEnvironmentalResponse] = useState('');
+  
   const [loading, setLoading] = useState(false);
   const { user } = useAuth();
   const { toast } = useToast();
@@ -39,15 +52,31 @@ export default function CreateProfileDialog({
 
     setLoading(true);
     try {
+      const behaviorFeatures = {
+        can_initiate_conversation: canInitiateConversation === 'yes',
+        can_express_needs: canExpressNeeds === 'yes',
+        has_friends: hasFriends === 'yes',
+        has_self_stimulation: hasSelfStimulation === 'yes',
+        is_in_school: isInSchool === 'yes',
+        can_perform_daily_tasks: canPerformDailyTasks === 'yes',
+      };
+
+      const sensoryFeatures = {
+        sensory_response: sensoryResponse,
+        special_interests: specialInterests,
+        environmental_response: environmentalResponse,
+      };
+
       const { error } = await supabase.from('profiles').insert({
         user_id: user.id,
         name,
         age: parseInt(age),
-        sensory_preferences: parseTextToJson(sensoryPreferences),
-        communication_style: parseTextToJson(communicationStyle),
-        interests: parseTextToJson(interests),
-        routines: parseTextToJson(routines),
-        triggers: parseTextToJson(triggers),
+        gender,
+        diagnosis_age: parseInt(diagnosisAge),
+        diagnosis_source: diagnosisSource,
+        severity,
+        behavior_features: behaviorFeatures,
+        sensory_preferences: sensoryFeatures,
       });
 
       if (error) throw error;
@@ -65,142 +94,310 @@ export default function CreateProfileDialog({
     }
   };
 
-  const parseTextToJson = (text: string): Record<string, string> => {
-    const result: Record<string, string> = {};
-    text.split('\n').forEach((line) => {
-      const [key, value] = line.split(':').map((s) => s.trim());
-      if (key && value) {
-        result[key] = value;
-      }
-    });
-    return result;
-  };
-
   const resetForm = () => {
     setName('');
-    setAge('');
-    setSensoryPreferences('');
-    setCommunicationStyle('');
-    setInterests('');
-    setRoutines('');
-    setTriggers('');
+    setAge('1');
+    setGender('male');
+    setDiagnosisAge('1');
+    setDiagnosisSource('non-psychologist');
+    setSeverity('none');
+    setCanInitiateConversation('yes');
+    setCanExpressNeeds('yes');
+    setHasFriends('yes');
+    setHasSelfStimulation('yes');
+    setIsInSchool('yes');
+    setCanPerformDailyTasks('yes');
+    setSensoryResponse('');
+    setSpecialInterests('');
+    setEnvironmentalResponse('');
   };
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-3xl">
+      <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
         <DialogHeader>
-          <DialogTitle>Create New Profile</DialogTitle>
+          <DialogTitle>Create Child Profile</DialogTitle>
         </DialogHeader>
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <div className="grid grid-cols-2 gap-4">
-            <div>
-              <Label htmlFor="name">Name</Label>
-              <Input
-                id="name"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-                required
-              />
+        <form onSubmit={handleSubmit} className="space-y-6">
+          <div className="space-y-4">
+            <div className="flex items-end gap-4">
+              <div className="flex-1">
+                <Label htmlFor="name">Name</Label>
+                <Input
+                  id="name"
+                  placeholder="Enter name"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  required
+                />
+              </div>
+              <div className="w-24">
+                <Label htmlFor="age">Age</Label>
+                <div className="flex items-center">
+                  <Button
+                    type="button"
+                    variant="outline"
+                    size="icon"
+                    className="h-10 w-10"
+                    onClick={() => setAge(Math.max(1, parseInt(age) - 1).toString())}
+                  >
+                    -
+                  </Button>
+                  <Input
+                    id="age"
+                    type="number"
+                    min="1"
+                    className="h-10 w-14 text-center mx-1"
+                    value={age}
+                    onChange={(e) => setAge(e.target.value)}
+                    required
+                  />
+                  <Button
+                    type="button"
+                    variant="outline"
+                    size="icon"
+                    className="h-10 w-10"
+                    onClick={() => setAge((parseInt(age) + 1).toString())}
+                  >
+                    +
+                  </Button>
+                </div>
+              </div>
+              <div className="w-32">
+                <Label>Gender</Label>
+                <RadioGroup
+                  value={gender}
+                  onValueChange={setGender}
+                  className="flex gap-4"
+                >
+                  <div className="flex items-center space-x-2">
+                    <RadioGroupItem value="male" id="male" />
+                    <Label htmlFor="male">Male</Label>
+                  </div>
+                  <div className="flex items-center space-x-2">
+                    <RadioGroupItem value="female" id="female" />
+                    <Label htmlFor="female">Female</Label>
+                  </div>
+                </RadioGroup>
+              </div>
             </div>
-            <div>
-              <Label htmlFor="age">Age</Label>
-              <Input
-                id="age"
-                type="number"
-                min="0"
-                max="100"
-                value={age}
-                onChange={(e) => setAge(e.target.value)}
-                required
-              />
+
+            <div className="flex gap-4">
+              <div className="flex-1">
+                <Label>First Diagnosis Age</Label>
+                <div className="flex items-center">
+                  <Button
+                    type="button"
+                    variant="outline"
+                    size="icon"
+                    className="h-10 w-10"
+                    onClick={() => setDiagnosisAge(Math.max(1, parseInt(diagnosisAge) - 1).toString())}
+                  >
+                    -
+                  </Button>
+                  <Input
+                    type="number"
+                    min="1"
+                    className="h-10 w-14 text-center mx-1"
+                    value={diagnosisAge}
+                    onChange={(e) => setDiagnosisAge(e.target.value)}
+                    required
+                  />
+                  <Button
+                    type="button"
+                    variant="outline"
+                    size="icon"
+                    className="h-10 w-10"
+                    onClick={() => setDiagnosisAge((parseInt(diagnosisAge) + 1).toString())}
+                  >
+                    +
+                  </Button>
+                </div>
+              </div>
+              <div className="flex-1">
+                <Label>Diagnosis Source</Label>
+                <select
+                  className="w-full h-10 px-3 rounded-md border"
+                  value={diagnosisSource}
+                  onChange={(e) => setDiagnosisSource(e.target.value)}
+                >
+                  <option value="non-psychologist">Non-Psychologist</option>
+                  <option value="psychologist">Psychologist</option>
+                  <option value="specialist">Specialist</option>
+                </select>
+              </div>
+              <div className="flex-1">
+                <Label>Severity</Label>
+                <select
+                  className="w-full h-10 px-3 rounded-md border"
+                  value={severity}
+                  onChange={(e) => setSeverity(e.target.value)}
+                >
+                  <option value="none">None</option>
+                  <option value="mild">Mild</option>
+                  <option value="moderate">Moderate</option>
+                  <option value="severe">Severe</option>
+                </select>
+              </div>
+            </div>
+
+            <div className="space-y-4">
+              <h3 className="font-medium">Behavioral Assessment</h3>
+              
+              <div className="space-y-3">
+                <div className="flex items-center justify-between">
+                  <Label>Can initiate or respond to others?</Label>
+                  <RadioGroup
+                    value={canInitiateConversation}
+                    onValueChange={setCanInitiateConversation}
+                    className="flex gap-4"
+                  >
+                    <div className="flex items-center space-x-2">
+                      <RadioGroupItem value="yes" id="initiate-yes" />
+                      <Label htmlFor="initiate-yes">Yes</Label>
+                    </div>
+                    <div className="flex items-center space-x-2">
+                      <RadioGroupItem value="no" id="initiate-no" />
+                      <Label htmlFor="initiate-no">No</Label>
+                    </div>
+                  </RadioGroup>
+                </div>
+
+                <div className="flex items-center justify-between">
+                  <Label>Can fully express their needs?</Label>
+                  <RadioGroup
+                    value={canExpressNeeds}
+                    onValueChange={setCanExpressNeeds}
+                    className="flex gap-4"
+                  >
+                    <div className="flex items-center space-x-2">
+                      <RadioGroupItem value="yes" id="express-yes" />
+                      <Label htmlFor="express-yes">Yes</Label>
+                    </div>
+                    <div className="flex items-center space-x-2">
+                      <RadioGroupItem value="no" id="express-no" />
+                      <Label htmlFor="express-no">No</Label>
+                    </div>
+                  </RadioGroup>
+                </div>
+
+                <div className="flex items-center justify-between">
+                  <Label>Has regular friends or teachers?</Label>
+                  <RadioGroup
+                    value={hasFriends}
+                    onValueChange={setHasFriends}
+                    className="flex gap-4"
+                  >
+                    <div className="flex items-center space-x-2">
+                      <RadioGroupItem value="yes" id="friends-yes" />
+                      <Label htmlFor="friends-yes">Yes</Label>
+                    </div>
+                    <div className="flex items-center space-x-2">
+                      <RadioGroupItem value="no" id="friends-no" />
+                      <Label htmlFor="friends-no">No</Label>
+                    </div>
+                  </RadioGroup>
+                </div>
+
+                <div className="flex items-center justify-between">
+                  <Label>Has self-stimulatory behaviors?</Label>
+                  <RadioGroup
+                    value={hasSelfStimulation}
+                    onValueChange={setHasSelfStimulation}
+                    className="flex gap-4"
+                  >
+                    <div className="flex items-center space-x-2">
+                      <RadioGroupItem value="yes" id="stim-yes" />
+                      <Label htmlFor="stim-yes">Yes</Label>
+                    </div>
+                    <div className="flex items-center space-x-2">
+                      <RadioGroupItem value="no" id="stim-no" />
+                      <Label htmlFor="stim-no">No</Label>
+                    </div>
+                  </RadioGroup>
+                </div>
+
+                <div className="flex items-center justify-between">
+                  <Label>Currently attending school?</Label>
+                  <RadioGroup
+                    value={isInSchool}
+                    onValueChange={setIsInSchool}
+                    className="flex gap-4"
+                  >
+                    <div className="flex items-center space-x-2">
+                      <RadioGroupItem value="yes" id="school-yes" />
+                      <Label htmlFor="school-yes">Yes</Label>
+                    </div>
+                    <div className="flex items-center space-x-2">
+                      <RadioGroupItem value="no" id="school-no" />
+                      <Label htmlFor="school-no">No</Label>
+                    </div>
+                  </RadioGroup>
+                </div>
+
+                <div className="flex items-center justify-between">
+                  <Label>Can perform basic daily activities?</Label>
+                  <RadioGroup
+                    value={canPerformDailyTasks}
+                    onValueChange={setCanPerformDailyTasks}
+                    className="flex gap-4"
+                  >
+                    <div className="flex items-center space-x-2">
+                      <RadioGroupItem value="yes" id="daily-yes" />
+                      <Label htmlFor="daily-yes">Yes</Label>
+                    </div>
+                    <div className="flex items-center space-x-2">
+                      <RadioGroupItem value="no" id="daily-no" />
+                      <Label htmlFor="daily-no">No</Label>
+                    </div>
+                  </RadioGroup>
+                </div>
+              </div>
+            </div>
+
+            <div className="space-y-4">
+              <h3 className="font-medium">Sensory and Environmental Response</h3>
+              
+              <div>
+                <Label htmlFor="sensoryResponse">
+                  Does the child have any special reactions to sounds, lights, or touch?
+                </Label>
+                <Textarea
+                  id="sensoryResponse"
+                  value={sensoryResponse}
+                  onChange={(e) => setSensoryResponse(e.target.value)}
+                  placeholder="Please briefly describe"
+                  className="mt-1"
+                />
+              </div>
+
+              <div>
+                <Label htmlFor="specialInterests">
+                  Does the child have any special interests, including colors, toys, or activities?
+                </Label>
+                <Textarea
+                  id="specialInterests"
+                  value={specialInterests}
+                  onChange={(e) => setSpecialInterests(e.target.value)}
+                  placeholder="Please briefly describe"
+                  className="mt-1"
+                />
+              </div>
+
+              <div>
+                <Label htmlFor="environmentalResponse">
+                  Does the child show discomfort or emotional reactions in certain environments?
+                </Label>
+                <Textarea
+                  id="environmentalResponse"
+                  value={environmentalResponse}
+                  onChange={(e) => setEnvironmentalResponse(e.target.value)}
+                  placeholder="Please briefly describe"
+                  className="mt-1"
+                />
+              </div>
             </div>
           </div>
-
-          <Tabs defaultValue="sensory" className="w-full">
-            <TabsList className="grid grid-cols-5 w-full">
-              <TabsTrigger value="sensory">Sensory</TabsTrigger>
-              <TabsTrigger value="communication">Communication</TabsTrigger>
-              <TabsTrigger value="interests">Interests</TabsTrigger>
-              <TabsTrigger value="routines">Routines</TabsTrigger>
-              <TabsTrigger value="triggers">Triggers</TabsTrigger>
-            </TabsList>
-
-            <TabsContent value="sensory">
-              <div className="space-y-2">
-                <Label htmlFor="sensoryPreferences">
-                  Sensory Preferences (one per line, format: type: description)
-                </Label>
-                <Textarea
-                  id="sensoryPreferences"
-                  value={sensoryPreferences}
-                  onChange={(e) => setSensoryPreferences(e.target.value)}
-                  placeholder="Sound: Sensitive to loud noises&#10;Touch: Prefers soft textures&#10;Light: Avoids bright lights"
-                  rows={5}
-                />
-              </div>
-            </TabsContent>
-
-            <TabsContent value="communication">
-              <div className="space-y-2">
-                <Label htmlFor="communicationStyle">
-                  Communication Style (one per line, format: aspect: description)
-                </Label>
-                <Textarea
-                  id="communicationStyle"
-                  value={communicationStyle}
-                  onChange={(e) => setCommunicationStyle(e.target.value)}
-                  placeholder="Verbal: Uses single words&#10;Nonverbal: Points to objects&#10;AAC: Uses picture cards"
-                  rows={5}
-                />
-              </div>
-            </TabsContent>
-
-            <TabsContent value="interests">
-              <div className="space-y-2">
-                <Label htmlFor="interests">
-                  Special Interests (one per line, format: interest: details)
-                </Label>
-                <Textarea
-                  id="interests"
-                  value={interests}
-                  onChange={(e) => setInterests(e.target.value)}
-                  placeholder="Trains: Knows all types and models&#10;Numbers: Can count to 1000&#10;Music: Enjoys classical pieces"
-                  rows={5}
-                />
-              </div>
-            </TabsContent>
-
-            <TabsContent value="routines">
-              <div className="space-y-2">
-                <Label htmlFor="routines">
-                  Daily Routines (one per line, format: time/activity: description)
-                </Label>
-                <Textarea
-                  id="routines"
-                  value={routines}
-                  onChange={(e) => setRoutines(e.target.value)}
-                  placeholder="Morning: Needs specific breakfast routine&#10;Bedtime: Follows strict order of activities&#10;Transitions: Requires 5-minute warnings"
-                  rows={5}
-                />
-              </div>
-            </TabsContent>
-
-            <TabsContent value="triggers">
-              <div className="space-y-2">
-                <Label htmlFor="triggers">
-                  Known Triggers (one per line, format: trigger: response)
-                </Label>
-                <Textarea
-                  id="triggers"
-                  value={triggers}
-                  onChange={(e) => setTriggers(e.target.value)}
-                  placeholder="Sudden Changes: May become anxious&#10;Crowded Places: May cover ears&#10;New Foods: May refuse to eat"
-                  rows={5}
-                />
-              </div>
-            </TabsContent>
-          </Tabs>
 
           <div className="flex justify-end space-x-2">
             <Button
@@ -211,7 +408,7 @@ export default function CreateProfileDialog({
               Cancel
             </Button>
             <Button type="submit" disabled={loading}>
-              {loading ? 'Creating...' : 'Create Profile'}
+              {loading ? 'Creating...' : 'Submit'}
             </Button>
           </div>
         </form>
