@@ -17,11 +17,12 @@ interface Scenario {
   id: string;
   profile_id: string;
   title: string;
-  description: string;
+  time: string;
+  participant: string;
   location: string;
-  triggers: Record<string, any>;
-  responses: Record<string, any>;
-  outcome: string;
+  child_behavior: string;
+  trigger_event: string;
+  responses: string;
   created_at: string;
 }
 
@@ -77,7 +78,6 @@ export default function ScenarioList({ scenarios, profiles, onUpdate }: Scenario
               <p className="text-sm text-gray-600 dark:text-gray-400 mb-2">
                 {format(new Date(scenario.created_at), 'PPP')} at {scenario.location}
               </p>
-              <p className="text-gray-700 dark:text-gray-300">{scenario.description}</p>
             </div>
             <div className="flex space-x-2">
               <Button
@@ -95,43 +95,6 @@ export default function ScenarioList({ scenarios, profiles, onUpdate }: Scenario
                 <Trash2 className="w-4 h-4" />
               </Button>
             </div>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
-            {Object.entries(scenario.triggers).length > 0 && (
-              <div>
-                <h3 className="font-medium mb-2">Triggers:</h3>
-                <ul className="list-disc list-inside text-sm text-gray-600 dark:text-gray-400">
-                  {Object.entries(scenario.triggers).map(([key, value]) => (
-                    <li key={key}>
-                      {key}: {value}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            )}
-
-            {Object.entries(scenario.responses).length > 0 && (
-              <div>
-                <h3 className="font-medium mb-2">Responses:</h3>
-                <ul className="list-disc list-inside text-sm text-gray-600 dark:text-gray-400">
-                  {Object.entries(scenario.responses).map(([key, value]) => (
-                    <li key={key}>
-                      {key}: {value}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            )}
-
-            {scenario.outcome && (
-              <div>
-                <h3 className="font-medium mb-2">Outcome:</h3>
-                <p className="text-sm text-gray-600 dark:text-gray-400">
-                  {scenario.outcome}
-                </p>
-              </div>
-            )}
           </div>
         </Card>
       ))}

@@ -22,11 +22,12 @@ interface Scenario {
   id: string;
   profile_id: string;
   title: string;
-  description: string;
+  time: string;
+  participant: string;
   location: string;
-  triggers: Record<string, any>;
-  responses: Record<string, any>;
-  outcome: string;
+  child_behavior: string;
+  trigger_event: string;
+  responses: string;
   created_at: string;
 }
 

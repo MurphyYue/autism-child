@@ -23,10 +23,14 @@ interface Profile {
 
 interface Scenario {
   id: string;
+  profile_id: string;
   title: string;
-  description: string;
-  triggers?: Record<string, any>;
-  responses?: Record<string, any>;
+  time: string;
+  participant: string;
+  location: string;
+  child_behavior: string;
+  trigger_event: string;
+  responses: string;
 }
 
 interface Message {
@@ -95,7 +99,7 @@ export default function SimulatedConversationPage() {
     try {
       const { data, error } = await supabase
         .from('scenarios')
-        .select('id, title, description, triggers, responses')
+        .select('id, title, time, participant, location, child_behavior, trigger_event, responses, profile_id')
         .eq('profile_id', selectedProfile)
         .order('created_at', { ascending: false });
 
@@ -114,20 +118,20 @@ export default function SimulatedConversationPage() {
     const scenario = scenarios.find(s => s.id === selectedScenario);
     const profile = profiles.find(p => p.id === selectedProfile);
     if (!scenario || !profile) return;
-
+    const inputMsg = {
+      child_introduction: JSON.stringify(profile),
+      time: scenario.time,
+      location: scenario.location,
+      participant: scenario.participant,
+      child_behavior: scenario.child_behavior,
+      trigger_event: scenario.trigger_event,
+      responses: scenario.responses
+    }
     try {
       const response = await getDifyResponse(
         'Initialize conversation',
         undefined,
-        {
-          profile_name: profile.name,
-          profile_age: profile.age,
-          profile_features: profile.behavior_features,
-          scenario_title: scenario.title,
-          scenario_description: scenario.description,
-          scenario_triggers: scenario.triggers,
-          scenario_responses: scenario.responses,
-        }
+        inputMsg
       );
 
       setConversationId(response.conversation_id);

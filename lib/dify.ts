@@ -28,6 +28,7 @@ export async function getDifyResponse(
         query: message,
         conversation_id: conversationId,
         response_mode: 'blocking',
+        user: "abc-123",
       },
       {
         headers: {

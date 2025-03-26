@@ -18,12 +18,12 @@ interface Profile {
 interface Scenario {
   id: string;
   profile_id: string;
-  title: string;
-  description: string;
+  time: string;
   location: string;
-  triggers: Record<string, any>;
-  responses: Record<string, any>;
-  outcome: string;
+  participant: string;
+  child_behavior: string;
+  trigger_event: string;
+  responses: string;
 }
 
 interface EditScenarioDialogProps {
@@ -42,23 +42,23 @@ export default function EditScenarioDialog({
   onSuccess,
 }: EditScenarioDialogProps) {
   const [profileId, setProfileId] = useState(scenario.profile_id);
-  const [title, setTitle] = useState(scenario.title);
-  const [description, setDescription] = useState(scenario.description);
-  const [location, setLocation] = useState(scenario.location);
-  const [triggers, setTriggers] = useState('');
-  const [responses, setResponses] = useState('');
-  const [outcome, setOutcome] = useState(scenario.outcome);
+  const [time, setTime] = useState('');
+  const [location, setLocation] = useState('');
+  const [participant, setParticipant] = useState('');
+  const [childBehavior, setChildBehavior] = useState('');
+  const [triggerEvent, setTriggerEvent] = useState('');
+  const [responses, setResponse] = useState('');
   const [loading, setLoading] = useState(false);
   const { toast } = useToast();
 
   useEffect(() => {
     setProfileId(scenario.profile_id);
-    setTitle(scenario.title);
-    setDescription(scenario.description);
-    setLocation(scenario.location);
-    setTriggers(formatJson(scenario.triggers));
-    setResponses(formatJson(scenario.responses));
-    setOutcome(scenario.outcome);
+    setTime(scenario.time || '');
+    setLocation(scenario.location || '');
+    setParticipant(scenario.participant || '');
+    setChildBehavior(scenario.child_behavior);
+    setTriggerEvent(scenario.trigger_event);
+    setResponse(scenario.responses);
   }, [scenario]);
 
   const formatJson = (json: Record<string, any>): string => {
@@ -87,17 +87,16 @@ export default function EditScenarioDialog({
         .from('scenarios')
         .update({
           profile_id: profileId,
-          title,
-          description,
+          time,
           location,
-          triggers: parseTextToJson(triggers),
+          participant,
+          child_behavior: parseTextToJson(childBehavior),
+          trigger_event: parseTextToJson(triggerEvent),
           responses: parseTextToJson(responses),
-          outcome,
         })
         .eq('id', scenario.id);
 
       if (error) throw error;
-
       onSuccess();
     } catch (error: any) {
       toast({
@@ -134,22 +133,11 @@ export default function EditScenarioDialog({
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="title">Title</Label>
+            <Label htmlFor="time">Time</Label>
             <Input
-              id="title"
-              value={title}
-              onChange={(e) => setTitle(e.target.value)}
-              required
-            />
-          </div>
-
-          <div className="space-y-2">
-            <Label htmlFor="description">Description</Label>
-            <Textarea
-              id="description"
-              value={description}
-              onChange={(e) => setDescription(e.target.value)}
-              rows={3}
+              id="time"
+              value={time}
+              onChange={(e) => setTime(e.target.value)}
               required
             />
           </div>
@@ -165,38 +153,51 @@ export default function EditScenarioDialog({
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="triggers">
-              Triggers (one per line, format: trigger: description)
+            <Label htmlFor="participant">Participant</Label>
+            <Input
+              id="participant"
+              value={participant}
+              onChange={(e) => setParticipant(e.target.value)}
+              required
+            />
+          </div>
+
+          <div className="space-y-2">
+            <Label htmlFor="childBehavior">
+              Child Behavior (one per line, format: behavior: description)
             </Label>
             <Textarea
-              id="triggers"
-              value={triggers}
-              onChange={(e) => setTriggers(e.target.value)}
+              id="childBehavior"
+              value={childBehavior}
+              onChange={(e) => setChildBehavior(e.target.value)}
+              rows={3}
+            />
+          </div>
+
+          <div className="space-y-2">
+            <Label htmlFor="triggerEvent">
+              Trigger Event (one per line, format: trigger: description)
+            </Label>
+            <Textarea
+              id="triggerEvent"
+              value={triggerEvent}
+              onChange={(e) => setTriggerEvent(e.target.value)}
               rows={3}
             />
           </div>
 
           <div className="space-y-2">
             <Label htmlFor="responses">
-              Responses (one per line, format: action: result)
+              Response (one per line, format: action: result)
             </Label>
             <Textarea
               id="responses"
               value={responses}
-              onChange={(e) => setResponses(e.target.value)}
+              onChange={(e) => setResponse(e.target.value)}
               rows={3}
             />
           </div>
 
-          <div className="space-y-2">
-            <Label htmlFor="outcome">Final Outcome</Label>
-            <Textarea
-              id="outcome"
-              value={outcome}
-              onChange={(e) => setOutcome(e.target.value)}
-              rows={2}
-            />
-          </div>
 
           <div className="flex justify-end space-x-2">
             <Button

@@ -1,14 +1,25 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { Textarea } from '@/components/ui/textarea';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { useToast } from '@/hooks/use-toast';
-import { supabase } from '@/lib/supabase';
+import { useState } from "react";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { useToast } from "@/hooks/use-toast";
+import { supabase } from "@/lib/supabase";
 
 interface Profile {
   id: string;
@@ -28,41 +39,37 @@ export default function CreateScenarioDialog({
   profiles,
   onSuccess,
 }: CreateScenarioDialogProps) {
-  const [profileId, setProfileId] = useState('');
-  const [title, setTitle] = useState('');
-  const [description, setDescription] = useState('');
-  const [location, setLocation] = useState('');
-  const [triggers, setTriggers] = useState('');
-  const [responses, setResponses] = useState('');
-  const [outcome, setOutcome] = useState('');
+  const [profileId, setProfileId] = useState("");
+  const [title, setTitle] = useState("");
+  const [time, setTime] = useState("");
+  const [location, setLocation] = useState("");
+  const [participant, setParticipant] = useState("");
+  const [childBehavior, setChildBehavior] = useState("");
+  const [triggerEvent, setTriggerEvent] = useState("");
+  const [response, setResponse] = useState("");
   const [loading, setLoading] = useState(false);
-  const { toast } = useToast();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
 
     try {
-      const { error } = await supabase.from('scenarios').insert({
+      const { error } = await supabase.from("scenarios").insert({
         profile_id: profileId,
         title,
-        description,
+        time,
         location,
-        triggers: parseTextToJson(triggers),
-        responses: parseTextToJson(responses),
-        outcome,
+        participant,
+        child_behavior: childBehavior,
+        trigger_event: triggerEvent,
+        responses: response,
       });
 
       if (error) throw error;
-
       onSuccess();
       resetForm();
-    } catch (error: any) {
-      toast({
-        title: 'Error',
-        description: error.message,
-        variant: 'destructive',
-      });
+    } catch (error) {
+      // error handling
     } finally {
       setLoading(false);
     }
@@ -70,8 +77,8 @@ export default function CreateScenarioDialog({
 
   const parseTextToJson = (text: string): Record<string, string> => {
     const result: Record<string, string> = {};
-    text.split('\n').forEach((line) => {
-      const [key, value] = line.split(':').map((s) => s.trim());
+    text.split("\n").forEach((line) => {
+      const [key, value] = line.split(":").map((s) => s.trim());
       if (key && value) {
         result[key] = value;
       }
@@ -80,13 +87,14 @@ export default function CreateScenarioDialog({
   };
 
   const resetForm = () => {
-    setProfileId('');
-    setTitle('');
-    setDescription('');
-    setLocation('');
-    setTriggers('');
-    setResponses('');
-    setOutcome('');
+    setProfileId("");
+    setTitle("");
+    setTime("");
+    setLocation("");
+    setParticipant("");
+    setChildBehavior("");
+    setTriggerEvent("");
+    setResponse("");
   };
 
   return (
@@ -113,73 +121,64 @@ export default function CreateScenarioDialog({
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="title">Title</Label>
+            <Label>Title</Label>
             <Input
-              id="title"
               value={title}
               onChange={(e) => setTitle(e.target.value)}
-              placeholder="Brief title for the scenario"
               required
             />
           </div>
-
           <div className="space-y-2">
-            <Label htmlFor="description">Description</Label>
-            <Textarea
-              id="description"
-              value={description}
-              onChange={(e) => setDescription(e.target.value)}
-              placeholder="Detailed description of what happened"
-              rows={3}
-              required
-            />
-          </div>
-
-          <div className="space-y-2">
-            <Label htmlFor="location">Location</Label>
+            <Label>Time</Label>
             <Input
-              id="location"
+              value={time}
+              onChange={(e) => setTime(e.target.value)}
+              required
+            />
+          </div>
+
+          <div className="space-y-2">
+            <Label>Location</Label>
+            <Input
               value={location}
               onChange={(e) => setLocation(e.target.value)}
-              placeholder="Where did this happen?"
               required
             />
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="triggers">
-              Triggers (one per line, format: trigger: description)
-            </Label>
+            <Label>Participant</Label>
+            <Input
+              value={participant}
+              onChange={(e) => setParticipant(e.target.value)}
+              required
+            />
+          </div>
+
+          <div className="space-y-2">
+            <Label>Child Behavior (key: value, one per line)</Label>
             <Textarea
-              id="triggers"
-              value={triggers}
-              onChange={(e) => setTriggers(e.target.value)}
-              placeholder="Noise: Loud unexpected sound&#10;Change: Sudden schedule change&#10;Social: Too many people nearby"
+              value={childBehavior}
+              onChange={(e) => setChildBehavior(e.target.value)}
               rows={3}
             />
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="responses">
-              Responses (one per line, format: action: result)
-            </Label>
+            <Label>Trigger Event (key: value, one per line)</Label>
             <Textarea
-              id="responses"
-              value={responses}
-              onChange={(e) => setResponses(e.target.value)}
-              placeholder="Distraction: Helped calm down&#10;Deep breathing: Reduced anxiety&#10;Quiet space: Allowed recovery"
+              value={triggerEvent}
+              onChange={(e) => setTriggerEvent(e.target.value)}
               rows={3}
             />
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="outcome">Final Outcome</Label>
+            <Label>Response (key: value, one per line)</Label>
             <Textarea
-              id="outcome"
-              value={outcome}
-              onChange={(e) => setOutcome(e.target.value)}
-              placeholder="How did the situation resolve?"
-              rows={2}
+              value={response}
+              onChange={(e) => setResponse(e.target.value)}
+              rows={3}
             />
           </div>
 
@@ -192,7 +191,7 @@ export default function CreateScenarioDialog({
               Cancel
             </Button>
             <Button type="submit" disabled={loading}>
-              {loading ? 'Creating...' : 'Create Scenario'}
+              {loading ? "Creating..." : "Create Scenario"}
             </Button>
           </div>
         </form>

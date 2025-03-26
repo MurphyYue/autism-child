@@ -21,13 +21,15 @@
 
 CREATE TABLE scenarios (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-  profile_id UUID REFERENCES profiles(id) ON DELETE CASCADE,
-  title TEXT NOT NULL,
-  description TEXT,
+  profile_id UUID REFERENCES profiles(id),
+  title TEXT,
+  time TEXT,
   location TEXT,
-  triggers JSONB DEFAULT '{}',
-  responses JSONB DEFAULT '{}',
-  outcome TEXT,
+  participant TEXT,
+  child_behavior TEXT,
+  trigger_event TEXT,
+  responses TEXT,
+  child_introduction JSONB DEFAULT '{}',
   created_at TIMESTAMPTZ DEFAULT now(),
   updated_at TIMESTAMPTZ DEFAULT now()
 );

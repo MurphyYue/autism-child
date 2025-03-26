@@ -15,7 +15,14 @@ import { supabase } from '@/lib/supabase';
 
 interface Scenario {
   id: string;
+  profile_id: string;
   title: string;
+  time: string;
+  participant: string;
+  location: string;
+  child_behavior: string;
+  trigger_event: string;
+  responses: string;
 }
 
 interface DeleteScenarioDialogProps {
@@ -32,14 +39,26 @@ export default function DeleteScenarioDialog({
   onSuccess,
 }: DeleteScenarioDialogProps) {
   const { toast } = useToast();
-
   const handleDelete = async () => {
+    // check if the row is existing
+    const { data, error: fetchError } = await supabase
+      .from('scenarios')
+      .select('id')
+      .eq('id', scenario.id)
+      .single();
+    if (fetchError || !data) {
+      toast({
+        title: 'Error',
+        description: 'Scenario not found',
+        variant: 'destructive',
+      });
+      return;
+    }
     try {
       const { error } = await supabase
         .from('scenarios')
         .delete()
         .eq('id', scenario.id);
-
       if (error) throw error;
 
       onSuccess();
