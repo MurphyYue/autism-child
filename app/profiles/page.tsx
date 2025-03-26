@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { Plus, Pencil } from 'lucide-react';
+import { Plus, Pencil, ArrowLeft } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { useToast } from '@/hooks/use-toast';
@@ -10,17 +10,18 @@ import { useAuth } from '@/components/auth-provider';
 import { supabase } from '@/lib/supabase';
 import CreateProfileDialog from '@/components/profiles/create-profile-dialog';
 import EditProfileDialog from '@/components/profiles/edit-profile-dialog';
+import Link from 'next/link';
 
 interface Profile {
   id: string;
   name: string;
   age: number;
-  behavior_features?: Record<string, any>;
+  gender?: string;
+  diagnosis_age?: number;
+  diagnosis_source?: string;
+  severity?: string;
+  behavior_features: Record<string, any>;
   sensory_preferences: Record<string, any>;
-  communication_style: Record<string, any>;
-  interests: Record<string, any>;
-  routines: Record<string, any>;
-  triggers: Record<string, any>;
   created_at: string;
 }
 
@@ -80,6 +81,31 @@ export default function ProfilesPage() {
     });
   };
 
+  const renderBehaviorStatus = (value: boolean) => (
+    <span className={`px-2 py-1 rounded-full text-sm ${
+      value 
+        ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200'
+        : 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200'
+    }`}>
+      {value ? 'Yes' : 'No'}
+    </span>
+  );
+
+  const renderSeverityBadge = (severity: string) => {
+    const colors = {
+      none: 'bg-gray-100 text-gray-800 dark:bg-gray-800 dark:text-gray-200',
+      mild: 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200',
+      moderate: 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200',
+      severe: 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200',
+    };
+    
+    return (
+      <span className={`px-2 py-1 rounded-full text-sm ${colors[severity as keyof typeof colors]}`}>
+        {severity.charAt(0).toUpperCase() + severity.slice(1)}
+      </span>
+    );
+  };
+
   if (loading) {
     return (
       <div className="min-h-screen bg-gradient-to-b from-blue-50 to-blue-100 dark:from-gray-900 dark:to-gray-800 p-6">
@@ -93,7 +119,12 @@ export default function ProfilesPage() {
   return (
     <div className="min-h-screen bg-gradient-to-b from-blue-50 to-blue-100 dark:from-gray-900 dark:to-gray-800 p-6">
       <div className="max-w-6xl mx-auto">
-        <div className="flex justify-between items-center mb-8">
+        <div className="flex items-center gap-4 mb-8">
+          <Link href="/">
+            <Button variant="ghost" size="icon">
+              <ArrowLeft className="w-5 h-5" />
+            </Button>
+          </Link>
           <h1 className="text-3xl font-bold">Child Profile</h1>
           {!profile && (
             <Button onClick={() => setIsCreateOpen(true)}>
@@ -105,95 +136,124 @@ export default function ProfilesPage() {
 
         {!profile ? (
           <Card className="p-6 text-center">
-            <p className="text-gray-600 dark:text-gray-400">
-              No profile yet. Click the button above to create one.
+            <p className="text-gray-600 dark:text-gray-400 mb-4">
+              No profile yet. Let's create one to get started with personalized communication assistance.
             </p>
+            <Button onClick={() => setIsCreateOpen(true)}>
+              <Plus className="w-4 h-4 mr-2" />
+              Create Profile
+            </Button>
           </Card>
         ) : (
-          <Card className="p-6">
-            <div className="flex justify-between items-start mb-6">
-              <div>
-                <h2 className="text-2xl font-semibold mb-2">{profile.name}</h2>
-                <p className="text-gray-600 dark:text-gray-400">
-                  Age: {profile.age}
-                </p>
+          <div className="space-y-6">
+            <Card className="p-6">
+              <div className="flex justify-between items-start mb-6">
+                <div>
+                  <h2 className="text-2xl font-semibold mb-2">{profile.name}</h2>
+                  <div className="flex items-center gap-4 text-gray-600 dark:text-gray-400">
+                    <span>Age: {profile.age}</span>
+                    <span>Gender: {profile.gender ? profile.gender.charAt(0).toUpperCase() + profile.gender.slice(1) : ''}</span>
+                    <span>Diagnosis Age: {profile.diagnosis_age || 'N/A'}</span>
+                  </div>
+                </div>
+                <Button
+                  variant="outline"
+                  size="icon"
+                  onClick={() => setIsEditOpen(true)}
+                >
+                  <Pencil className="w-4 h-4" />
+                </Button>
               </div>
-              <Button
-                variant="outline"
-                size="icon"
-                onClick={() => setIsEditOpen(true)}
-              >
-                <Pencil className="w-4 h-4" />
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div className="space-y-6">
+                  <div>
+                    <h3 className="text-lg font-medium mb-4">Diagnosis Information</h3>
+                    <div className="space-y-3">
+                      <div className="flex justify-between items-center">
+                        <span className="text-gray-600 dark:text-gray-400">Source:</span>
+                        <span className="font-medium">{profile.diagnosis_source}</span>
+                      </div>
+                      <div className="flex justify-between items-center">
+                        <span className="text-gray-600 dark:text-gray-400">Severity:</span>
+                        {renderSeverityBadge(profile.severity || 'none')}
+                      </div>
+                    </div>
+                  </div>
+
+                  <div>
+                    <h3 className="text-lg font-medium mb-4">Behavioral Assessment</h3>
+                    <div className="space-y-3">
+                      <div className="flex justify-between items-center">
+                        <span className="text-gray-600 dark:text-gray-400">Can initiate conversation:</span>
+                        {renderBehaviorStatus(profile.behavior_features?.can_initiate_conversation)}
+                      </div>
+                      <div className="flex justify-between items-center">
+                        <span className="text-gray-600 dark:text-gray-400">Can express needs:</span>
+                        {renderBehaviorStatus(profile.behavior_features?.can_express_needs)}
+                      </div>
+                      <div className="flex justify-between items-center">
+                        <span className="text-gray-600 dark:text-gray-400">Has friends/teachers:</span>
+                        {renderBehaviorStatus(profile.behavior_features?.has_friends)}
+                      </div>
+                      <div className="flex justify-between items-center">
+                        <span className="text-gray-600 dark:text-gray-400">Has self-stimulatory behaviors:</span>
+                        {renderBehaviorStatus(profile.behavior_features?.has_self_stimulation)}
+                      </div>
+                      <div className="flex justify-between items-center">
+                        <span className="text-gray-600 dark:text-gray-400">Attending school:</span>
+                        {renderBehaviorStatus(profile.behavior_features?.is_in_school)}
+                      </div>
+                      <div className="flex justify-between items-center">
+                        <span className="text-gray-600 dark:text-gray-400">Can perform daily tasks:</span>
+                        {renderBehaviorStatus(profile.behavior_features?.can_perform_daily_tasks)}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="space-y-6">
+                  <div>
+                    <h3 className="text-lg font-medium mb-4">Sensory & Environmental Responses</h3>
+                    <div className="space-y-4">
+                      <div>
+                        <h4 className="font-medium text-gray-700 dark:text-gray-300 mb-2">
+                          Special Reactions
+                        </h4>
+                        <p className="text-gray-600 dark:text-gray-400">
+                          {profile.sensory_preferences?.sensory_response || 'No information provided'}
+                        </p>
+                      </div>
+                      <div>
+                        <h4 className="font-medium text-gray-700 dark:text-gray-300 mb-2">
+                          Special Interests
+                        </h4>
+                        <p className="text-gray-600 dark:text-gray-400">
+                          {profile.sensory_preferences?.special_interests || 'No information provided'}
+                        </p>
+                      </div>
+                      <div>
+                        <h4 className="font-medium text-gray-700 dark:text-gray-300 mb-2">
+                          Environmental Response
+                        </h4>
+                        <p className="text-gray-600 dark:text-gray-400">
+                          {profile.sensory_preferences?.environmental_response || 'No information provided'}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </Card>
+
+            <div className="flex justify-end">
+              <Button asChild>
+                <Link href="/scenarios">
+                  Create Communication Scenarios
+                </Link>
               </Button>
             </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {profile.sensory_preferences && Object.keys(profile.sensory_preferences).length > 0 && (
-                <div>
-                  <h3 className="font-medium mb-2">Sensory Preferences</h3>
-                  <ul className="list-disc list-inside text-sm text-gray-600 dark:text-gray-400">
-                    {Object.entries(profile.sensory_preferences).map(([key, value]) => (
-                      <li key={key}>
-                        {key}: {value}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              )}
-
-              {profile.communication_style && Object.keys(profile.communication_style).length > 0 && (
-                <div>
-                  <h3 className="font-medium mb-2">Communication Style</h3>
-                  <ul className="list-disc list-inside text-sm text-gray-600 dark:text-gray-400">
-                    {Object.entries(profile.communication_style).map(([key, value]) => (
-                      <li key={key}>
-                        {key}: {value}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              )}
-
-              {profile.interests && Object.keys(profile.interests).length > 0 && (
-                <div>
-                  <h3 className="font-medium mb-2">Interests</h3>
-                  <ul className="list-disc list-inside text-sm text-gray-600 dark:text-gray-400">
-                    {Object.entries(profile.interests).map(([key, value]) => (
-                      <li key={key}>
-                        {key}: {value}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              )}
-
-              {profile.routines && Object.keys(profile.routines).length > 0 && (
-                <div>
-                  <h3 className="font-medium mb-2">Daily Routines</h3>
-                  <ul className="list-disc list-inside text-sm text-gray-600 dark:text-gray-400">
-                    {Object.entries(profile.routines).map(([key, value]) => (
-                      <li key={key}>
-                        {key}: {value}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              )}
-
-              {profile.triggers && Object.keys(profile.triggers).length > 0 && (
-                <div>
-                  <h3 className="font-medium mb-2">Known Triggers</h3>
-                  <ul className="list-disc list-inside text-sm text-gray-600 dark:text-gray-400">
-                    {Object.entries(profile.triggers).map(([key, value]) => (
-                      <li key={key}>
-                        {key}: {value}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              )}
-            </div>
-          </Card>
+          </div>
         )}
 
         <CreateProfileDialog
