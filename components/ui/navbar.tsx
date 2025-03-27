@@ -16,12 +16,12 @@ export function Navbar() {
   };
 
   return (
-    <nav className="border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+    <nav className="sticky top-0 z-50 border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container flex h-14 items-center">
         <div className="mr-4 hidden md:flex">
-          <Link href="/" className="mr-6 flex items-center space-x-2">
+          <Link href="/" className="mr-6 flex items-center space-x-2 pl-6">
             <span className="hidden font-bold sm:inline-block">
-              Autism Communication Assistant
+              logo
             </span>
           </Link>
         </div>
@@ -30,12 +30,12 @@ export function Navbar() {
             <Link
               href="/"
               className={cn(
-                'flex items-center gap-2 text-sm font-medium transition-colors hover:text-primary',
+                'flex items-center gap-2 text-sm font-medium transition-colors hover:text-primary pl-6',
                 isActive('/') ? 'text-primary' : 'text-muted-foreground'
               )}
             >
-              <Home className="h-4 w-4" />
-              <span>Home</span>
+              <Home className="h-4 w-4 hidden sm:inline" />
+              <span className="">Home</span>
             </Link>
             {user ? (
               <>
@@ -46,7 +46,7 @@ export function Navbar() {
                     isActive('/profiles') ? 'text-primary' : 'text-muted-foreground'
                   )}
                 >
-                  <Users className="h-4 w-4" />
+                  <Users className="h-4 w-4 hidden sm:inline" />
                   <span>Profiles</span>
                 </Link>
                 <Link
@@ -56,8 +56,8 @@ export function Navbar() {
                     isActive('/scenarios') ? 'text-primary' : 'text-muted-foreground'
                   )}
                 >
-                  <MessageSquare className="h-4 w-4" />
-                  <span>Scenarios</span>
+                  <MessageSquare className="h-4 w-4 hidden sm:inline" />
+                  <span className="">Scenarios</span>
                 </Link>
                 <Link
                   href="/chat"
@@ -66,8 +66,8 @@ export function Navbar() {
                     isActive('/chat') ? 'text-primary' : 'text-muted-foreground'
                   )}
                 >
-                  <MessageSquare className="h-4 w-4" />
-                  <span>Simulated Conversation</span>
+                  <MessageSquare className="h-4 w-4 hidden sm:inline" />
+                  <span className="">Conversation</span>
                 </Link>
               </>
             ) : (
