@@ -213,11 +213,11 @@ export default function SimulatedConversationPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-blue-50 to-blue-100 dark:from-gray-900 dark:to-gray-800 p-6">
-      <div className="max-w-4xl mx-auto">
-        <h1 className="text-3xl font-bold mb-8">Simulated Conversation</h1>
+    <div className="flex-1 bg-gradient-to-b from-blue-50 to-blue-100 dark:from-gray-900 dark:to-gray-800 sm:p-6">
+      <div className="max-w-4xl mx-auto h-full">
+        <h1 className="text-3xl font-bold mb-8 hidden sm:inline-block">Simulated Conversation</h1>
         
-        <Card className="flex flex-col h-[600px]">
+        <Card className="flex flex-col h-full sm:h-[600px]">
           <div className="p-4 border-b space-y-4">
             <div>
               <Label htmlFor="profile">Select Child Profile</Label>
