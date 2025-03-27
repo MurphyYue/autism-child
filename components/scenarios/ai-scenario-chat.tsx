@@ -97,7 +97,7 @@ export default function AIScenarioChat({
   return (
     <Card className="flex flex-col h-[600px]">
       <div className="p-4 border-b">
-        <Label htmlFor="profile">Select Child Profile: {profile.name}</Label>
+        <Label htmlFor="profile">Child Profile: {profile.name}</Label>
       </div>
 
       <div className="flex-1 overflow-y-auto p-4 space-y-4">

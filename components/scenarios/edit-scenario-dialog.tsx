@@ -109,7 +109,7 @@ export default function EditScenarioDialog({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-3xl">
+      <DialogContent className="sm:max-w-[425px] md:max-h-[76vh] overflow-y-auto md:max-w-[725px] touch-pan-y dialog-scroll">
         <DialogHeader>
           <DialogTitle>Edit Scenario</DialogTitle>
         </DialogHeader>

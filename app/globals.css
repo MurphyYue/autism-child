@@ -80,3 +80,8 @@
     @apply bg-background text-foreground;
   }
 }
+@supports (-webkit-overflow-scrolling: touch) {
+  .dialog-scroll {
+    -webkit-overflow-scrolling: touch;
+  }
+}
