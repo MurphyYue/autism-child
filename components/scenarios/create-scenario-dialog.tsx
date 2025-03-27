@@ -29,17 +29,16 @@ interface Profile {
 interface CreateScenarioDialogProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
-  profiles: Profile[];
+  profile: Profile;
   onSuccess: () => void;
 }
 
 export default function CreateScenarioDialog({
   open,
   onOpenChange,
-  profiles,
+  profile,
   onSuccess,
 }: CreateScenarioDialogProps) {
-  const [profileId, setProfileId] = useState("");
   const [title, setTitle] = useState("");
   const [time, setTime] = useState("");
   const [location, setLocation] = useState("");
@@ -55,7 +54,7 @@ export default function CreateScenarioDialog({
 
     try {
       const { error } = await supabase.from("scenarios").insert({
-        profile_id: profileId,
+        profile_id: profile.id,
         title,
         time,
         location,
@@ -87,7 +86,6 @@ export default function CreateScenarioDialog({
   };
 
   const resetForm = () => {
-    setProfileId("");
     setTitle("");
     setTime("");
     setLocation("");
@@ -105,19 +103,7 @@ export default function CreateScenarioDialog({
         </DialogHeader>
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="space-y-2">
-            <Label htmlFor="profile">Child Profile</Label>
-            <Select value={profileId} onValueChange={setProfileId} required>
-              <SelectTrigger>
-                <SelectValue placeholder="Select a child profile" />
-              </SelectTrigger>
-              <SelectContent>
-                {profiles.map((profile) => (
-                  <SelectItem key={profile.id} value={profile.id}>
-                    {profile.name}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
+            <Label htmlFor="profile">Child Profile: {profile.name}</Label>
           </div>
 
           <div className="space-y-2">

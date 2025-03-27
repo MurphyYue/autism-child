@@ -30,7 +30,7 @@ interface EditScenarioDialogProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   scenario: Scenario;
-  profiles: Profile[];
+  profile: Profile;
   onSuccess: () => void;
 }
 
@@ -38,10 +38,9 @@ export default function EditScenarioDialog({
   open,
   onOpenChange,
   scenario,
-  profiles,
+  profile,
   onSuccess,
 }: EditScenarioDialogProps) {
-  const [profileId, setProfileId] = useState(scenario.profile_id);
   const [time, setTime] = useState('');
   const [location, setLocation] = useState('');
   const [participant, setParticipant] = useState('');
@@ -52,7 +51,6 @@ export default function EditScenarioDialog({
   const { toast } = useToast();
 
   useEffect(() => {
-    setProfileId(scenario.profile_id);
     setTime(scenario.time || '');
     setLocation(scenario.location || '');
     setParticipant(scenario.participant || '');
@@ -86,7 +84,7 @@ export default function EditScenarioDialog({
       const { error } = await supabase
         .from('scenarios')
         .update({
-          profile_id: profileId,
+          profile_id: profile.id,
           time,
           location,
           participant,
@@ -117,19 +115,7 @@ export default function EditScenarioDialog({
         </DialogHeader>
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="space-y-2">
-            <Label htmlFor="profile">Child Profile</Label>
-            <Select value={profileId} onValueChange={setProfileId} required>
-              <SelectTrigger>
-                <SelectValue placeholder="Select a child profile" />
-              </SelectTrigger>
-              <SelectContent>
-                {profiles.map((profile) => (
-                  <SelectItem key={profile.id} value={profile.id}>
-                    {profile.name}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
+            <Label htmlFor="profile">Child Profile: {profile.name}</Label>
           </div>
 
           <div className="space-y-2">

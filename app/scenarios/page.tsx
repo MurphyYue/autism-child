@@ -32,7 +32,7 @@ interface Scenario {
 }
 
 export default function ScenariosPage() {
-  const [profiles, setProfiles] = useState<Profile[]>([]);
+  const [profiles, setProfiles] = useState<Profile>({id: '', name: ''});
   const [scenarios, setScenarios] = useState<Scenario[]>([]);
   const [loading, setLoading] = useState(true);
   const [isCreateOpen, setIsCreateOpen] = useState(false);
@@ -60,7 +60,8 @@ export default function ScenariosPage() {
         .order('name');
 
       if (error) throw error;
-      setProfiles(data || []);
+      console.log(data[0])
+      setProfiles(data[0] || {id: '', name: ''});
     } catch (error: any) {
       toast({
         title: 'Error',
@@ -78,6 +79,7 @@ export default function ScenariosPage() {
         .order('created_at', { ascending: false });
 
       if (error) throw error;
+      console.log(data)
       setScenarios(data || []);
     } catch (error: any) {
       toast({
@@ -118,7 +120,7 @@ export default function ScenariosPage() {
           <div className="flex gap-2">
             <Button
               onClick={() => setIsCreateOpen(true)}
-              disabled={profiles.length === 0}
+              disabled={!profiles?.name}
             >
               <Plus className="w-4 h-4 mr-2" />
               Add Manually
@@ -128,7 +130,7 @@ export default function ScenariosPage() {
                 setActiveTab('chat');
                 setIsChatOpen(true);
               }}
-              disabled={profiles.length === 0}
+              disabled={!profiles?.name}
               variant="secondary"
             >
               <MessageSquarePlus className="w-4 h-4 mr-2" />
@@ -137,7 +139,7 @@ export default function ScenariosPage() {
           </div>
         </div>
 
-        {profiles.length === 0 ? (
+        {!profiles?.name ? (
           <Card className="p-6 text-center">
             <p className="text-gray-600 dark:text-gray-400">
               Please create a child profile first before adding scenarios.
@@ -159,14 +161,14 @@ export default function ScenariosPage() {
               ) : (
                 <ScenarioList
                   scenarios={scenarios}
-                  profiles={profiles}
+                  profile={profiles}
                   onUpdate={fetchScenarios}
                 />
               )}
             </TabsContent>
             <TabsContent value="chat">
               <AIScenarioChat
-                profiles={profiles}
+                profile={profiles}
                 onScenarioCreated={handleScenarioCreated}
                 open={isChatOpen}
                 onOpenChange={setIsChatOpen}
@@ -178,7 +180,7 @@ export default function ScenariosPage() {
         <CreateScenarioDialog
           open={isCreateOpen}
           onOpenChange={setIsCreateOpen}
-          profiles={profiles}
+          profile={profiles}
           onSuccess={handleScenarioCreated}
         />
       </div>

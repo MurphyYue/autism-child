@@ -23,19 +23,19 @@ interface Message {
 }
 
 interface AIScenarioChatProps {
-  profiles: Profile[];
+  profile: Profile;
   onScenarioCreated: () => void;
   open: boolean;
   onOpenChange: (open: boolean) => void;
 }
 
 export default function AIScenarioChat({
-  profiles,
+  profile,
   onScenarioCreated,
   open,
   onOpenChange,
 }: AIScenarioChatProps) {
-  const [selectedProfile, setSelectedProfile] = useState('');
+  const [selectedProfile, setSelectedProfile] = useState(profile);
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState('');
   const [loading, setLoading] = useState(false);
@@ -97,19 +97,7 @@ export default function AIScenarioChat({
   return (
     <Card className="flex flex-col h-[600px]">
       <div className="p-4 border-b">
-        <Label htmlFor="profile">Select Child Profile</Label>
-        <Select value={selectedProfile} onValueChange={setSelectedProfile}>
-          <SelectTrigger>
-            <SelectValue placeholder="Choose a profile" />
-          </SelectTrigger>
-          <SelectContent>
-            {profiles.map((profile) => (
-              <SelectItem key={profile.id} value={profile.id}>
-                {profile.name}
-              </SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
+        <Label htmlFor="profile">Select Child Profile: {profile.name}</Label>
       </div>
 
       <div className="flex-1 overflow-y-auto p-4 space-y-4">

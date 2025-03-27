@@ -28,17 +28,17 @@ interface Scenario {
 
 interface ScenarioListProps {
   scenarios: Scenario[];
-  profiles: Profile[];
+  profile: Profile;
   onUpdate: () => void;
 }
 
-export default function ScenarioList({ scenarios, profiles, onUpdate }: ScenarioListProps) {
+export default function ScenarioList({ scenarios, profile, onUpdate }: ScenarioListProps) {
   const [selectedScenario, setSelectedScenario] = useState<Scenario | null>(null);
   const [isEditOpen, setIsEditOpen] = useState(false);
   const [isDeleteOpen, setIsDeleteOpen] = useState(false);
 
-  const getProfileName = (profileId: string) => {
-    return profiles.find((p) => p.id === profileId)?.name || 'Unknown';
+  const getProfileName = () => {
+    return profile?.name || 'Unknown';
   };
 
   const handleEdit = (scenario: Scenario) => {
@@ -72,7 +72,7 @@ export default function ScenarioList({ scenarios, profiles, onUpdate }: Scenario
               <div className="flex items-center gap-2 mb-2">
                 <h2 className="text-xl font-semibold">{scenario.title}</h2>
                 <span className="text-sm text-gray-500">
-                  ({getProfileName(scenario.profile_id)})
+                  ({getProfileName()})
                 </span>
               </div>
               <p className="text-sm text-gray-600 dark:text-gray-400 mb-2">
@@ -105,7 +105,7 @@ export default function ScenarioList({ scenarios, profiles, onUpdate }: Scenario
             open={isEditOpen}
             onOpenChange={setIsEditOpen}
             scenario={selectedScenario}
-            profiles={profiles}
+            profile={profile}
             onSuccess={handleScenarioUpdated}
           />
           <DeleteScenarioDialog
