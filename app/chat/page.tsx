@@ -9,7 +9,7 @@ import { Label } from '@/components/ui/label';
 import { useToast } from '@/hooks/use-toast';
 import { useAuth } from '@/components/auth-provider';
 import { supabase } from '@/lib/supabase';
-import { getDifyResponse } from '@/lib/dify';
+import { getStarCatResponse } from '@/lib/dify';
 import { Send, Bot, Brain, ArrowRight } from 'lucide-react';
 import ReactMarkdown from 'react-markdown';
 import TextareaAutosize from 'react-textarea-autosize';
@@ -128,7 +128,7 @@ export default function SimulatedConversationPage() {
       responses: scenario.responses
     }
     try {
-      const response = await getDifyResponse(
+      const response = await getStarCatResponse(
         'Initialize conversation',
         undefined,
         inputMsg
@@ -167,7 +167,7 @@ export default function SimulatedConversationPage() {
       setMessages(prev => [...prev, { role: 'user', content: messageContent }]);
 
       // Get response from Dify API
-      const response = await getDifyResponse(messageContent, conversationId);
+      const response = await getStarCatResponse(messageContent, conversationId);
 
       // Child's response
       const childResponse: Message = {
@@ -178,7 +178,7 @@ export default function SimulatedConversationPage() {
       setMessages(prev => [...prev, childResponse]);
 
       // Expert insight (you might want to use a different Dify application/prompt for this)
-      const expertResponse = await getDifyResponse(
+      const expertResponse = await getStarCatResponse(
         `Analyze this interaction: ${messageContent}\nChild's response: ${response.answer}`,
         undefined,
         { role: 'expert' }
