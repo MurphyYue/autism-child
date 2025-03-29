@@ -6,10 +6,11 @@ import { Home, Users, MessageSquare, LogIn } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useAuth } from '@/components/auth-provider';
 import { Button } from '@/components/ui/button';
+import { LogOut } from 'lucide-react';
 
 export function Navbar() {
   const pathname = usePathname();
-  const { user } = useAuth();
+  const { user, signOut } = useAuth();
 
   const isActive = (path: string) => {
     return pathname === path;
@@ -69,6 +70,18 @@ export function Navbar() {
                   <MessageSquare className="h-4 w-4 hidden sm:inline" />
                   <span className="">Conversation</span>
                 </Link>
+                <Button 
+                  variant="ghost" 
+                  size="sm" 
+                  className="text-muted-foreground hover:text-primary"
+                  onClick={async () => {
+                    await signOut();
+                    window.location.href = '/auth/login';
+                  }}
+                >
+                  <LogOut className="h-4 w-4 mr-2" />
+                  <span className='hidden sm:inline-block'>Logout</span>
+                </Button>
               </>
             ) : (
               <Button asChild variant="outline" size="sm" className="ml-4">

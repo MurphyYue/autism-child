@@ -7,11 +7,13 @@ import type { User } from '@supabase/supabase-js';
 type AuthContextType = {
   user: User | null;
   loading: boolean;
+  signOut: () => Promise<void>;
 };
 
 const AuthContext = createContext<AuthContextType>({
   user: null,
   loading: true,
+  signOut: () => Promise.resolve(),
 });
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
@@ -30,7 +32,10 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   }, []);
 
   return (
-    <AuthContext.Provider value={{ user, loading }}>
+    <AuthContext.Provider value={{ user, loading, signOut: async () => {
+      await supabase.auth.signOut();
+      setUser(null);
+    } }}>
       {children}
     </AuthContext.Provider>
   );
