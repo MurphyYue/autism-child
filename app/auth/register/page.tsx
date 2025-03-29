@@ -47,7 +47,7 @@ export default function RegisterPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-blue-50 to-blue-100 dark:from-gray-900 dark:to-gray-800 flex items-center justify-center p-4">
+    <div className="flex-1 flex items-center justify-center min-h-screen bg-gradient-to-b from-blue-50 to-blue-100 dark:from-gray-900 dark:to-gray-800 p-6">
       <Card className="w-full max-w-md p-8">
         <h1 className="text-2xl font-bold text-center mb-8">Register</h1>
         <form onSubmit={handleRegister} className="space-y-6">
