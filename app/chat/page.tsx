@@ -114,6 +114,20 @@ export default function SimulatedConversationPage() {
     }
   };
 
+  interface ChildResponse {
+    emotion: string;
+    action: string;
+    saying: string;
+    abnormal: string;
+  }
+  
+  interface ExpertResponse {
+    reason: string;
+    evaluate: string;
+    suggestion: string;
+    answer: string;
+  }
+  
   const initializeConversation = async () => {
     const scenario = scenarios.find(s => s.id === selectedScenario);
     const profile = profiles.find(p => p.id === selectedProfile);
@@ -128,27 +142,43 @@ export default function SimulatedConversationPage() {
       responses: scenario.responses
     }
     try {
+      setLoading(true);
       const response = await getStarCatResponse(
         'Initialize conversation',
         undefined,
         inputMsg
       );
-
+  
       setConversationId(response.conversation_id);
       
-      const initialMessage: Message = {
+      // Parse the response
+      const answerText = response.answer;
+      const [childPart, expertPart] = answerText.split('\n\n');
+      
+      const childObj: ChildResponse = JSON.parse(childPart.replace('child:', ''));
+      const expertObj: ExpertResponse = JSON.parse(expertPart.replace('expert:', ''));
+      console.log(childObj, expertObj);
+      // Create messages for both child and expert responses
+      const childMessage: Message = {
         role: 'assistant',
-        content: response.answer,
-        suggestedResponses: response.suggestions,
+        content: `**Emotion:** ${childObj.emotion}\n\n**Action&&Saying:** ${childObj.action}\n${childObj.saying}\n\n**Abnomal:** ${childObj.abnormal === "true" ? "Yes":"No"}`,
       };
-
-      setMessages([initialMessage]);
+  
+      const expertMessage: Message = {
+        role: 'expert',
+        content: `**Reason:** ${expertObj.reason}\n\n**Evaluation:** ${expertObj.evaluate}\n\n**Suggestion:** ${expertObj.suggestion}`,
+        suggestedResponses: expertObj.answer.split('\n'),
+      };
+  
+      setMessages([childMessage, expertMessage]);
     } catch (error: any) {
       toast({
         title: 'Error',
         description: 'Failed to initialize conversation',
         variant: 'destructive',
       });
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -165,31 +195,40 @@ export default function SimulatedConversationPage() {
       setLoading(true);
       setInput('');
       setMessages(prev => [...prev, { role: 'user', content: messageContent }]);
+      const scenario = scenarios.find(s => s.id === selectedScenario);
+      const profile = profiles.find(p => p.id === selectedProfile);
+      if (!scenario || !profile) return;
+      const inputMsg = {
+        child_introduction: JSON.stringify(profile),
+        time: scenario.time,
+        location: scenario.location,
+        participant: scenario.participant,
+        child_behavior: scenario.child_behavior,
+        trigger_event: scenario.trigger_event,
+        responses: scenario.responses
+      }
+      const response = await getStarCatResponse(messageContent, conversationId, inputMsg);
 
-      // Get response from Dify API
-      const response = await getStarCatResponse(messageContent, conversationId);
-
-      // Child's response
-      const childResponse: Message = {
+      const answerText = response.answer;
+      const [childPart, expertPart] = answerText.split('\n\n');
+      
+      const childObj: ChildResponse = JSON.parse(childPart.replace('child:', ''));
+      const expertObj: ExpertResponse = JSON.parse(expertPart.replace('expert:', ''));
+      console.log(childObj, expertObj);
+      // Create messages for both child and expert responses
+      const childMessage: Message = {
         role: 'assistant',
-        content: response.answer,
-        suggestedResponses: response.suggestions,
+        content: `**Emotion:** ${childObj.emotion}\n\n**Action&&Saying:** ${childObj.action}\n${childObj.saying}\n\n**Abnomal:** ${childObj.abnormal === "true" ? "Yes":"No"}`,
       };
-      setMessages(prev => [...prev, childResponse]);
-
-      // Expert insight (you might want to use a different Dify application/prompt for this)
-      const expertResponse = await getStarCatResponse(
-        `Analyze this interaction: ${messageContent}\nChild's response: ${response.answer}`,
-        undefined,
-        { role: 'expert' }
-      );
-
+  
       const expertMessage: Message = {
         role: 'expert',
-        content: expertResponse.answer,
+        content: `**Reason:** ${expertObj.reason}\n\n**Evaluation:** ${expertObj.evaluate}\n\n**Suggestion:** ${expertObj.suggestion}`,
+        suggestedResponses: expertObj.answer.split('\n'),
       };
-      setMessages(prev => [...prev, expertMessage]);
-
+  
+      setMessages(prev => [...prev, childMessage, expertMessage]);
+  
     } catch (error: any) {
       toast({
         title: 'Error',
@@ -288,16 +327,17 @@ export default function SimulatedConversationPage() {
                   </ReactMarkdown>
                   {message.suggestedResponses && (
                     <div className="mt-3 space-y-2">
+                      <Label htmlFor="suggestedResponses" className='font-bold text-black'>Suggested Responses:</Label>
                       {message.suggestedResponses.map((response, i) => (
                         <Button
                           key={i}
                           variant="outline"
-                          className="w-full justify-between"
+                          className="w-full justify-between whitespace-normal text-left"
                           onClick={() => handleSend(response)}
                           disabled={loading}
                         >
-                          {response}
-                          <ArrowRight className="w-4 h-4 ml-2" />
+                          <span className="flex-1 mr-2">{response}</span>
+                          <ArrowRight className="w-4 h-4 flex-shrink-0" />
                         </Button>
                       ))}
                     </div>
