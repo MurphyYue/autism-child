@@ -77,6 +77,10 @@ export default function SimulatedConversationPage() {
     scrollToBottom();
   }, [messages]);
 
+  const scrollToBottom = () => {
+    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+  };
+
   const fetchProfiles = async () => {
     try {
       const { data, error } = await supabase
@@ -128,21 +132,48 @@ export default function SimulatedConversationPage() {
     answer: string;
   }
   
+  // First, add this helper function after the interfaces
+  const parseResponse = (answerText: string): { childMessage: Message, expertMessage: Message } => {
+    const [childPart, expertPart] = answerText.split('\n\n');
+    
+    const childObj: ChildResponse = JSON.parse(childPart.replace('child:', ''));
+    const expertObj: ExpertResponse = JSON.parse(expertPart.replace('expert:', ''));
+  
+    const childMessage: Message = {
+      role: 'assistant',
+      content: `**Emotion:** ${childObj.emotion}\n\n**Action:** ${childObj.action}\n\n**Saying:** ${childObj.saying}\n\n**Abnormal:** ${childObj.abnormal === "true" ? "Yes" : "No"}`,
+      suggestedResponses: expertObj.answer.split('\n'),
+    };
+  
+    const expertMessage: Message = {
+      role: 'expert',
+      content: `**Reason:** ${expertObj.reason}\n\n**Evaluation:** ${expertObj.evaluate}\n\n**Suggestion:** ${expertObj.suggestion}`,
+    };
+  
+    return { childMessage, expertMessage };
+  };
+  
+  // Update initializeConversation function
   const initializeConversation = async () => {
     const scenario = scenarios.find(s => s.id === selectedScenario);
     const profile = profiles.find(p => p.id === selectedProfile);
     if (!scenario || !profile) return;
-    const inputMsg = {
-      child_introduction: JSON.stringify(profile),
-      time: scenario.time,
-      location: scenario.location,
-      participant: scenario.participant,
-      child_behavior: scenario.child_behavior,
-      trigger_event: scenario.trigger_event,
-      responses: scenario.responses
-    }
+  
     try {
       setLoading(true);
+      setMessages([]); // Clear previous messages
+  
+      const inputMsg = {
+        child_introduction: JSON.stringify(profile),
+        time: scenario.time,
+        location: scenario.location,
+        participant: scenario.participant,
+        child_behavior: scenario.child_behavior,
+        trigger_event: scenario.trigger_event,
+        responses: scenario.responses,
+        mode: 'initialize'
+      };
+  
       const response = await getStarCatResponse(
         'Initialize conversation',
         undefined,
@@ -151,53 +182,38 @@ export default function SimulatedConversationPage() {
   
       setConversationId(response.conversation_id);
       
-      // Parse the response
-      const answerText = response.answer;
-      const [childPart, expertPart] = answerText.split('\n\n');
-      
-      const childObj: ChildResponse = JSON.parse(childPart.replace('child:', ''));
-      const expertObj: ExpertResponse = JSON.parse(expertPart.replace('expert:', ''));
-      console.log(childObj, expertObj);
-      // Create messages for both child and expert responses
-      const childMessage: Message = {
-        role: 'assistant',
-        content: `**Emotion:** ${childObj.emotion}\n\n**Action&&Saying:** ${childObj.action}\n${childObj.saying}\n\n**Abnomal:** ${childObj.abnormal === "true" ? "Yes":"No"}`,
-      };
-  
-      const expertMessage: Message = {
-        role: 'expert',
-        content: `**Reason:** ${expertObj.reason}\n\n**Evaluation:** ${expertObj.evaluate}\n\n**Suggestion:** ${expertObj.suggestion}`,
-        suggestedResponses: expertObj.answer.split('\n'),
-      };
-  
+      const { childMessage, expertMessage } = parseResponse(response.answer);
       setMessages([childMessage, expertMessage]);
+  
     } catch (error: any) {
       toast({
         title: 'Error',
         description: 'Failed to initialize conversation',
         variant: 'destructive',
       });
+      setSelectedScenario(''); // Reset scenario selection on error
     } finally {
       setLoading(false);
     }
   };
-
-  const scrollToBottom = () => {
-    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
-  };
-
+  
+  // Update handleSend function
   const handleSend = async (content: string = input) => {
-    if ((!content.trim() && !input.trim()) || !selectedProfile || !selectedScenario) return;
-
     const messageContent = content.trim() || input.trim();
-    
+    if (!messageContent || !selectedProfile || !selectedScenario) return;
+  
     try {
       setLoading(true);
       setInput('');
-      setMessages(prev => [...prev, { role: 'user', content: messageContent }]);
+  
+      // Add user message immediately
+      const userMessage: Message = { role: 'user', content: messageContent };
+      setMessages(prev => [...prev, userMessage]);
+  
       const scenario = scenarios.find(s => s.id === selectedScenario);
       const profile = profiles.find(p => p.id === selectedProfile);
       if (!scenario || !profile) return;
+  
       const inputMsg = {
         child_introduction: JSON.stringify(profile),
         time: scenario.time,
@@ -205,36 +221,23 @@ export default function SimulatedConversationPage() {
         participant: scenario.participant,
         child_behavior: scenario.child_behavior,
         trigger_event: scenario.trigger_event,
-        responses: scenario.responses
-      }
-      const response = await getStarCatResponse(messageContent, conversationId, inputMsg);
-
-      const answerText = response.answer;
-      const [childPart, expertPart] = answerText.split('\n\n');
-      
-      const childObj: ChildResponse = JSON.parse(childPart.replace('child:', ''));
-      const expertObj: ExpertResponse = JSON.parse(expertPart.replace('expert:', ''));
-      console.log(childObj, expertObj);
-      // Create messages for both child and expert responses
-      const childMessage: Message = {
-        role: 'assistant',
-        content: `**Emotion:** ${childObj.emotion}\n\n**Action&&Saying:** ${childObj.action}\n${childObj.saying}\n\n**Abnomal:** ${childObj.abnormal === "true" ? "Yes":"No"}`,
+        responses: scenario.responses,
+        mode: 'chat'
       };
   
-      const expertMessage: Message = {
-        role: 'expert',
-        content: `**Reason:** ${expertObj.reason}\n\n**Evaluation:** ${expertObj.evaluate}\n\n**Suggestion:** ${expertObj.suggestion}`,
-        suggestedResponses: expertObj.answer.split('\n'),
-      };
+      const response = await getStarCatResponse(messageContent, conversationId, inputMsg);
+      const { childMessage, expertMessage } = parseResponse(response.answer);
   
       setMessages(prev => [...prev, childMessage, expertMessage]);
   
     } catch (error: any) {
       toast({
         title: 'Error',
-        description: error.message,
+        description: error.message || 'Failed to send message',
         variant: 'destructive',
       });
+      // Remove the user message if the API call fails
+      setMessages(prev => prev.slice(0, -1));
     } finally {
       setLoading(false);
     }
