@@ -79,7 +79,6 @@ export default function EditScenarioDialog({
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
-
     try {
       const { error } = await supabase
         .from('scenarios')
@@ -88,9 +87,9 @@ export default function EditScenarioDialog({
           time,
           location,
           participant,
-          child_behavior: parseTextToJson(childBehavior),
-          trigger_event: parseTextToJson(triggerEvent),
-          responses: parseTextToJson(responses),
+          child_behavior: childBehavior,
+          trigger_event: triggerEvent,
+          responses: responses,
         })
         .eq('id', scenario.id);
 
