@@ -90,6 +90,7 @@ export default function SimulatedConversationPage() {
 
       if (error) throw error;
       setProfiles(data || []);
+      data[0].id && setSelectedProfile(data[0].id);
     } catch (error: any) {
       toast({
         title: 'Error',
@@ -171,7 +172,6 @@ export default function SimulatedConversationPage() {
         child_behavior: scenario.child_behavior,
         trigger_event: scenario.trigger_event,
         responses: scenario.responses,
-        mode: 'initialize'
       };
   
       const response = await getStarCatResponse(
@@ -222,7 +222,6 @@ export default function SimulatedConversationPage() {
         child_behavior: scenario.child_behavior,
         trigger_event: scenario.trigger_event,
         responses: scenario.responses,
-        mode: 'chat'
       };
   
       const response = await getStarCatResponse(messageContent, conversationId, inputMsg);
@@ -261,7 +260,7 @@ export default function SimulatedConversationPage() {
         
         <Card className="flex flex-col h-full sm:h-[600px]">
           <div className="p-4 border-b space-y-4">
-            <div>
+            {/* <div>
               <Label htmlFor="profile">Select Child Profile</Label>
               <Select value={selectedProfile} onValueChange={setSelectedProfile}>
                 <SelectTrigger>
@@ -275,7 +274,7 @@ export default function SimulatedConversationPage() {
                   ))}
                 </SelectContent>
               </Select>
-            </div>
+            </div> */}
 
             {selectedProfile && (
               <div>
