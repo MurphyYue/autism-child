@@ -186,6 +186,7 @@ export default function SimulatedConversationPage() {
       setMessages([childMessage, expertMessage]);
   
     } catch (error: any) {
+      console.log(error);
       toast({
         title: 'Error',
         description: 'Failed to initialize conversation',
