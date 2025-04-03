@@ -260,22 +260,6 @@ export default function SimulatedConversationPage() {
         
         <Card className="flex flex-col h-full sm:h-[600px]">
           <div className="p-4 border-b space-y-4">
-            {/* <div>
-              <Label htmlFor="profile">Select Child Profile</Label>
-              <Select value={selectedProfile} onValueChange={setSelectedProfile}>
-                <SelectTrigger>
-                  <SelectValue placeholder="Choose a profile" />
-                </SelectTrigger>
-                <SelectContent>
-                  {profiles.map((profile) => (
-                    <SelectItem key={profile.id} value={profile.id}>
-                      {profile.name}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-            </div> */}
-
             {selectedProfile && (
               <div>
                 <Label htmlFor="scenario">Select Scenario</Label>
@@ -347,6 +331,21 @@ export default function SimulatedConversationPage() {
                 </div>
               </div>
             ))}
+            {loading && (
+              <div className="flex justify-start">
+                <div className="max-w-[80%] rounded-lg p-3 bg-muted">
+                  <div className="flex items-center gap-2 mb-2">
+                    <Bot className="w-4 h-4 animate-pulse" />
+                    <span className="text-sm font-medium">Child&Expert is thinking</span>
+                  </div>
+                  <div className="flex gap-1">
+                    <span className="w-2 h-2 rounded-full bg-gray-400 animate-bounce" style={{ animationDelay: '0ms' }} />
+                    <span className="w-2 h-2 rounded-full bg-gray-400 animate-bounce" style={{ animationDelay: '150ms' }} />
+                    <span className="w-2 h-2 rounded-full bg-gray-400 animate-bounce" style={{ animationDelay: '300ms' }} />
+                  </div>
+                </div>
+              </div>
+            )}
             <div ref={messagesEndRef} />
           </div>
 
