@@ -3,8 +3,9 @@ import axios from 'axios';
 const DIFY_API_MAIN_KEY = process.env.NEXT_PUBLIC_DIFY_MAIN_API_KEY;
 const DIFY_API_SCENARIO_KEY = process.env.NEXT_PUBLIC_DIFY_SCENARIO_API_KEY;
 const DIFY_API_URL = process.env.NEXT_PUBLIC_DIFY_API_URL;
+const DIFY_AUSERID = process.env.NEXT_PUBLIC_DIFY_USERID;
 
-if (!DIFY_API_MAIN_KEY || !DIFY_API_URL || !DIFY_API_SCENARIO_KEY) {
+if (!DIFY_API_MAIN_KEY || !DIFY_API_URL || !DIFY_API_SCENARIO_KEY || !DIFY_AUSERID) {
   throw new Error('Dify API configuration is missing');
 }
 
@@ -30,7 +31,7 @@ export async function getDifyResponse(
         query: message,
         conversation_id: conversationId,
         response_mode: 'blocking',
-        user: "abc-123",
+        user: DIFY_AUSERID,
       },
       {
         headers: {
