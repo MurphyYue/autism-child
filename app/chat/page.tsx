@@ -315,16 +315,14 @@ export default function SimulatedConversationPage() {
                     <div className="mt-3 space-y-2">
                       <Label htmlFor="suggestedResponses" className='font-bold text-black'>Suggested Responses:</Label>
                       {message.suggestedResponses.map((response, i) => (
-                        <Button
+                        <div
                           key={i}
-                          variant="outline"
-                          className="w-full justify-between whitespace-normal text-left"
+                          className="flex items-center p-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-800 cursor-pointer transition-colors bg-white"
                           onClick={() => handleSend(response)}
-                          disabled={loading}
                         >
-                          <span className="flex-1 mr-2">{response}</span>
-                          <ArrowRight className="w-4 h-4 flex-shrink-0" />
-                        </Button>
+                          <span className="flex-1">{response}</span>
+                          <ArrowRight className="w-4 h-4 ml-2" />
+                        </div>
                       ))}
                     </div>
                   )}
@@ -349,7 +347,7 @@ export default function SimulatedConversationPage() {
             <div ref={messagesEndRef} />
           </div>
 
-          <div className="p-4 border-t">
+          <div className="p-4 border-t sticky bottom-0 bg-white dark:bg-gray-800">
             <div className="flex gap-2">
               <TextareaAutosize
                 value={input}
