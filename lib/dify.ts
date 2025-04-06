@@ -2,7 +2,8 @@ import axios from 'axios';
 
 const DIFY_API_MAIN_KEY = process.env.NEXT_PUBLIC_DIFY_MAIN_API_KEY;
 const DIFY_API_SCENARIO_KEY = process.env.NEXT_PUBLIC_DIFY_SCENARIO_API_KEY;
-const DIFY_API_URL = process.env.NEXT_PUBLIC_DIFY_API_URL;
+
+const DIFY_API_URL = process.env.NODE_ENV === 'production' ? '/api' : process.env.NEXT_PUBLIC_DIFY_API_URL;
 const DIFY_AUSERID = process.env.NEXT_PUBLIC_DIFY_USERID;
 
 if (!DIFY_API_MAIN_KEY || !DIFY_API_URL || !DIFY_API_SCENARIO_KEY || !DIFY_AUSERID) {
