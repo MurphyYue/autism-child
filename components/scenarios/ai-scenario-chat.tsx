@@ -3,17 +3,8 @@
 import { useState, useRef, useEffect } from "react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
-import { supabase } from "@/lib/supabase";
 import { Send, Bot } from "lucide-react";
 import ReactMarkdown from "react-markdown";
 import TextareaAutosize from "react-textarea-autosize";
@@ -23,6 +14,17 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
+import { getScenarioResponse } from "@/lib/dify";
+interface Scenario {
+  id: string;
+  name: string;
+  description: string;
+  created_at: string;
+  profile_id: string;
+  profile: Profile;
+  scenario_type: string;
+  scenario_data: string;
+}
 
 interface Profile {
   id: string;
@@ -49,6 +51,7 @@ export default function AIScenarioChat({
 }: AIScenarioChatProps) {
   const [selectedProfile, setSelectedProfile] = useState(profile);
   const [messages, setMessages] = useState<Message[]>([]);
+  const [conversationId, setConversationId] = useState<string>();
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
@@ -71,12 +74,11 @@ export default function AIScenarioChat({
       setInput("");
       setMessages((prev) => [...prev, { role: "user", content: userMessage }]);
 
-      // TODO: Replace with actual Dify API call
-      const response = await mockDifyAPI(userMessage);
-
+      const response = await getScenarioResponse(userMessage, conversationId || undefined);
+      !conversationId && setConversationId(response.conversation_id);
       setMessages((prev) => [
         ...prev,
-        { role: "assistant", content: response },
+        { role: "assistant", content: response.answer.toString() },
       ]);
     } catch (error: any) {
       toast({
@@ -89,18 +91,6 @@ export default function AIScenarioChat({
     }
   };
 
-  // Mock Dify API call - Replace with actual implementation
-  const mockDifyAPI = async (message: string): Promise<string> => {
-    // Simulate API delay
-    await new Promise((resolve) => setTimeout(resolve, 1000));
-
-    // Mock response based on user input
-    if (message.toLowerCase().includes("help")) {
-      return "I'll help you document a scenario. Could you tell me when this happened and where it took place?";
-    }
-
-    return "I understand. Could you provide more details about what triggered this behavior and how you responded?";
-  };
 
   const handleKeyPress = (e: React.KeyboardEvent) => {
     if (e.key === "Enter" && !e.shiftKey) {
@@ -147,6 +137,21 @@ export default function AIScenarioChat({
                 </div>
               </div>
             ))}
+            {loading && (
+              <div className="flex justify-start">
+                <div className="max-w-[80%] rounded-lg p-3 bg-muted">
+                  <div className="flex items-center gap-2 mb-2">
+                    <Bot className="w-4 h-4 animate-pulse" />
+                    <span className="text-sm font-medium">Assistant is thinking</span>
+                  </div>
+                  <div className="flex gap-1">
+                    <span className="w-2 h-2 rounded-full bg-gray-400 animate-bounce" style={{ animationDelay: '0ms' }} />
+                    <span className="w-2 h-2 rounded-full bg-gray-400 animate-bounce" style={{ animationDelay: '150ms' }} />
+                    <span className="w-2 h-2 rounded-full bg-gray-400 animate-bounce" style={{ animationDelay: '300ms' }} />
+                  </div>
+                </div>
+              </div>
+            )}
             <div ref={messagesEndRef} />
           </div>
 
