@@ -133,7 +133,7 @@ export default function SimulatedConversationPage() {
     answer: string;
   }
   
-  // First, add this helper function after the interfaces
+  // Parse the answers from the response
   const parseResponse = (answerText: string): { childMessage: Message, expertMessage: Message } => {
     const [childPart, expertPart] = answerText.split('\n\n');
     
@@ -154,7 +154,7 @@ export default function SimulatedConversationPage() {
     return { childMessage, expertMessage };
   };
   
-  // Update initializeConversation function
+  // initializeConversation function
   const initializeConversation = async () => {
     const scenario = scenarios.find(s => s.id === selectedScenario);
     const profile = profiles.find(p => p.id === selectedProfile);
@@ -170,12 +170,11 @@ export default function SimulatedConversationPage() {
         location: scenario.location,
         participant: scenario.participant,
         child_behavior: scenario.child_behavior,
-        trigger_event: scenario.trigger_event,
-        responses: scenario.responses,
+        trigger_event: scenario.trigger_event
       };
   
       const response = await getStarCatResponse(
-        'Initialize conversation',
+        scenario.responses,
         undefined,
         inputMsg
       );
@@ -198,7 +197,7 @@ export default function SimulatedConversationPage() {
     }
   };
   
-  // Update handleSend function
+  // handleSend function
   const handleSend = async (content: string = input) => {
     const messageContent = content.trim() || input.trim();
     if (!messageContent || !selectedProfile || !selectedScenario) return;
@@ -222,7 +221,6 @@ export default function SimulatedConversationPage() {
         participant: scenario.participant,
         child_behavior: scenario.child_behavior,
         trigger_event: scenario.trigger_event,
-        responses: scenario.responses,
       };
   
       const response = await getStarCatResponse(messageContent, conversationId, inputMsg);
