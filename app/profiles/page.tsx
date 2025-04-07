@@ -141,7 +141,7 @@ export default function ProfilesPage() {
         {!profile ? (
           <Card className="p-6 text-center">
             <p className="text-gray-600 dark:text-gray-400 mb-4">
-              No profile yet. Let's create one to get started with personalized
+              No profile yet. Let&apos;s create one to get started with personalized
               communication assistance.
             </p>
             <Button onClick={() => setIsCreateOpen(true)}>
