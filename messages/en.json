@@ -1,0 +1,11 @@
+{
+  "Home": {
+    "title": "Autism Communication Assistant",
+    "subtitle": "Empowering parents to better communicate with and understand their children through AI-assisted tools and structured interactions."
+  },
+  "LocaleSwitcher": {
+    "zh": "中文",
+    "en": "English",
+    "label": "Language"
+  }
+}

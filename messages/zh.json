@@ -1,0 +1,11 @@
+{
+  "Home": {
+    "title": "自闭症沟通助手",
+    "subtitle": "通过人工智能辅助工具和结构化互动，帮助父母更好地与孩子沟通和理解。"
+  },
+  "LocaleSwitcher": {
+    "zh": "中文",
+    "en": "English",
+    "label": "Language"
+  }
+}

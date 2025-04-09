@@ -7,6 +7,7 @@ import { cn } from '@/lib/utils';
 import { useAuth } from '@/components/auth-provider';
 import { Button } from '@/components/ui/button';
 import { LogOut } from 'lucide-react';
+import LocaleSwitcher from '@/components/locale-switcher';
 
 export function Navbar() {
   const pathname = usePathname();
@@ -91,6 +92,7 @@ export function Navbar() {
                 </Link>
               </Button>
             )}
+            <LocaleSwitcher />
           </div>
         </div>
       </div>
