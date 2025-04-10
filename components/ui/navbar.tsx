@@ -8,6 +8,8 @@ import { useAuth } from '@/components/auth-provider';
 import { Button } from '@/components/ui/button';
 import { LogOut } from 'lucide-react';
 import LocaleSwitcher from '@/components/locale-switcher';
+import { Menu } from 'lucide-react'; // Add this import at the top
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"; // Add this import
 
 export function Navbar() {
   const pathname = usePathname();
@@ -17,83 +19,101 @@ export function Navbar() {
     return pathname === path;
   };
 
+  const NavItems = () => (
+    <>
+      <Link
+        href="/"
+        className={cn(
+          'flex items-center gap-2 text-sm font-medium transition-colors hover:text-primary',
+          isActive('/') ? 'text-primary' : 'text-muted-foreground'
+        )}
+      >
+        <Home className="h-4 w-4" />
+        <span>Home</span>
+      </Link>
+      {user ? (
+        <>
+          <Link
+            href="/profiles"
+            className={cn(
+              'flex items-center gap-2 text-sm font-medium transition-colors hover:text-primary',
+              isActive('/profiles') ? 'text-primary' : 'text-muted-foreground'
+            )}
+          >
+            <Users className="h-4 w-4" />
+            <span>Profiles</span>
+          </Link>
+          <Link
+            href="/scenarios"
+            className={cn(
+              'flex items-center gap-2 text-sm font-medium transition-colors hover:text-primary',
+              isActive('/scenarios') ? 'text-primary' : 'text-muted-foreground'
+            )}
+          >
+            <MessageSquare className="h-4 w-4" />
+            <span>Scenarios</span>
+          </Link>
+          <Link
+            href="/chat"
+            className={cn(
+              'flex items-center gap-2 text-sm font-medium transition-colors hover:text-primary',
+              isActive('/chat') ? 'text-primary' : 'text-muted-foreground'
+            )}
+          >
+            <MessageSquare className="h-4 w-4" />
+            <span>Conversation</span>
+          </Link>
+          <Link
+            href="/chat"
+            className="flex items-center gap-2 text-sm font-medium transition-colors hover:text-primary text-muted-foreground"
+            onClick={async () => {
+              await signOut();
+              window.location.href = '/auth/login';
+            }}
+          >
+            <LogOut className="h-4 w-4 mr-2" />
+            <span>Logout</span>
+          </Link>
+        </>
+      ) : (
+        <Button asChild variant="outline" size="sm">
+          <Link href="/auth/login" className="flex items-center gap-2">
+            <LogIn className="h-4 w-4" />
+            <span>Login</span>
+          </Link>
+        </Button>
+      )}
+      <LocaleSwitcher />
+    </>
+  );
+
   return (
     <nav className="sticky top-0 z-50 border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-      <div className="container flex h-14 items-center">
-        <div className="mr-4 hidden md:flex">
-          <Link href="/" className="mr-6 flex items-center space-x-2 pl-6">
-            <span className="hidden font-bold sm:inline-block">
-              logo
-            </span>
-          </Link>
+      <div className="container flex h-14 items-center justify-between">
+        <Link href="/" className="flex items-center space-x-2">
+          <span className="font-bold">logo</span>
+        </Link>
+
+        {/* Desktop Navigation */}
+        <div className="hidden md:flex items-center gap-6">
+          <NavItems />
         </div>
-        <div className="flex flex-1 items-center justify-between space-x-2 md:justify-end">
-          <div className="flex items-center gap-6">
-            <Link
-              href="/"
-              className={cn(
-                'flex items-center gap-2 text-sm font-medium transition-colors hover:text-primary pl-6',
-                isActive('/') ? 'text-primary' : 'text-muted-foreground'
-              )}
-            >
-              <Home className="h-4 w-4 hidden sm:inline" />
-              <span className="">Home</span>
-            </Link>
-            {user ? (
-              <>
-                <Link
-                  href="/profiles"
-                  className={cn(
-                    'flex items-center gap-2 text-sm font-medium transition-colors hover:text-primary',
-                    isActive('/profiles') ? 'text-primary' : 'text-muted-foreground'
-                  )}
-                >
-                  <Users className="h-4 w-4 hidden sm:inline" />
-                  <span>Profiles</span>
-                </Link>
-                <Link
-                  href="/scenarios"
-                  className={cn(
-                    'flex items-center gap-2 text-sm font-medium transition-colors hover:text-primary',
-                    isActive('/scenarios') ? 'text-primary' : 'text-muted-foreground'
-                  )}
-                >
-                  <MessageSquare className="h-4 w-4 hidden sm:inline" />
-                  <span className="">Scenarios</span>
-                </Link>
-                <Link
-                  href="/chat"
-                  className={cn(
-                    'flex items-center gap-2 text-sm font-medium transition-colors hover:text-primary',
-                    isActive('/chat') ? 'text-primary' : 'text-muted-foreground'
-                  )}
-                >
-                  <MessageSquare className="h-4 w-4 hidden sm:inline" />
-                  <span className="">Conversation</span>
-                </Link>
-                <Button 
-                  variant="ghost" 
-                  size="sm" 
-                  className="text-muted-foreground hover:text-primary"
-                  onClick={async () => {
-                    await signOut();
-                    window.location.href = '/auth/login';
-                  }}
-                >
-                  <LogOut className="h-4 w-4 mr-2" />
-                  <span className='hidden sm:inline-block'>Logout</span>
-                </Button>
-              </>
-            ) : (
-              <Button asChild variant="outline" size="sm" className="ml-4">
-                <Link href="/auth/login" className="flex items-center gap-2">
-                  <LogIn className="h-4 w-4" />
-                  <span>Login</span>
-                </Link>
+
+        {/* Mobile Navigation */}
+        <div className="md:hidden flex items-center gap-4">
+          {/* <LocaleSwitcher /> */}
+          <Sheet>
+            <SheetTrigger asChild>
+              <Button variant="ghost" size="icon">
+                <Menu className="h-5 w-5" />
               </Button>
-            )}
-            <LocaleSwitcher />
-          </div>
+            </SheetTrigger>
+            <SheetContent side="right" className="w-64">
+              <div className="flex flex-col gap-4 mt-4">
+                <NavItems />
+              </div>
+            </SheetContent>
+          </Sheet>
         </div>
       </div>
     </nav>
