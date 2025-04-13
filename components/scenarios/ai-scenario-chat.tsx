@@ -1,5 +1,6 @@
 "use client";
 
+import React from "react";
 import { useState, useRef, useEffect } from "react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -15,15 +16,15 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { getScenarioResponse } from "@/lib/dify";
+import { supabase } from "@/lib/supabase";
+
 interface Scenario {
-  id: string;
-  name: string;
-  description: string;
-  created_at: string;
-  profile_id: string;
-  profile: Profile;
-  scenario_type: string;
-  scenario_data: string;
+  title: string;
+  time: string;
+  location: string;
+  participant: string;
+  child_behavior: string;
+  trigger_event: string;
 }
 
 interface Profile {
@@ -33,7 +34,8 @@ interface Profile {
 
 interface Message {
   role: "user" | "assistant";
-  content: string;
+  content: string | Scenario;
+  completed?: boolean;
 }
 
 interface AIScenarioChatProps {
@@ -74,13 +76,25 @@ export default function AIScenarioChat({
       setInput("");
       setMessages((prev) => [...prev, { role: "user", content: userMessage }]);
 
-      const response = await getScenarioResponse(userMessage, conversationId || undefined);
+      const response = await getScenarioResponse(
+        userMessage,
+        conversationId || undefined
+      );
       !conversationId && setConversationId(response.conversation_id);
-      setMessages((prev) => [
-        ...prev,
-        { role: "assistant", content: response.answer.toString() },
-      ]);
+      const { completed, message, data } = JSON.parse(response.answer);
+      if (!completed) {
+        setMessages((prev) => [
+          ...prev,
+          { role: "assistant", content: message, completed: false },
+        ]);
+      } else {
+        setMessages((prev) => [
+          ...prev,
+          { role: "assistant", content: data, completed: true },
+        ]);
+      }
     } catch (error: any) {
+      console.log(error);
       toast({
         title: "Error",
         description: error.message,
@@ -91,6 +105,28 @@ export default function AIScenarioChat({
     }
   };
 
+  const handleSubmit = async (scenario: Scenario) => {
+    setLoading(true);
+
+    try {
+      const { error } = await supabase.from("scenarios").insert({
+        profile_id: profile.id,
+        title: `AI Assistant: ${new Date().toISOString()}`,
+        time: scenario.time,
+        location: scenario.location,
+        participant: scenario.participant,
+        child_behavior: scenario.child_behavior,
+        trigger_event: scenario.trigger_event,
+      });
+
+      if (error) throw error;
+      onScenarioCreated();
+    } catch (error) {
+      // error handling
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const handleKeyPress = (e: React.KeyboardEvent) => {
     if (e.key === "Enter" && !e.shiftKey) {
@@ -103,7 +139,7 @@ export default function AIScenarioChat({
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-[425px] md:max-w-[725px]">
         <DialogHeader>
-          <DialogTitle>ai assistant</DialogTitle>
+          <DialogTitle>AI Assistant</DialogTitle>
         </DialogHeader>
         <Card className="flex flex-col h-[86vh] sm:h-[50vh]">
           <div className="p-4 border-b">
@@ -131,9 +167,43 @@ export default function AIScenarioChat({
                       <span className="text-sm font-medium">AI Assistant</span>
                     </div>
                   )}
-                  <ReactMarkdown className="prose dark:prose-invert">
-                    {message.content}
-                  </ReactMarkdown>
+                  {message.completed ? (
+                    <>
+                      <div key={index} className="prose dark:prose-invert">
+                        {typeof message.content === "object" &&
+                          "time" in message.content && (
+                            <div>time: {message.content.time}</div>
+                          )}
+                        {typeof message.content === "object" &&
+                          "location" in message.content && (
+                            <div>location: {message.content.location}</div>
+                          )}
+                        {typeof message.content === "object" &&
+                          "participant" in message.content && (
+                            <div>participant: {message.content.participant}</div>
+                          )}
+                        {typeof message.content === "object" &&
+                          "child_behavior" in message.content && (
+                            <div>
+                              child behavior: {message.content.child_behavior}
+                            </div>
+                          )}
+                        {typeof message.content === "object" &&
+                          "trigger_event" in message.content && (
+                            <div>
+                              trigger event: {message.content.trigger_event}
+                            </div>
+                          )}
+                      </div>
+                      <Button className="mt-2" onClick={() => handleSubmit(message.content as Scenario)}>Create Scenario</Button>
+                    </>
+                  ) : (
+                    <ReactMarkdown className="prose dark:prose-invert">
+                      {typeof message.content === "string"
+                        ? message.content
+                        : JSON.stringify(message.content)}
+                    </ReactMarkdown>
+                  )}
                 </div>
               </div>
             ))}
@@ -142,12 +212,23 @@ export default function AIScenarioChat({
                 <div className="max-w-[80%] rounded-lg p-3 bg-muted">
                   <div className="flex items-center gap-2 mb-2">
                     <Bot className="w-4 h-4 animate-pulse" />
-                    <span className="text-sm font-medium">Assistant is thinking</span>
+                    <span className="text-sm font-medium">
+                      Assistant is thinking
+                    </span>
                   </div>
                   <div className="flex gap-1">
-                    <span className="w-2 h-2 rounded-full bg-gray-400 animate-bounce" style={{ animationDelay: '0ms' }} />
-                    <span className="w-2 h-2 rounded-full bg-gray-400 animate-bounce" style={{ animationDelay: '150ms' }} />
-                    <span className="w-2 h-2 rounded-full bg-gray-400 animate-bounce" style={{ animationDelay: '300ms' }} />
+                    <span
+                      className="w-2 h-2 rounded-full bg-gray-400 animate-bounce"
+                      style={{ animationDelay: "0ms" }}
+                    />
+                    <span
+                      className="w-2 h-2 rounded-full bg-gray-400 animate-bounce"
+                      style={{ animationDelay: "150ms" }}
+                    />
+                    <span
+                      className="w-2 h-2 rounded-full bg-gray-400 animate-bounce"
+                      style={{ animationDelay: "300ms" }}
+                    />
                   </div>
                 </div>
               </div>

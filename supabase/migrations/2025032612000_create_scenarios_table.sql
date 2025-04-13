@@ -8,9 +8,7 @@
       - `title` (text)
       - `description` (text)
       - `location` (text)
-      - `triggers` (jsonb)
-      - `responses` (jsonb)
-      - `outcome` (text)
+      - `triggers` (text)
       - `created_at` (timestamptz)
       - `updated_at` (timestamptz)
 
@@ -28,8 +26,6 @@ CREATE TABLE scenarios (
   participant TEXT,
   child_behavior TEXT,
   trigger_event TEXT,
-  responses TEXT,
-  child_introduction JSONB DEFAULT '{}',
   created_at TIMESTAMPTZ DEFAULT now(),
   updated_at TIMESTAMPTZ DEFAULT now()
 );

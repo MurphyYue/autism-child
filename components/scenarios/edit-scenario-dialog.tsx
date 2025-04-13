@@ -23,7 +23,6 @@ interface Scenario {
   participant: string;
   child_behavior: string;
   trigger_event: string;
-  responses: string;
 }
 
 interface EditScenarioDialogProps {
@@ -46,7 +45,6 @@ export default function EditScenarioDialog({
   const [participant, setParticipant] = useState('');
   const [childBehavior, setChildBehavior] = useState('');
   const [triggerEvent, setTriggerEvent] = useState('');
-  const [responses, setResponse] = useState('');
   const [loading, setLoading] = useState(false);
   const { toast } = useToast();
 
@@ -56,7 +54,6 @@ export default function EditScenarioDialog({
     setParticipant(scenario.participant || '');
     setChildBehavior(scenario.child_behavior);
     setTriggerEvent(scenario.trigger_event);
-    setResponse(scenario.responses);
   }, [scenario]);
 
   const formatJson = (json: Record<string, any>): string => {
@@ -89,7 +86,6 @@ export default function EditScenarioDialog({
           participant,
           child_behavior: childBehavior,
           trigger_event: triggerEvent,
-          responses: responses,
         })
         .eq('id', scenario.id);
 
@@ -167,18 +163,6 @@ export default function EditScenarioDialog({
               id="triggerEvent"
               value={triggerEvent}
               onChange={(e) => setTriggerEvent(e.target.value)}
-              rows={3}
-            />
-          </div>
-
-          <div className="space-y-2">
-            <Label htmlFor="responses">
-              Response (one per line, format: action: result)
-            </Label>
-            <Textarea
-              id="responses"
-              value={responses}
-              onChange={(e) => setResponse(e.target.value)}
               rows={3}
             />
           </div>

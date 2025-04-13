@@ -37,7 +37,6 @@ export default function CreateScenarioDialog({
   const [participant, setParticipant] = useState("");
   const [childBehavior, setChildBehavior] = useState("");
   const [triggerEvent, setTriggerEvent] = useState("");
-  const [response, setResponse] = useState("");
   const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -53,7 +52,6 @@ export default function CreateScenarioDialog({
         participant,
         child_behavior: childBehavior,
         trigger_event: triggerEvent,
-        responses: response,
       });
 
       if (error) throw error;
@@ -66,16 +64,6 @@ export default function CreateScenarioDialog({
     }
   };
 
-  const parseTextToJson = (text: string): Record<string, string> => {
-    const result: Record<string, string> = {};
-    text.split("\n").forEach((line) => {
-      const [key, value] = line.split(":").map((s) => s.trim());
-      if (key && value) {
-        result[key] = value;
-      }
-    });
-    return result;
-  };
 
   const resetForm = () => {
     setTitle("");
@@ -84,7 +72,6 @@ export default function CreateScenarioDialog({
     setParticipant("");
     setChildBehavior("");
     setTriggerEvent("");
-    setResponse("");
   };
 
   return (
@@ -134,7 +121,7 @@ export default function CreateScenarioDialog({
           </div>
 
           <div className="space-y-2">
-            <Label>Child Behavior (key: value, one per line)</Label>
+            <Label>Child Behavior</Label>
             <Textarea
               value={childBehavior}
               onChange={(e) => setChildBehavior(e.target.value)}
@@ -143,19 +130,10 @@ export default function CreateScenarioDialog({
           </div>
 
           <div className="space-y-2">
-            <Label>Trigger Event (key: value, one per line)</Label>
+            <Label>Trigger Event</Label>
             <Textarea
               value={triggerEvent}
               onChange={(e) => setTriggerEvent(e.target.value)}
-              rows={3}
-            />
-          </div>
-
-          <div className="space-y-2">
-            <Label>Response (key: value, one per line)</Label>
-            <Textarea
-              value={response}
-              onChange={(e) => setResponse(e.target.value)}
               rows={3}
             />
           </div>
