@@ -120,6 +120,8 @@ export default function AIScenarioChat({
       });
 
       if (error) throw error;
+      setMessages([]);
+
       onScenarioCreated();
     } catch (error) {
       // error handling
