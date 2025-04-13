@@ -10,6 +10,7 @@ import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { useToast } from '@/hooks/use-toast';
 import { useAuth } from '@/components/auth-provider';
 import { supabase } from '@/lib/supabase';
+import { useTranslations } from 'next-intl';
 
 interface CreateProfileDialogProps {
   open: boolean;
@@ -22,6 +23,7 @@ export default function CreateProfileDialog({
   onOpenChange,
   onSuccess,
 }: CreateProfileDialogProps) {
+  const t = useTranslations('Profile');
   const [name, setName] = useState('');
   const [age, setAge] = useState('1');
   const [gender, setGender] = useState('male');
@@ -116,23 +118,23 @@ export default function CreateProfileDialog({
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
         <DialogHeader>
-          <DialogTitle>Create Child Profile</DialogTitle>
+          <DialogTitle>{t('create_dialog_title')}</DialogTitle>
         </DialogHeader>
         <form onSubmit={handleSubmit} className="space-y-6">
           <div className="space-y-4">
             <div className="flex items-end gap-4">
               <div className="flex-1">
-                <Label htmlFor="name">Name</Label>
+                <Label htmlFor="name">{t('name')}</Label>
                 <Input
                   id="name"
-                  placeholder="Enter name"
+                  placeholder={t('enter_name')}
                   value={name}
                   onChange={(e) => setName(e.target.value)}
                   required
                 />
               </div>
               <div className="w-24">
-                <Label htmlFor="age">Age</Label>
+                <Label htmlFor="age">{t('age')}</Label>
                 <div className="flex items-center">
                   <Button
                     type="button"
@@ -163,236 +165,233 @@ export default function CreateProfileDialog({
                   </Button>
                 </div>
               </div>
-              <div className="w-32">
-                <Label>Gender</Label>
-                <RadioGroup
-                  value={gender}
-                  onValueChange={setGender}
-                  className="flex gap-4"
-                >
-                  <div className="flex items-center space-x-2">
-                    <RadioGroupItem value="male" id="male" />
-                    <Label htmlFor="male">Male</Label>
-                  </div>
-                  <div className="flex items-center space-x-2">
-                    <RadioGroupItem value="female" id="female" />
-                    <Label htmlFor="female">Female</Label>
-                  </div>
-                </RadioGroup>
-              </div>
             </div>
 
-            <div className="flex gap-4">
-              <div className="flex-1">
-                <Label>First Diagnosis Age</Label>
-                <div className="flex items-center">
-                  <Button
-                    type="button"
-                    variant="outline"
-                    size="icon"
-                    className="h-10 w-10"
-                    onClick={() => setDiagnosisAge(Math.max(1, parseInt(diagnosisAge) - 1).toString())}
-                  >
-                    -
-                  </Button>
-                  <Input
-                    type="number"
-                    min="1"
-                    className="h-10 w-14 text-center mx-1"
-                    value={diagnosisAge}
-                    onChange={(e) => setDiagnosisAge(e.target.value)}
-                    required
-                  />
-                  <Button
-                    type="button"
-                    variant="outline"
-                    size="icon"
-                    className="h-10 w-10"
-                    onClick={() => setDiagnosisAge((parseInt(diagnosisAge) + 1).toString())}
-                  >
-                    +
-                  </Button>
+            <div>
+              <Label htmlFor="gender">{t('gender')}</Label>
+              <RadioGroup
+                id="gender"
+                value={gender}
+                onValueChange={setGender}
+                className="flex space-x-4"
+              >
+                <div className="flex items-center space-x-2">
+                  <RadioGroupItem value="male" id="male" />
+                  <Label htmlFor="male">{t('male')}</Label>
                 </div>
-              </div>
-              <div className="flex-1">
-                <Label>Diagnosis Source</Label>
-                <select
-                  className="w-full h-10 px-3 rounded-md border"
-                  value={diagnosisSource}
-                  onChange={(e) => setDiagnosisSource(e.target.value)}
-                >
-                  <option value="non-psychologist">Non-Psychologist</option>
-                  <option value="psychologist">Psychologist</option>
-                  <option value="specialist">Specialist</option>
-                </select>
-              </div>
-              <div className="flex-1">
-                <Label>Severity</Label>
-                <select
-                  className="w-full h-10 px-3 rounded-md border"
-                  value={severity}
-                  onChange={(e) => setSeverity(e.target.value)}
-                >
-                  <option value="none">None</option>
-                  <option value="mild">Mild</option>
-                  <option value="moderate">Moderate</option>
-                  <option value="severe">Severe</option>
-                </select>
-              </div>
+                <div className="flex items-center space-x-2">
+                  <RadioGroupItem value="female" id="female" />
+                  <Label htmlFor="female">{t('female')}</Label>
+                </div>
+                <div className="flex items-center space-x-2">
+                  <RadioGroupItem value="other" id="other" />
+                  <Label htmlFor="other">{t('other')}</Label>
+                </div>
+              </RadioGroup>
             </div>
 
-            <div className="space-y-4">
-              <h3 className="font-medium">Behavioral Assessment</h3>
-              
-              <div className="space-y-3">
-                <div className="flex items-center justify-between">
-                  <Label>Can initiate or respond to others?</Label>
+            <div>
+              <Label htmlFor="diagnosis_age">{t('diagnosis_age')}</Label>
+              <Input
+                id="diagnosis_age"
+                type="number"
+                min="1"
+                value={diagnosisAge}
+                onChange={(e) => setDiagnosisAge(e.target.value)}
+                required
+              />
+            </div>
+
+            <div>
+              <Label htmlFor="diagnosis_source">{t('diagnosis_source')}</Label>
+              <RadioGroup
+                id="diagnosis_source"
+                value={diagnosisSource}
+                onValueChange={setDiagnosisSource}
+                className="flex space-x-4"
+              >
+                <div className="flex items-center space-x-2">
+                  <RadioGroupItem value="psychologist" id="psychologist" />
+                  <Label htmlFor="psychologist">{t('psychologist')}</Label>
+                </div>
+                <div className="flex items-center space-x-2">
+                  <RadioGroupItem value="non-psychologist" id="non-psychologist" />
+                  <Label htmlFor="non-psychologist">{t('non_psychologist')}</Label>
+                </div>
+              </RadioGroup>
+            </div>
+
+            <div>
+              <Label htmlFor="severity">{t('severity')}</Label>
+              <RadioGroup
+                id="severity"
+                value={severity}
+                onValueChange={setSeverity}
+                className="flex space-x-4"
+              >
+                <div className="flex items-center space-x-2">
+                  <RadioGroupItem value="mild" id="mild" />
+                  <Label htmlFor="mild">{t('mild')}</Label>
+                </div>
+                <div className="flex items-center space-x-2">
+                  <RadioGroupItem value="moderate" id="moderate" />
+                  <Label htmlFor="moderate">{t('moderate')}</Label>
+                </div>
+                <div className="flex items-center space-x-2">
+                  <RadioGroupItem value="severe" id="severe" />
+                  <Label htmlFor="severe">{t('severe')}</Label>
+                </div>
+                <div className="flex items-center space-x-2">
+                  <RadioGroupItem value="none" id="none" />
+                  <Label htmlFor="none">{t('none')}</Label>
+                </div>
+              </RadioGroup>
+            </div>
+
+            <div>
+              <h3 className="text-lg font-medium mb-4">{t('behavior_assessment')}</h3>
+              <div className="space-y-4">
+                <div>
+                  <Label>{t('can_initiate_conversation')}</Label>
                   <RadioGroup
                     value={canInitiateConversation}
                     onValueChange={setCanInitiateConversation}
-                    className="flex gap-4"
+                    className="flex space-x-4"
                   >
                     <div className="flex items-center space-x-2">
                       <RadioGroupItem value="yes" id="initiate-yes" />
-                      <Label htmlFor="initiate-yes">Yes</Label>
+                      <Label htmlFor="initiate-yes">{t('yes')}</Label>
                     </div>
                     <div className="flex items-center space-x-2">
                       <RadioGroupItem value="no" id="initiate-no" />
-                      <Label htmlFor="initiate-no">No</Label>
+                      <Label htmlFor="initiate-no">{t('no')}</Label>
                     </div>
                   </RadioGroup>
                 </div>
 
-                <div className="flex items-center justify-between">
-                  <Label>Can fully express their needs?</Label>
+                <div>
+                  <Label>{t('can_express_needs')}</Label>
                   <RadioGroup
                     value={canExpressNeeds}
                     onValueChange={setCanExpressNeeds}
-                    className="flex gap-4"
+                    className="flex space-x-4"
                   >
                     <div className="flex items-center space-x-2">
                       <RadioGroupItem value="yes" id="express-yes" />
-                      <Label htmlFor="express-yes">Yes</Label>
+                      <Label htmlFor="express-yes">{t('yes')}</Label>
                     </div>
                     <div className="flex items-center space-x-2">
                       <RadioGroupItem value="no" id="express-no" />
-                      <Label htmlFor="express-no">No</Label>
+                      <Label htmlFor="express-no">{t('no')}</Label>
                     </div>
                   </RadioGroup>
                 </div>
 
-                <div className="flex items-center justify-between">
-                  <Label>Has regular friends or teachers?</Label>
+                <div>
+                  <Label>{t('has_friends')}</Label>
                   <RadioGroup
                     value={hasFriends}
                     onValueChange={setHasFriends}
-                    className="flex gap-4"
+                    className="flex space-x-4"
                   >
                     <div className="flex items-center space-x-2">
                       <RadioGroupItem value="yes" id="friends-yes" />
-                      <Label htmlFor="friends-yes">Yes</Label>
+                      <Label htmlFor="friends-yes">{t('yes')}</Label>
                     </div>
                     <div className="flex items-center space-x-2">
                       <RadioGroupItem value="no" id="friends-no" />
-                      <Label htmlFor="friends-no">No</Label>
+                      <Label htmlFor="friends-no">{t('no')}</Label>
                     </div>
                   </RadioGroup>
                 </div>
 
-                <div className="flex items-center justify-between">
-                  <Label>Has self-stimulatory behaviors?</Label>
+                <div>
+                  <Label>{t('has_self_stimulation')}</Label>
                   <RadioGroup
                     value={hasSelfStimulation}
                     onValueChange={setHasSelfStimulation}
-                    className="flex gap-4"
+                    className="flex space-x-4"
                   >
                     <div className="flex items-center space-x-2">
                       <RadioGroupItem value="yes" id="stim-yes" />
-                      <Label htmlFor="stim-yes">Yes</Label>
+                      <Label htmlFor="stim-yes">{t('yes')}</Label>
                     </div>
                     <div className="flex items-center space-x-2">
                       <RadioGroupItem value="no" id="stim-no" />
-                      <Label htmlFor="stim-no">No</Label>
+                      <Label htmlFor="stim-no">{t('no')}</Label>
                     </div>
                   </RadioGroup>
                 </div>
 
-                <div className="flex items-center justify-between">
-                  <Label>Currently attending school?</Label>
+                <div>
+                  <Label>{t('is_in_school')}</Label>
                   <RadioGroup
                     value={isInSchool}
                     onValueChange={setIsInSchool}
-                    className="flex gap-4"
+                    className="flex space-x-4"
                   >
                     <div className="flex items-center space-x-2">
                       <RadioGroupItem value="yes" id="school-yes" />
-                      <Label htmlFor="school-yes">Yes</Label>
+                      <Label htmlFor="school-yes">{t('yes')}</Label>
                     </div>
                     <div className="flex items-center space-x-2">
                       <RadioGroupItem value="no" id="school-no" />
-                      <Label htmlFor="school-no">No</Label>
+                      <Label htmlFor="school-no">{t('no')}</Label>
                     </div>
                   </RadioGroup>
                 </div>
 
-                <div className="flex items-center justify-between">
-                  <Label>Can perform basic daily activities?</Label>
+                <div>
+                  <Label>{t('can_perform_daily_tasks')}</Label>
                   <RadioGroup
                     value={canPerformDailyTasks}
                     onValueChange={setCanPerformDailyTasks}
-                    className="flex gap-4"
+                    className="flex space-x-4"
                   >
                     <div className="flex items-center space-x-2">
                       <RadioGroupItem value="yes" id="daily-yes" />
-                      <Label htmlFor="daily-yes">Yes</Label>
+                      <Label htmlFor="daily-yes">{t('yes')}</Label>
                     </div>
                     <div className="flex items-center space-x-2">
                       <RadioGroupItem value="no" id="daily-no" />
-                      <Label htmlFor="daily-no">No</Label>
+                      <Label htmlFor="daily-no">{t('no')}</Label>
                     </div>
                   </RadioGroup>
                 </div>
               </div>
             </div>
 
-            <div className="space-y-4">
-              <h3 className="font-medium">Sensory and Environmental Response</h3>
-              
+            <div>
+              <h3 className="text-lg font-medium mb-4">{t('sensory_environmental_response')}</h3>
               <div>
-                <Label htmlFor="sensoryResponse">
-                  Does the child have any special reactions to sounds, lights, or touch?
-                </Label>
+                <Label htmlFor="sensoryResponse">{t('sensory_response')}</Label>
                 <Textarea
                   id="sensoryResponse"
                   value={sensoryResponse}
                   onChange={(e) => setSensoryResponse(e.target.value)}
-                  placeholder="Please briefly describe"
+                  placeholder={t('please_briefly_describe')}
                   className="mt-1"
                 />
               </div>
 
               <div>
-                <Label htmlFor="specialInterests">
-                  Does the child have any special interests, including colors, toys, or activities?
-                </Label>
+                <Label htmlFor="specialInterests">{t('special_interests')}</Label>
                 <Textarea
                   id="specialInterests"
                   value={specialInterests}
                   onChange={(e) => setSpecialInterests(e.target.value)}
-                  placeholder="Please briefly describe"
+                  placeholder={t('please_briefly_describe')}
                   className="mt-1"
                 />
               </div>
 
               <div>
-                <Label htmlFor="environmentalResponse">
-                  Does the child show discomfort or emotional reactions in certain environments?
-                </Label>
+                <Label htmlFor="environmentalResponse">{t('environmental_response')}</Label>
                 <Textarea
                   id="environmentalResponse"
                   value={environmentalResponse}
                   onChange={(e) => setEnvironmentalResponse(e.target.value)}
-                  placeholder="Please briefly describe"
+                  placeholder={t('please_briefly_describe')}
                   className="mt-1"
                 />
               </div>
@@ -405,10 +404,10 @@ export default function CreateProfileDialog({
               variant="outline"
               onClick={() => onOpenChange(false)}
             >
-              Cancel
+              {t('cancel')}
             </Button>
             <Button type="submit" disabled={loading}>
-              {loading ? 'Creating...' : 'Submit'}
+              {loading ? t('creating') : t('submit')}
             </Button>
           </div>
         </form>

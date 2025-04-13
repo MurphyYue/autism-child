@@ -1,4 +1,3 @@
-import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Brain, MessageCircle, UserPlus } from 'lucide-react';
 import Link from 'next/link';

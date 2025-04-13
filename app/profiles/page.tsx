@@ -11,6 +11,7 @@ import { supabase } from "@/lib/supabase";
 import CreateProfileDialog from "@/components/profiles/create-profile-dialog";
 import EditProfileDialog from "@/components/profiles/edit-profile-dialog";
 import Link from "next/link";
+import {useTranslations} from 'next-intl';
 
 interface Profile {
   id: string;
@@ -33,6 +34,7 @@ export default function ProfilesPage() {
   const { user } = useAuth();
   const router = useRouter();
   const { toast } = useToast();
+  const t = useTranslations('Profile');
 
   useEffect(() => {
     if (!user) {
@@ -128,12 +130,12 @@ export default function ProfilesPage() {
       <div className="max-w-6xl mx-auto">
         <div className="flex items-center gap-4 sm:mb-8">
           <div className="hidden sm:inline-block">
-            <h1 className="text-3xl font-bold">Child Profile</h1>
+            <h1 className="text-3xl font-bold">{t('title')}</h1>
           </div>
           {!profile && (
             <Button onClick={() => setIsCreateOpen(true)}>
               <Plus className="w-4 h-4 mr-2" />
-              Create Profile
+              {t('create_profile')}
             </Button>
           )}
         </div>
@@ -141,12 +143,11 @@ export default function ProfilesPage() {
         {!profile ? (
           <Card className="p-6 text-center">
             <p className="text-gray-600 dark:text-gray-400 mb-4">
-              No profile yet. Let&apos;s create one to get started with personalized
-              communication assistance.
+              {t('no_profile')}
             </p>
             <Button onClick={() => setIsCreateOpen(true)}>
               <Plus className="w-4 h-4 mr-2" />
-              Create Profile
+              {t('create_profile')}
             </Button>
           </Card>
         ) : (
@@ -158,15 +159,15 @@ export default function ProfilesPage() {
                     {profile.name}
                   </h2>
                   <div className="flex items-center gap-4 text-gray-600 dark:text-gray-400">
-                    <span>Age: {profile.age}</span>
+                    <span>{t('age')} {profile.age}</span>
                     <span>
-                      Gender:{" "}
+                      {t('gender')}{" "}
                       {profile.gender
                         ? profile.gender.charAt(0).toUpperCase() +
                           profile.gender.slice(1)
                         : ""}
                     </span>
-                    <span>Diagnosis Age: {profile.diagnosis_age || "N/A"}</span>
+                    <span>{t('diagnosis_age')} {profile.diagnosis_age || "N/A"}</span>
                   </div>
                 </div>
                 <Button
@@ -182,12 +183,12 @@ export default function ProfilesPage() {
                 <div className="space-y-6">
                   <div>
                     <h3 className="text-lg font-medium mb-4">
-                      Diagnosis Information
+                      {t('diagnosis_info')}
                     </h3>
                     <div className="space-y-3">
                       <div className="flex justify-between items-center">
                         <span className="text-gray-600 dark:text-gray-400">
-                          Source:
+                          {t('diagnosis_source')}:
                         </span>
                         <span className="font-medium">
                           {profile.diagnosis_source}
@@ -195,7 +196,7 @@ export default function ProfilesPage() {
                       </div>
                       <div className="flex justify-between items-center">
                         <span className="text-gray-600 dark:text-gray-400">
-                          Severity:
+                          {t('severity')}:
                         </span>
                         {renderSeverityBadge(profile.severity || "none")}
                       </div>
@@ -204,12 +205,12 @@ export default function ProfilesPage() {
 
                   <div>
                     <h3 className="text-lg font-medium mb-4">
-                      Behavioral Assessment
+                      {t('behavior_assessment')}
                     </h3>
                     <div className="space-y-3">
                       <div className="flex justify-between items-center">
                         <span className="text-gray-600 dark:text-gray-400">
-                          Can initiate conversation:
+                          {t('can_initiate_conversation')}:
                         </span>
                         {renderBehaviorStatus(
                           profile.behavior_features?.can_initiate_conversation
@@ -217,7 +218,7 @@ export default function ProfilesPage() {
                       </div>
                       <div className="flex justify-between items-center">
                         <span className="text-gray-600 dark:text-gray-400">
-                          Can express needs:
+                          {t('can_express_needs')}:
                         </span>
                         {renderBehaviorStatus(
                           profile.behavior_features?.can_express_needs
@@ -225,7 +226,7 @@ export default function ProfilesPage() {
                       </div>
                       <div className="flex justify-between items-center">
                         <span className="text-gray-600 dark:text-gray-400">
-                          Has friends/teachers:
+                          {t('has_friends')}:
                         </span>
                         {renderBehaviorStatus(
                           profile.behavior_features?.has_friends
@@ -233,7 +234,7 @@ export default function ProfilesPage() {
                       </div>
                       <div className="flex justify-between items-center">
                         <span className="text-gray-600 dark:text-gray-400">
-                          Has self-stimulatory behaviors:
+                          {t('has_self_stimulation')}:
                         </span>
                         {renderBehaviorStatus(
                           profile.behavior_features?.has_self_stimulation
@@ -241,7 +242,7 @@ export default function ProfilesPage() {
                       </div>
                       <div className="flex justify-between items-center">
                         <span className="text-gray-600 dark:text-gray-400">
-                          Attending school:
+                          {t('attending_school')}:
                         </span>
                         {renderBehaviorStatus(
                           profile.behavior_features?.is_in_school
@@ -249,7 +250,7 @@ export default function ProfilesPage() {
                       </div>
                       <div className="flex justify-between items-center">
                         <span className="text-gray-600 dark:text-gray-400">
-                          Can perform daily tasks:
+                          {t('can_perform_daily_tasks')}:
                         </span>
                         {renderBehaviorStatus(
                           profile.behavior_features?.can_perform_daily_tasks
@@ -262,35 +263,35 @@ export default function ProfilesPage() {
                 <div className="space-y-6">
                   <div>
                     <h3 className="text-lg font-medium mb-4">
-                      Sensory & Environmental Responses
+                    {t('sensory_response')}
                     </h3>
                     <div className="space-y-4">
                       <div>
                         <h4 className="font-medium text-gray-700 dark:text-gray-300 mb-2">
-                          Special Reactions
+                          {t('special_reactions')}
                         </h4>
                         <p className="text-gray-600 dark:text-gray-400">
                           {profile.sensory_preferences?.sensory_response ||
-                            "No information provided"}
+                            t('no_info')}
                         </p>
                       </div>
                       <div>
                         <h4 className="font-medium text-gray-700 dark:text-gray-300 mb-2">
-                          Special Interests
+                          {t('special_interests')}
                         </h4>
                         <p className="text-gray-600 dark:text-gray-400">
                           {profile.sensory_preferences?.special_interests ||
-                            "No information provided"}
+                            t('no_info')}
                         </p>
                       </div>
                       <div>
                         <h4 className="font-medium text-gray-700 dark:text-gray-300 mb-2">
-                          Environmental Response
+                          {t('environmental_response')}
                         </h4>
                         <p className="text-gray-600 dark:text-gray-400">
                           {profile.sensory_preferences
                             ?.environmental_response ||
-                            "No information provided"}
+                            t('no_info')}
                         </p>
                       </div>
                     </div>
@@ -301,7 +302,7 @@ export default function ProfilesPage() {
 
             <div className="flex justify-end">
               <Button asChild className="hidden sm:inline-block">
-                <Link href="/scenarios">Create Communication Scenarios</Link>
+                <Link href="/scenarios">{t('create_scenarios')}</Link>
               </Button>
             </div>
           </div>

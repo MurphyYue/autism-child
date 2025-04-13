@@ -1,5 +1,7 @@
 'use client';
 
+import { useToast } from '@/hooks/use-toast';
+import { supabase } from '@/lib/supabase';
 import {
   AlertDialog,
   AlertDialogAction,
@@ -10,18 +12,15 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from '@/components/ui/alert-dialog';
-import { useToast } from '@/hooks/use-toast';
-import { supabase } from '@/lib/supabase';
-
-interface Profile {
-  id: string;
-  name: string;
-}
+import { useTranslations } from 'next-intl';
 
 interface DeleteProfileDialogProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
-  profile: Profile;
+  profile: {
+    id: string;
+    name: string;
+  };
   onSuccess: () => void;
 }
 
@@ -32,6 +31,7 @@ export default function DeleteProfileDialog({
   onSuccess,
 }: DeleteProfileDialogProps) {
   const { toast } = useToast();
+  const t = useTranslations('Profile');
 
   const handleDelete = async () => {
     try {
@@ -45,7 +45,7 @@ export default function DeleteProfileDialog({
       onSuccess();
     } catch (error: any) {
       toast({
-        title: 'Error',
+        title: t('error'),
         description: error.message,
         variant: 'destructive',
       });
@@ -56,15 +56,14 @@ export default function DeleteProfileDialog({
     <AlertDialog open={open} onOpenChange={onOpenChange}>
       <AlertDialogContent>
         <AlertDialogHeader>
-          <AlertDialogTitle>Delete Profile</AlertDialogTitle>
+          <AlertDialogTitle>{t('delete_dialog_title')}</AlertDialogTitle>
           <AlertDialogDescription>
-            Are you sure you want to delete {profile.name}'s profile? This action
-            cannot be undone.
+            {t('delete_dialog_description', { name: profile.name })}
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
-          <AlertDialogCancel>Cancel</AlertDialogCancel>
-          <AlertDialogAction onClick={handleDelete}>Delete</AlertDialogAction>
+          <AlertDialogCancel>{t('cancel')}</AlertDialogCancel>
+          <AlertDialogAction onClick={handleDelete}>{t('delete')}</AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>
