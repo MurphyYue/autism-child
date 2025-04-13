@@ -8,8 +8,9 @@ import { useAuth } from '@/components/auth-provider';
 import { Button } from '@/components/ui/button';
 import { LogOut } from 'lucide-react';
 import LocaleSwitcher from '@/components/locale-switcher';
-import { Menu } from 'lucide-react'; // Add this import at the top
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"; // Add this import
+import { Menu } from 'lucide-react'; 
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"; 
+import Image from 'next/image';
 
 export function Navbar() {
   const pathname = usePathname();
@@ -91,7 +92,14 @@ export function Navbar() {
     <nav className="sticky top-0 z-50 border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container flex h-14 items-center justify-between">
         <Link href="/" className="flex items-center space-x-2">
-          <span className="font-bold">logo</span>
+          <Image
+            src="/images/logo.png"
+            alt="Autism Child Logo"
+            width={40}
+            height={40}
+            className="w-auto h-8 md:h-10 ml-2 rounded-full"
+             priority
+          />
         </Link>
 
         {/* Desktop Navigation */}

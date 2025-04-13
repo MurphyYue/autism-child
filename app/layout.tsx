@@ -13,6 +13,21 @@ const inter = Inter({ subsets: ["latin"] });
 export const metadata: Metadata = {
   title: "Autism Communication Assistant",
   description: "An app to help parents communicate with children with autism",
+  icons: {
+    icon: [
+      {
+        url: "/images/logo.png",
+        type: "image/png",
+      }
+    ],
+    apple: [
+      {
+        url: "/images/logo.png",
+        type: "image/png",
+        sizes: "180x180"
+      }
+    ]
+  }
 };
 
 export default async function RootLayout({
