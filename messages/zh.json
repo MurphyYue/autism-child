@@ -135,5 +135,13 @@
       "saving": "保存中...",
       "save_changes": "保存更改"
     }
+  },
+  "Navigation": {
+    "home": "首页",
+    "scenarios": "场景",
+    "profiles": "儿童档案",
+    "conversation": "对话",
+    "logout": "退出登录",
+    "login": "登录"
   }
 }

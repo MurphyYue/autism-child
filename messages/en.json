@@ -135,5 +135,13 @@
       "saving": "Saving...",
       "save_changes": "Save Changes"
     }
+  },
+  "Navigation": {
+    "home": "Home",
+    "scenarios": "Scenarios",
+    "profiles": "Profiles",
+    "conversation": "Conversation",
+    "logout": "Logout",
+    "login": "Login"
   }
 }

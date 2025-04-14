@@ -11,10 +11,12 @@ import LocaleSwitcher from '@/components/locale-switcher';
 import { Menu } from 'lucide-react'; 
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"; 
 import Image from 'next/image';
+import { useTranslations } from 'next-intl';
 
 export function Navbar() {
   const pathname = usePathname();
   const { user, signOut } = useAuth();
+  const t = useTranslations('Navigation');
 
   const isActive = (path: string) => {
     return pathname === path;
@@ -30,7 +32,7 @@ export function Navbar() {
         )}
       >
         <Home className="h-4 w-4" />
-        <span>Home</span>
+        <span>{t('home')}</span>
       </Link>
       {user ? (
         <>
@@ -42,7 +44,7 @@ export function Navbar() {
             )}
           >
             <Users className="h-4 w-4" />
-            <span>Profiles</span>
+            <span>{t('profiles')}</span>
           </Link>
           <Link
             href="/scenarios"
@@ -52,7 +54,7 @@ export function Navbar() {
             )}
           >
             <MessageSquare className="h-4 w-4" />
-            <span>Scenarios</span>
+            <span>{t('scenarios')}</span>
           </Link>
           <Link
             href="/chat"
@@ -62,7 +64,7 @@ export function Navbar() {
             )}
           >
             <MessageSquare className="h-4 w-4" />
-            <span>Conversation</span>
+            <span>{t('conversation')}</span>
           </Link>
           <Link
             href="/chat"
@@ -73,14 +75,14 @@ export function Navbar() {
             }}
           >
             <LogOut className="h-4 w-4 mr-2" />
-            <span>Logout</span>
+            <span>{t('logout')}</span>
           </Link>
         </>
       ) : (
         <Button asChild variant="outline" size="sm">
           <Link href="/auth/login" className="flex items-center gap-2">
             <LogIn className="h-4 w-4" />
-            <span>Login</span>
+            <span>{t('login')}</span>
           </Link>
         </Button>
       )}
