@@ -12,6 +12,7 @@ import { supabase } from "@/lib/supabase";
 import CreateScenarioDialog from "@/components/scenarios/create-scenario-dialog";
 import ScenarioList from "@/components/scenarios/scenario-list";
 import AIScenarioChat from "@/components/scenarios/ai-scenario-chat";
+import { useTranslations } from 'next-intl';
 
 interface Profile {
   id: string;
@@ -32,15 +33,16 @@ interface Scenario {
 }
 
 export default function ScenariosPage() {
+  const { user } = useAuth();
+  const { toast } = useToast();
+  const t = useTranslations('Scenarios');
+  const router = useRouter();
   const [profiles, setProfiles] = useState<Profile>({ id: "", name: "" });
   const [scenarios, setScenarios] = useState<Scenario[]>([]);
   const [loading, setLoading] = useState(true);
   const [isCreateOpen, setIsCreateOpen] = useState(false);
   const [isChatOpen, setIsChatOpen] = useState(false);
   const [activeTab, setActiveTab] = useState("list");
-  const { user } = useAuth();
-  const router = useRouter();
-  const { toast } = useToast();
 
   useEffect(() => {
     if (!user) {
@@ -64,7 +66,7 @@ export default function ScenariosPage() {
       setProfiles(data[0] || { id: "", name: "" });
     } catch (error: any) {
       toast({
-        title: "Error",
+        title: t('error'),
         description: error.message,
         variant: "destructive",
       });
@@ -83,7 +85,7 @@ export default function ScenariosPage() {
       setScenarios(data || []);
     } catch (error: any) {
       toast({
-        title: "Error",
+        title: t('error'),
         description: error.message,
         variant: "destructive",
       });
@@ -97,8 +99,8 @@ export default function ScenariosPage() {
     setIsChatOpen(false);
     fetchScenarios();
     toast({
-      title: "Success",
-      description: "Scenario created successfully",
+      title: t('success'),
+      description: t('scenario_created_success'),
     });
   };
 
@@ -106,7 +108,7 @@ export default function ScenariosPage() {
     return (
       <div className="flex-1 bg-gradient-to-b from-blue-50 to-blue-100 dark:from-gray-900 dark:to-gray-800 p-6">
         <div className="max-w-6xl mx-auto">
-          <h1 className="text-3xl font-bold mb-8">Loading scenarios...</h1>
+          <h1 className="text-3xl font-bold mb-8">{t('loading')}</h1>
         </div>
       </div>
     );
@@ -116,16 +118,14 @@ export default function ScenariosPage() {
     <div className="flex-1 bg-gradient-to-b from-blue-50 to-blue-100 dark:from-gray-900 dark:to-gray-800 p-6">
       <div className="max-w-6xl mx-auto">
         <div className="flex justify-between items-center mb-8">
-          <h1 className="text-3xl font-bold hidden sm:inline-block">
-            Structured Scenarios
-          </h1>
+          <h1 className="text-3xl font-bold hidden sm:inline-block">{t('title')}</h1>
           <div className="flex gap-2">
             <Button
               onClick={() => setIsCreateOpen(true)}
               disabled={!profiles?.name}
             >
               <Plus className="w-4 h-4 mr-2" />
-              Add Manually
+              {t('add_manually')}
             </Button>
             <Button
               onClick={() => {
@@ -136,22 +136,18 @@ export default function ScenariosPage() {
               variant="secondary"
             >
               <MessageSquarePlus className="w-4 h-4 mr-2" />
-              AI Assistant
+              {t('ai_assistant')}
             </Button>
           </div>
         </div>
 
         {!profiles?.name ? (
           <Card className="p-6 text-center">
-            <p className="text-gray-600 dark:text-gray-400">
-              Please create a child profile first before adding scenarios.
-            </p>
+            <p className="text-gray-600 dark:text-gray-400">{t('create_profile_first')}</p>
           </Card>
         ) : scenarios.length === 0 ? (
           <Card className="p-6 text-center">
-            <p className="text-gray-600 dark:text-gray-400">
-              No scenarios yet. Click one of the buttons above to create one.
-            </p>
+            <p className="text-gray-600 dark:text-gray-400">{t('no_scenarios_yet')}</p>
           </Card>
         ) : (
           <ScenarioList

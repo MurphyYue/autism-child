@@ -12,6 +12,7 @@ import {
 } from '@/components/ui/alert-dialog';
 import { useToast } from '@/hooks/use-toast';
 import { supabase } from '@/lib/supabase';
+import { useTranslations } from 'next-intl';
 
 interface Scenario {
   id: string;
@@ -39,6 +40,7 @@ export default function DeleteScenarioDialog({
   onSuccess,
 }: DeleteScenarioDialogProps) {
   const { toast } = useToast();
+  const t = useTranslations('Scenarios');
   const handleDelete = async () => {
     // check if the row is existing
     const { data, error: fetchError } = await supabase
@@ -75,10 +77,9 @@ export default function DeleteScenarioDialog({
     <AlertDialog open={open} onOpenChange={onOpenChange}>
       <AlertDialogContent>
         <AlertDialogHeader>
-          <AlertDialogTitle>Delete Scenario</AlertDialogTitle>
+          <AlertDialogTitle>{t('delete_dialog_title')}</AlertDialogTitle>
           <AlertDialogDescription>
-            Are you sure you want to delete the scenario "{scenario.title}"? This action
-            cannot be undone.
+            {t('delete_dialog_description', { name: scenario.title })}
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>

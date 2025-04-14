@@ -9,6 +9,7 @@ import { useToast } from "@/hooks/use-toast";
 import { Send, Bot } from "lucide-react";
 import ReactMarkdown from "react-markdown";
 import TextareaAutosize from "react-textarea-autosize";
+import { useTranslations } from 'next-intl';
 import {
   Dialog,
   DialogContent,
@@ -51,8 +52,11 @@ export default function AIScenarioChat({
   open,
   onOpenChange,
 }: AIScenarioChatProps) {
+  const t = useTranslations('Scenarios.chat');
   const [selectedProfile, setSelectedProfile] = useState(profile);
-  const [messages, setMessages] = useState<Message[]>([]);
+  const [messages, setMessages] = useState<Message[]>([
+    { role: "assistant", content: t('welcome_message') }
+  ]);
   const [conversationId, setConversationId] = useState<string>();
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
@@ -68,7 +72,14 @@ export default function AIScenarioChat({
   };
 
   const handleSend = async () => {
-    if (!input.trim() || !selectedProfile) return;
+    if (!input.trim() || !selectedProfile) {
+      toast({
+        title: t('error'),
+        description: t('empty_message'),
+        variant: "destructive",
+      });
+      return;
+    }
 
     try {
       setLoading(true);
@@ -96,8 +107,8 @@ export default function AIScenarioChat({
     } catch (error: any) {
       console.log(error);
       toast({
-        title: "Error",
-        description: error.message,
+        title: t('error'),
+        description: t('error_message'),
         variant: "destructive",
       });
     } finally {
@@ -121,10 +132,18 @@ export default function AIScenarioChat({
 
       if (error) throw error;
       setMessages([]);
-
+      toast({
+        title: t('success'),
+        description: t('save_success'),
+      });
       onScenarioCreated();
+      onOpenChange(false);
     } catch (error) {
-      // error handling
+      toast({
+        title: t('error'),
+        description: t('save_error'),
+        variant: "destructive",
+      });
     } finally {
       setLoading(false);
     }
@@ -141,7 +160,7 @@ export default function AIScenarioChat({
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-[425px] md:max-w-[725px]">
         <DialogHeader>
-          <DialogTitle>AI Assistant</DialogTitle>
+          <DialogTitle>{t('title')}</DialogTitle>
         </DialogHeader>
         <Card className="flex flex-col h-[86vh] sm:h-[50vh]">
           <div className="p-4 border-b">
@@ -166,7 +185,7 @@ export default function AIScenarioChat({
                   {message.role === "assistant" && (
                     <div className="flex items-center gap-2 mb-2">
                       <Bot className="w-4 h-4" />
-                      <span className="text-sm font-medium">AI Assistant</span>
+                      <span className="text-sm font-medium">{t('title')}</span>
                     </div>
                   )}
                   {message.completed ? (
@@ -174,30 +193,32 @@ export default function AIScenarioChat({
                       <div key={index} className="prose dark:prose-invert">
                         {typeof message.content === "object" &&
                           "time" in message.content && (
-                            <div>time: {message.content.time}</div>
+                            <div>{t('scenario_time')}: {message.content.time}</div>
                           )}
                         {typeof message.content === "object" &&
                           "location" in message.content && (
-                            <div>location: {message.content.location}</div>
+                            <div>{t('scenario_location')}: {message.content.location}</div>
                           )}
                         {typeof message.content === "object" &&
                           "participant" in message.content && (
-                            <div>participant: {message.content.participant}</div>
+                            <div>{t('scenario_participant')}: {message.content.participant}</div>
                           )}
                         {typeof message.content === "object" &&
                           "child_behavior" in message.content && (
                             <div>
-                              child behavior: {message.content.child_behavior}
+                              {t('scenario_child_behavior')}: {message.content.child_behavior}
                             </div>
                           )}
                         {typeof message.content === "object" &&
                           "trigger_event" in message.content && (
                             <div>
-                              trigger event: {message.content.trigger_event}
+                              {t('scenario_trigger_event')}: {message.content.trigger_event}
                             </div>
                           )}
                       </div>
-                      <Button className="mt-2" onClick={() => handleSubmit(message.content as Scenario)}>Create Scenario</Button>
+                      <Button className="mt-2" onClick={() => handleSubmit(message.content as Scenario)}>
+                        {t('save_scenario')}
+                      </Button>
                     </>
                   ) : (
                     <ReactMarkdown className="prose dark:prose-invert">
@@ -215,7 +236,7 @@ export default function AIScenarioChat({
                   <div className="flex items-center gap-2 mb-2">
                     <Bot className="w-4 h-4 animate-pulse" />
                     <span className="text-sm font-medium">
-                      Assistant is thinking
+                      {t('generating')}
                     </span>
                   </div>
                   <div className="flex gap-1">
@@ -244,13 +265,14 @@ export default function AIScenarioChat({
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 onKeyPress={handleKeyPress}
-                placeholder="Describe the scenario..."
+                placeholder={t('placeholder')}
                 className="flex-1 min-h-[40px] max-h-[200px] px-3 py-2 rounded-md border bg-background resize-none"
                 disabled={!selectedProfile || loading}
               />
               <Button
                 onClick={handleSend}
                 disabled={!selectedProfile || !input.trim() || loading}
+                title={t('send')}
               >
                 <Send className="w-4 h-4" />
               </Button>

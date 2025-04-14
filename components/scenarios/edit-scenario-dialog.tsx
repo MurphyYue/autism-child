@@ -9,6 +9,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { useToast } from '@/hooks/use-toast';
 import { supabase } from '@/lib/supabase';
+import { useTranslations } from 'next-intl';
 
 interface Profile {
   id: string;
@@ -47,6 +48,8 @@ export default function EditScenarioDialog({
   const [triggerEvent, setTriggerEvent] = useState('');
   const [loading, setLoading] = useState(false);
   const { toast } = useToast();
+  const t = useTranslations('Scenarios');
+  const t2 = useTranslations('Scenarios.create');
 
   useEffect(() => {
     setTime(scenario.time || '');
@@ -110,11 +113,11 @@ export default function EditScenarioDialog({
         </DialogHeader>
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="space-y-2">
-            <Label htmlFor="profile">Child Profile: {profile.name}</Label>
+            <Label htmlFor="profile">{t2('child_profile')}: {profile.name}</Label>
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="time">Time</Label>
+            <Label htmlFor="time">{t('scenario_time')}</Label>
             <Input
               id="time"
               value={time}
@@ -124,7 +127,7 @@ export default function EditScenarioDialog({
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="location">Location</Label>
+            <Label htmlFor="location">{t('scenario_location')}</Label>
             <Input
               id="location"
               value={location}
@@ -134,7 +137,7 @@ export default function EditScenarioDialog({
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="participant">Participant</Label>
+            <Label htmlFor="participant">{t('scenario_participant')}</Label>
             <Input
               id="participant"
               value={participant}
@@ -145,7 +148,7 @@ export default function EditScenarioDialog({
 
           <div className="space-y-2">
             <Label htmlFor="childBehavior">
-              Child Behavior (one per line, format: behavior: description)
+              {t('scenario_child_behavior')}
             </Label>
             <Textarea
               id="childBehavior"
@@ -157,7 +160,7 @@ export default function EditScenarioDialog({
 
           <div className="space-y-2">
             <Label htmlFor="triggerEvent">
-              Trigger Event (one per line, format: trigger: description)
+              {t('scenario_trigger_event')}
             </Label>
             <Textarea
               id="triggerEvent"
@@ -174,10 +177,10 @@ export default function EditScenarioDialog({
               variant="outline"
               onClick={() => onOpenChange(false)}
             >
-              Cancel
+              {t('cancel')}
             </Button>
             <Button type="submit" disabled={loading}>
-              {loading ? 'Saving...' : 'Save Changes'}
+              {loading ? t2('saving') : t2('save_changes')}
             </Button>
           </div>
         </form>

@@ -88,6 +88,52 @@
     "error": "错误",
     "success": "成功",
     "confirm_delete": "确认删除",
-    "delete_confirm_message": "您确定要删除这个场景吗？此操作无法撤销。"
+    "delete_confirm_message": "您确定要删除这个场景吗？此操作无法撤销。",
+    "add_manually": "手动添加",
+    "ai_assistant": "AI助手",
+    "create_profile_first": "请先创建儿童档案，然后再添加场景。",
+    "no_scenarios_yet": "还没有场景。点击上方按钮创建一个。",
+    "scenario_created_success": "场景创建成功",
+    "delete_scenario_success": "场景删除成功",
+    "delete_dialog_title": "删除场景",
+    "delete_dialog_description": "您确定要删除{name}的场景吗？此操作无法撤销。",
+    "chat": {
+      "title": "AI场景助手",
+      "placeholder": "描述一个沟通场景...",
+      "generating": "生成场景中...",
+      "save_scenario": "保存场景",
+      "discard": "放弃",
+      "welcome_message": "你好！我是你的AI助手。我可以根据你的描述帮助创建沟通场景。请描述一个你需要帮助的情况或场景。",
+      "error_message": "抱歉，生成场景时出现错误。请重试。",
+      "empty_message": "请输入描述以生成场景。",
+      "save_success": "场景保存成功！",
+      "save_error": "保存场景失败。请重试。",
+      "close": "关闭",
+      "send": "发送",
+      "try_again": "重试",
+      "suggestions": {
+        "title": "建议提示：",
+        "morning_routine": "早晨例行程序的困难",
+        "social_interaction": "学校社交互动",
+        "sensory_overload": "处理感官过载",
+        "mealtime": "用餐时的挑战"
+      }
+    },
+    "create": {
+      "title": "创建新场景",
+      "child_profile": "儿童档案",
+      "creating": "创建中...",
+      "create_scenario": "创建场景",
+      "enter_title": "输入标题",
+      "enter_time": "输入时间",
+      "enter_location": "输入地点",
+      "enter_participant": "输入参与者",
+      "enter_behavior": "描述孩子的行为",
+      "enter_trigger": "描述触发事件",
+      "success": "场景创建成功",
+      "error": "创建场景失败",
+      "saving": "保存中...",
+      "save_changes": "保存更改"
+    }
   }
 }
