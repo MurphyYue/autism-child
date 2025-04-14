@@ -1,7 +1,6 @@
 "use client";
 
-import React from "react";
-import { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
@@ -18,15 +17,7 @@ import {
 } from "@/components/ui/dialog";
 import { getScenarioResponse } from "@/lib/dify";
 import { supabase } from "@/lib/supabase";
-
-interface Scenario {
-  title: string;
-  time: string;
-  location: string;
-  participant: string;
-  child_behavior: string;
-  trigger_event: string;
-}
+import { type Scenario } from '@/types/scenario';
 
 interface Profile {
   id: string;

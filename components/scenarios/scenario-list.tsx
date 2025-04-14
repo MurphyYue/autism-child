@@ -7,23 +7,11 @@ import { Pencil, Trash2 } from 'lucide-react';
 import { format } from 'date-fns';
 import EditScenarioDialog from './edit-scenario-dialog';
 import DeleteScenarioDialog from './delete-scenario-dialog';
+import { type Scenario } from '@/types/scenario';
 
 interface Profile {
   id: string;
   name: string;
-}
-
-interface Scenario {
-  id: string;
-  profile_id: string;
-  title: string;
-  time: string;
-  participant: string;
-  location: string;
-  child_behavior: string;
-  trigger_event: string;
-  responses: string;
-  created_at: string;
 }
 
 interface ScenarioListProps {

@@ -13,23 +13,11 @@ import CreateScenarioDialog from "@/components/scenarios/create-scenario-dialog"
 import ScenarioList from "@/components/scenarios/scenario-list";
 import AIScenarioChat from "@/components/scenarios/ai-scenario-chat";
 import { useTranslations } from 'next-intl';
+import { type Scenario } from "@/types/scenario";
 
 interface Profile {
   id: string;
   name: string;
-}
-
-interface Scenario {
-  id: string;
-  profile_id: string;
-  title: string;
-  time: string;
-  participant: string;
-  location: string;
-  child_behavior: string;
-  trigger_event: string;
-  responses: string;
-  created_at: string;
 }
 
 export default function ScenariosPage() {
@@ -51,7 +39,6 @@ export default function ScenariosPage() {
     }
 
     fetchProfiles();
-    fetchScenarios();
   }, [user, router]);
 
   const fetchProfiles = async () => {
@@ -62,8 +49,8 @@ export default function ScenariosPage() {
         .order("name");
 
       if (error) throw error;
-      console.log(data[0]);
       setProfiles(data[0] || { id: "", name: "" });
+      fetchScenarios(data[0].id);
     } catch (error: any) {
       toast({
         title: t('error'),
@@ -73,15 +60,15 @@ export default function ScenariosPage() {
     }
   };
 
-  const fetchScenarios = async () => {
+  const fetchScenarios = async (id: string | undefined = undefined) => {
     try {
       const { data, error } = await supabase
         .from("scenarios")
         .select("*")
-        .order("created_at", { ascending: false });
+        .eq('profile_id', id || profiles.id)
+        .order('created_at', { ascending: false });
 
       if (error) throw error;
-      console.log(data);
       setScenarios(data || []);
     } catch (error: any) {
       toast({
@@ -97,7 +84,7 @@ export default function ScenariosPage() {
   const handleScenarioCreated = () => {
     setIsCreateOpen(false);
     setIsChatOpen(false);
-    fetchScenarios();
+    fetchScenarios(profiles.id);
     toast({
       title: t('success'),
       description: t('scenario_created_success'),

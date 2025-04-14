@@ -13,24 +13,13 @@ import { getStarCatResponse } from '@/lib/dify';
 import { Send, Bot, Brain, ArrowRight } from 'lucide-react';
 import ReactMarkdown from 'react-markdown';
 import TextareaAutosize from 'react-textarea-autosize';
+import { type Scenario } from '@/types/scenario';
 
 interface Profile {
   id: string;
   name: string;
   age?: number;
   behavior_features?: Record<string, any>;
-}
-
-interface Scenario {
-  id: string;
-  profile_id: string;
-  title: string;
-  time: string;
-  participant: string;
-  location: string;
-  child_behavior: string;
-  trigger_event: string;
-  responses: string;
 }
 
 interface Message {
@@ -91,6 +80,7 @@ export default function SimulatedConversationPage() {
       if (error) throw error;
       setProfiles(data || []);
       data[0].id && setSelectedProfile(data[0].id);
+      fetchScenarios(data[0].id);
     } catch (error: any) {
       toast({
         title: 'Error',
@@ -100,16 +90,20 @@ export default function SimulatedConversationPage() {
     }
   };
 
-  const fetchScenarios = async () => {
+  const fetchScenarios = async (id: string | undefined = undefined) => {
     try {
       const { data, error } = await supabase
         .from('scenarios')
-        .select('id, title, time, participant, location, child_behavior, trigger_event, responses, profile_id')
-        .eq('profile_id', selectedProfile)
+        .select('id, title, time, participant, location, child_behavior, trigger_event, profile_id, created_at, updated_at')
+        .eq('profile_id', id || selectedProfile)
         .order('created_at', { ascending: false });
 
       if (error) throw error;
-      setScenarios(data || []);
+      setScenarios(data?.map(item => ({
+        ...item,
+        created_at: item.created_at || '',
+        updated_at: item.updated_at || '',
+      })) || []);
     } catch (error: any) {
       toast({
         title: 'Error',
@@ -174,7 +168,7 @@ export default function SimulatedConversationPage() {
       };
   
       const response = await getStarCatResponse(
-        scenario.responses,
+        '',
         undefined,
         inputMsg
       );

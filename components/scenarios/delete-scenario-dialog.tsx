@@ -13,18 +13,7 @@ import {
 import { useToast } from '@/hooks/use-toast';
 import { supabase } from '@/lib/supabase';
 import { useTranslations } from 'next-intl';
-
-interface Scenario {
-  id: string;
-  profile_id: string;
-  title: string;
-  time: string;
-  participant: string;
-  location: string;
-  child_behavior: string;
-  trigger_event: string;
-  responses: string;
-}
+import { type Scenario } from '@/types/scenario';
 
 interface DeleteScenarioDialogProps {
   open: boolean;

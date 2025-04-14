@@ -10,20 +10,11 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { useToast } from '@/hooks/use-toast';
 import { supabase } from '@/lib/supabase';
 import { useTranslations } from 'next-intl';
+import { type Scenario } from '@/types/scenario';
 
 interface Profile {
   id: string;
   name: string;
-}
-
-interface Scenario {
-  id: string;
-  profile_id: string;
-  time: string;
-  location: string;
-  participant: string;
-  child_behavior: string;
-  trigger_event: string;
 }
 
 interface EditScenarioDialogProps {
