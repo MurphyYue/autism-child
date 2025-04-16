@@ -126,7 +126,7 @@ export default function SimulatedConversationPage() {
     reason: string;
     evaluate: string;
     suggestion: string;
-    answer: string;
+    answer: string[];
   }
   
   // Parse the answers from the response
@@ -139,7 +139,7 @@ export default function SimulatedConversationPage() {
     const childMessage: Message = {
       role: 'assistant',
       content: `**Emotion:** ${childObj.emotion}\n\n**Action:** ${childObj.action}\n\n**Saying:** ${childObj.saying}\n\n**Abnormal:** ${childObj.abnormal === "true" ? "Yes" : "No"}`,
-      suggestedResponses: expertObj.answer.split('\n'),
+      suggestedResponses: expertObj.answer,
     };
   
     const expertMessage: Message = {
@@ -170,7 +170,7 @@ export default function SimulatedConversationPage() {
       };
   
       const response = await getStarCatResponse(
-        '',
+        t('initialize_conversion'),
         undefined,
         inputMsg
       );

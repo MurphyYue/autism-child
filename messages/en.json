@@ -152,6 +152,7 @@
     "child_simulation": "Child Simulation",
     "expert_insight": "Expert Insight",
     "suggested_responses": "Suggested Responses",
-    "child_expert_thinking": "Child&Expert is thinking..."
+    "child_expert_thinking": "Child&Expert is thinking...",
+    "initialize_conversion": "Initializing Conversation(no response from this person)"
   }
 }

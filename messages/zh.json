@@ -152,6 +152,7 @@
     "child_simulation": "儿童模拟",
     "expert_insight": "专家见解",
     "suggested_responses": "建议响应",
-    "child_expert_thinking": "儿童&专家正在思考..."
+    "child_expert_thinking": "儿童&专家正在思考...",
+    "initialize_conversion": "初始化对话(无此人的回复)"
   }
 }
