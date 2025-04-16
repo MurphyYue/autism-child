@@ -143,5 +143,15 @@
     "conversation": "Conversation",
     "logout": "Logout",
     "login": "Login"
+  },
+  "Chat": {
+    "title": "Simulated Conversation",
+    "placeholder": "Type your message or select a suggested response...",
+    "scenario_title": "Select scenario",
+    "scenario_choose": "Choose a scenario",
+    "child_simulation": "Child Simulation",
+    "expert_insight": "Expert Insight",
+    "suggested_responses": "Suggested Responses",
+    "child_expert_thinking": "Child&Expert is thinking..."
   }
 }

@@ -143,5 +143,15 @@
     "conversation": "对话",
     "logout": "退出登录",
     "login": "登录"
+  },
+  "Chat": {
+    "title": "模拟对话",
+    "placeholder": "输入消息或选择建议的响应...",
+    "scenario_title": "选择场景",
+    "scenario_choose": "选择场景",
+    "child_simulation": "儿童模拟",
+    "expert_insight": "专家见解",
+    "suggested_responses": "建议响应",
+    "child_expert_thinking": "儿童&专家正在思考..."
   }
 }

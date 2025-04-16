@@ -14,6 +14,7 @@ import { Send, Bot, Brain, ArrowRight } from 'lucide-react';
 import ReactMarkdown from 'react-markdown';
 import TextareaAutosize from 'react-textarea-autosize';
 import { type Scenario } from '@/types/scenario';
+import { useTranslations } from 'next-intl';
 
 interface Profile {
   id: string;
@@ -41,6 +42,7 @@ export default function SimulatedConversationPage() {
   const { user } = useAuth();
   const router = useRouter();
   const { toast } = useToast();
+  const t = useTranslations('Chat');
 
   useEffect(() => {
     if (!user) {
@@ -249,16 +251,16 @@ export default function SimulatedConversationPage() {
   return (
     <div className="flex-1 bg-gradient-to-b from-blue-50 to-blue-100 dark:from-gray-900 dark:to-gray-800 sm:p-6">
       <div className="max-w-4xl mx-auto h-full">
-        <h1 className="text-3xl font-bold mb-8 hidden sm:inline-block">Simulated Conversation</h1>
+        <h1 className="text-3xl font-bold mb-8 hidden sm:inline-block">{t('title')}</h1>
         
         <Card className="flex flex-col h-full sm:h-[600px]">
           <div className="p-4 border-b space-y-4">
             {selectedProfile && (
               <div>
-                <Label htmlFor="scenario">Select Scenario</Label>
+                <Label htmlFor="scenario">{t('scenario_title')}</Label>
                 <Select value={selectedScenario} onValueChange={setSelectedScenario}>
                   <SelectTrigger>
-                    <SelectValue placeholder="Choose a scenario" />
+                    <SelectValue placeholder={t('scenario_choose')} />
                   </SelectTrigger>
                   <SelectContent>
                     {scenarios.map((scenario) => (
@@ -292,13 +294,13 @@ export default function SimulatedConversationPage() {
                   {message.role === 'assistant' && (
                     <div className="flex items-center gap-2 mb-2">
                       <Bot className="w-4 h-4" />
-                      <span className="text-sm font-medium">Child Simulation</span>
+                      <span className="text-sm font-medium">{t('child_simulation')}</span>
                     </div>
                   )}
                   {message.role === 'expert' && (
                     <div className="flex items-center gap-2 mb-2">
                       <Brain className="w-4 h-4" />
-                      <span className="text-sm font-medium">Expert Insight</span>
+                      <span className="text-sm font-medium">{t('expert_insight')}</span>
                     </div>
                   )}
                   <ReactMarkdown className="prose dark:prose-invert">
@@ -306,7 +308,7 @@ export default function SimulatedConversationPage() {
                   </ReactMarkdown>
                   {message.suggestedResponses && (
                     <div className="mt-3 space-y-2">
-                      <Label htmlFor="suggestedResponses" className='font-bold text-black'>Suggested Responses:</Label>
+                      <Label htmlFor="suggestedResponses" className='font-bold text-black'>{t('suggested_responses')}:</Label>
                       {message.suggestedResponses.map((response, i) => (
                         <div
                           key={i}
@@ -327,7 +329,7 @@ export default function SimulatedConversationPage() {
                 <div className="max-w-[80%] rounded-lg p-3 bg-muted">
                   <div className="flex items-center gap-2 mb-2">
                     <Bot className="w-4 h-4 animate-pulse" />
-                    <span className="text-sm font-medium">Child&Expert is thinking</span>
+                    <span className="text-sm font-medium">{t('child_expert_thinking')}</span>
                   </div>
                   <div className="flex gap-1">
                     <span className="w-2 h-2 rounded-full bg-gray-400 animate-bounce" style={{ animationDelay: '0ms' }} />
