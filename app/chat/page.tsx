@@ -23,6 +23,20 @@ interface Profile {
   behavior_features?: Record<string, any>;
 }
 
+interface ChildResponse {
+  emotion: string;
+  action: string;
+  saying: string;
+  abnormal: string;
+}
+
+interface ExpertResponse {
+  reason: string;
+  evaluate: string;
+  suggestion: string;
+  answer: string[];
+}
+
 interface Message {
   role: 'user' | 'assistant' | 'expert';
   content: string;
@@ -115,26 +129,13 @@ export default function SimulatedConversationPage() {
     }
   };
 
-  interface ChildResponse {
-    emotion: string;
-    action: string;
-    saying: string;
-    abnormal: string;
-  }
-  
-  interface ExpertResponse {
-    reason: string;
-    evaluate: string;
-    suggestion: string;
-    answer: string[];
-  }
+
   
   // Parse the answers from the response
-  const parseResponse = (answerText: string): { childMessage: Message, expertMessage: Message } => {
-    const [childPart, expertPart] = answerText.split('\n\n');
+  const parseResponse = (answerText: { child: ChildResponse, expert: ExpertResponse }): { childMessage: Message, expertMessage: Message } => {
     
-    const childObj: ChildResponse = JSON.parse(childPart.replace('child:', ''));
-    const expertObj: ExpertResponse = JSON.parse(expertPart.replace('expert:', ''));
+    const childObj: ChildResponse = answerText.child;
+    const expertObj: ExpertResponse = answerText.expert;
   
     const childMessage: Message = {
       role: 'assistant',
@@ -176,9 +177,21 @@ export default function SimulatedConversationPage() {
       );
   
       setConversationId(response.conversation_id);
+      let rawAnswer = response.answer;
+      try {
+        // 清理非法空格字符（比如 \u00a0）
+        rawAnswer = rawAnswer.replace(/\u00a0/g, ' ');
       
-      const { childMessage, expertMessage } = parseResponse(response.answer);
-      setMessages([childMessage, expertMessage]);
+        // 反序列化字符串（注意是嵌套字符串）
+        const ans: { child: ChildResponse, expert: ExpertResponse } = JSON.parse(rawAnswer);
+      
+        console.log('✅ 解码成功！', ans);
+      
+        const { childMessage, expertMessage } = parseResponse(ans);
+        setMessages([childMessage, expertMessage]);
+      } catch (err) {
+        console.error('❌ 解析失败：', err);
+      }
   
     } catch (error: any) {
       console.log(error);
@@ -220,9 +233,21 @@ export default function SimulatedConversationPage() {
       };
   
       const response = await getStarCatResponse(messageContent, conversationId, inputMsg);
-      const { childMessage, expertMessage } = parseResponse(response.answer);
-  
-      setMessages(prev => [...prev, childMessage, expertMessage]);
+      let rawAnswer = response.answer;
+      try {
+        // 清理非法空格字符（比如 \u00a0）
+        rawAnswer = rawAnswer.replace(/\u00a0/g, ' ');
+      
+        // 反序列化字符串（注意是嵌套字符串）
+        const ans: { child: ChildResponse, expert: ExpertResponse } = JSON.parse(rawAnswer);
+      
+        console.log('✅ 解码成功！', ans);
+      
+        const { childMessage, expertMessage } = parseResponse(ans);
+        setMessages(prev => [...prev, childMessage, expertMessage]);
+      } catch (err) {
+        console.error('❌ 解析失败：', err);
+      }
   
     } catch (error: any) {
       toast({
