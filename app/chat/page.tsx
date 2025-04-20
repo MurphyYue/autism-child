@@ -149,16 +149,16 @@ export default function SimulatedConversationPage() {
 
     const childMessage: Message = {
       role: "assistant",
-      content: `**Emotion:** ${childObj.emotion}\n\n**Action:** ${
+      content: `**${t("emotion")}:** ${childObj.emotion}\n\n**${t("action")}:** ${
         childObj.action
-      }\n\n**Saying:** ${childObj.saying}\n\n**Abnormal:** ${
+      }\n\n**${t("saying")}:** ${childObj.saying}\n\n**${t("abnormal")}:** ${
         childObj.abnormal === "true" ? "Yes" : "No"
       }`,
     };
 
     const expertMessage: Message = {
       role: "expert",
-      content: `**Reason:** ${expertObj.reason}\n\n**Evaluation:** ${expertObj.evaluate}\n\n**Suggestion:** ${expertObj.suggestion}`,
+      content: `**${t("reason")}:** ${expertObj.reason}\n\n**${t("evaluate")}:** ${expertObj.evaluate}\n\n**${t("suggestion")}:** ${expertObj.suggestion}`,
       suggestedResponses: expertObj.answer.split("\\n").map((s) => s.trim()),
     };
 
@@ -587,14 +587,14 @@ export default function SimulatedConversationPage() {
                     <div className="mt-3 space-y-2">
                       <Label
                         htmlFor="suggestedResponses"
-                        className="font-bold text-black"
+                        className="font-bold text-black dark:text-white"
                       >
                         {t("suggested_responses")}:
                       </Label>
                       {message.suggestedResponses.map((response, i) => (
                         <div
                           key={i}
-                          className="flex items-center p-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-800 cursor-pointer transition-colors bg-white"
+                          className="flex items-center p-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-800 cursor-pointer transition-colors bg-white dark:bg-gray-800 dark:text-white"
                           onClick={() => handleSend(response)}
                         >
                           <span className="flex-1">{response}</span>

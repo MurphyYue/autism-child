@@ -153,6 +153,13 @@
     "expert_insight": "Expert Insight",
     "suggested_responses": "Suggested Responses",
     "child_expert_thinking": "Child&Expert is thinking...",
-    "initialize_conversion": "Initializing Conversation(no response from this person)"
+    "initialize_conversion": "Initializing Conversation(no response from this person)",
+    "saying": "Speaking",
+    "abnormal": "Abnormal",
+    "emotion": "Emotion",
+    "action": "Action",
+    "reason": "Reason",
+    "evaluate": "Evaluation",
+    "suggestion": "Suggestion"
   }
 }
