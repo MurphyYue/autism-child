@@ -161,5 +161,18 @@
     "reason": "Reason",
     "evaluate": "Evaluation",
     "suggestion": "Suggestion"
+  },
+  "Login": {
+    "title": "Login",
+    "email": "Email",
+    "password": "Password",
+    "login": "Login",
+    "logging_in": "Logging in...",
+    "no_account": "Don't have an account?",
+    "have_account": "Already have an account?",
+    "register": "Register",
+    "choose_password": "Choose a password",
+    "enter_email": "Enter your email",
+    "enter_password": "Enter your password"
   }
 }

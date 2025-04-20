@@ -146,7 +146,7 @@
   },
   "Chat": {
     "title": "模拟对话",
-    "placeholder": "输入消息或选择建议的响应...",
+    "placeholder": "输入回复或选择建议的回复...",
     "scenario_title": "选择场景",
     "scenario_choose": "选择场景",
     "child_simulation": "儿童模拟",
@@ -161,5 +161,18 @@
     "reason": "原因",
     "evaluate": "评估",
     "suggestion": "建议"
+  },
+  "Login": {
+    "title": "登录",
+    "email": "邮箱",
+    "password": "密码",
+    "login": "登录",
+    "logging_in": "登录中...",
+    "no_account": "没有账号？",
+    "have_account": "已经有账号了？",
+    "register": "注册",
+    "choose_password": "选择密码",
+    "enter_email": "输入邮箱",
+    "enter_password": "输入密码"
   }
 }

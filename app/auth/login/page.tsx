@@ -9,6 +9,7 @@ import { Label } from '@/components/ui/label';
 import { useToast } from '@/hooks/use-toast';
 import { supabase } from '@/lib/supabase';
 import Link from 'next/link';
+import { useTranslations } from "next-intl";
 
 export default function LoginPage() {
   const [email, setEmail] = useState('');
@@ -16,6 +17,7 @@ export default function LoginPage() {
   const [loading, setLoading] = useState(false);
   const router = useRouter();
   const { toast } = useToast();
+  const t = useTranslations("Login");
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -49,38 +51,38 @@ export default function LoginPage() {
   return (
     <div className="flex-1 flex items-center justify-center min-h-screen bg-gradient-to-b from-blue-50 to-blue-100 dark:from-gray-900 dark:to-gray-800 p-6">
       <Card className="w-full max-w-md p-8 mx-auto">
-        <h1 className="text-2xl font-bold text-center mb-8">Login</h1>
+        <h1 className="text-2xl font-bold text-center mb-8">{t("title")}</h1>
         <form onSubmit={handleLogin} className="space-y-6">
           <div className="space-y-2">
-            <Label htmlFor="email">Email</Label>
+            <Label htmlFor="email">{t("email")}</Label>
             <Input
               id="email"
               type="email"
-              placeholder="Enter your email"
+              placeholder={t("enter_email")}
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
             />
           </div>
           <div className="space-y-2">
-            <Label htmlFor="password">Password</Label>
+            <Label htmlFor="password">{t("password")}</Label>
             <Input
               id="password"
               type="password"
-              placeholder="Enter your password"
+              placeholder={t("enter_password")}
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
             />
           </div>
           <Button type="submit" className="w-full" disabled={loading}>
-            {loading ? 'Logging in...' : 'Login'}
+            {loading ? t("logging_in") : t("login")}
           </Button>
         </form>
         <p className="text-center mt-4 text-sm text-gray-600 dark:text-gray-400">
-          Don't have an account?{' '}
+          {t("no_account")}
           <Link href="/auth/register" className="text-primary hover:underline">
-            Register
+            {t("register")}
           </Link>
         </p>
       </Card>

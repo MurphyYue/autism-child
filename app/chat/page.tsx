@@ -641,7 +641,7 @@ export default function SimulatedConversationPage() {
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 onKeyPress={handleKeyPress}
-                placeholder="Type your message or select a suggested response..."
+                placeholder={t("placeholder")}
                 className="flex-1 min-h-[40px] max-h-[200px] px-3 py-2 rounded-md border bg-background resize-none"
                 disabled={!selectedProfile || !selectedScenario || loading}
               />

@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Home, Users, MessageSquare, LogIn } from 'lucide-react';
+import { Home, Users, MessageSquareDot, MessagesSquare, LogIn } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useAuth } from '@/components/auth-provider';
 import { Button } from '@/components/ui/button';
@@ -53,7 +53,7 @@ export function Navbar() {
               isActive('/scenarios') ? 'text-primary' : 'text-muted-foreground'
             )}
           >
-            <MessageSquare className="h-4 w-4" />
+            <MessageSquareDot className="h-4 w-4" />
             <span>{t('scenarios')}</span>
           </Link>
           <Link
@@ -63,12 +63,10 @@ export function Navbar() {
               isActive('/chat') ? 'text-primary' : 'text-muted-foreground'
             )}
           >
-            <MessageSquare className="h-4 w-4" />
+            <MessagesSquare className="h-4 w-4" />
             <span>{t('conversation')}</span>
           </Link>
-          <Link
-            href="/chat"
-            className="flex items-center gap-2 text-sm font-medium transition-colors hover:text-primary text-muted-foreground"
+          <Button
             onClick={async () => {
               await signOut();
               window.location.href = '/auth/login';
@@ -76,17 +74,17 @@ export function Navbar() {
           >
             <LogOut className="h-4 w-4 mr-2" />
             <span>{t('logout')}</span>
-          </Link>
+          </Button>
         </>
       ) : (
-        <Button asChild variant="outline" size="sm">
+        <Button asChild size="sm">
           <Link href="/auth/login" className="flex items-center gap-2">
             <LogIn className="h-4 w-4" />
             <span>{t('login')}</span>
           </Link>
         </Button>
       )}
-      <LocaleSwitcher />
+      {/* <LocaleSwitcher /> */}
     </>
   );
 
