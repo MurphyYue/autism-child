@@ -527,7 +527,7 @@ export default function SimulatedConversationPage() {
           <div className="p-4 border-b space-y-4">
             {selectedProfile && (
               <div>
-                <Label htmlFor="scenario">{t("scenario_title")}</Label>
+                {/* <Label htmlFor="scenario">{t("scenario_title")}</Label> */}
                 <Select
                   value={selectedScenario}
                   onValueChange={setSelectedScenario}

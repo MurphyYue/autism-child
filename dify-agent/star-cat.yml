@@ -1,0 +1,858 @@
+app:
+  description: ''
+  icon: baby
+  icon_background: '#FFEAD5'
+  mode: advanced-chat
+  name: star-cat
+  use_icon_as_answer_icon: false
+dependencies:
+- current_identifier: null
+  type: marketplace
+  value:
+    marketplace_plugin_unique_identifier: langgenius/openai:0.0.12@604c1a752a92633a354dc7eea717248314f23bab66a9ce48d33b1c57a0f9463e
+kind: app
+version: 0.1.5
+workflow:
+  conversation_variables:
+  - description: 行为偏好
+    id: f406b511-79ec-4c0f-a701-a1e0aaed7555
+    name: behavior_preference
+    selector:
+    - conversation
+    - behavior_preference
+    value: ''
+    value_type: string
+  - description: 家长上一轮的回复
+    id: 6a6ac1f5-7afe-458c-a094-8c12eebae223
+    name: pre_parent_response
+    selector:
+    - conversation
+    - pre_parent_response
+    value: ''
+    value_type: string
+  - description: 自闭症儿童模拟器上一轮的反应
+    id: 672d696b-1169-4e43-8905-9b115f3a6494
+    name: pre_autism
+    selector:
+    - conversation
+    - pre_autism
+    value: ''
+    value_type: string
+  environment_variables: []
+  features:
+    file_upload:
+      allowed_file_extensions:
+      - .JPG
+      - .JPEG
+      - .PNG
+      - .GIF
+      - .WEBP
+      - .SVG
+      allowed_file_types:
+      - image
+      allowed_file_upload_methods:
+      - local_file
+      - remote_url
+      enabled: false
+      fileUploadConfig:
+        audio_file_size_limit: 50
+        batch_count_limit: 5
+        file_size_limit: 15
+        image_file_size_limit: 10
+        video_file_size_limit: 100
+        workflow_file_upload_limit: 10
+      image:
+        enabled: false
+        number_limits: 3
+        transfer_methods:
+        - local_file
+        - remote_url
+      number_limits: 3
+    opening_statement: ''
+    retriever_resource:
+      enabled: true
+    sensitive_word_avoidance:
+      enabled: false
+    speech_to_text:
+      enabled: false
+    suggested_questions: []
+    suggested_questions_after_answer:
+      enabled: false
+    text_to_speech:
+      enabled: false
+      language: ''
+      voice: ''
+  graph:
+    edges:
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: parameter-extractor
+        targetType: llm
+      id: 1743998956331-source-1744006701480-target
+      selected: false
+      source: '1743998956331'
+      sourceHandle: source
+      target: '1744006701480'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: start
+        targetType: llm
+      id: 1739195662030-source-1743995553111-target
+      selected: false
+      source: '1739195662030'
+      sourceHandle: source
+      target: '1743995553111'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: llm
+        targetType: llm
+      id: 1743995553111-source-1744009031333-target
+      selected: false
+      source: '1743995553111'
+      sourceHandle: source
+      target: '1744009031333'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: llm
+        targetType: assigner
+      id: 1744009031333-source-17440091019600-target
+      selected: false
+      source: '1744009031333'
+      sourceHandle: source
+      target: '17440091019600'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: llm
+        targetType: llm
+      id: 1744006988510-source-1744009031333-target
+      selected: false
+      source: '1744006988510'
+      sourceHandle: source
+      target: '1744009031333'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: llm
+        targetType: assigner
+      id: 1744006701480-source-1744014119208-target
+      selected: false
+      source: '1744006701480'
+      sourceHandle: source
+      target: '1744014119208'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: assigner
+        targetType: llm
+      id: 1744014119208-source-1744006988510-target
+      selected: false
+      source: '1744014119208'
+      sourceHandle: source
+      target: '1744006988510'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: start
+        targetType: if-else
+      id: 1739195662030-source-1744014334417-target
+      selected: false
+      source: '1739195662030'
+      sourceHandle: source
+      target: '1744014334417'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: if-else
+        targetType: llm
+      id: 1744014334417-true-1744006988510-target
+      selected: false
+      source: '1744014334417'
+      sourceHandle: 'true'
+      target: '1744006988510'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: if-else
+        targetType: parameter-extractor
+      id: 1744014334417-false-1743998956331-target
+      selected: false
+      source: '1744014334417'
+      sourceHandle: 'false'
+      target: '1743998956331'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: assigner
+        targetType: parameter-extractor
+      id: 17440091019600-source-1744891541929-target
+      source: '17440091019600'
+      sourceHandle: source
+      target: '1744891541929'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: assigner
+        targetType: parameter-extractor
+      id: 17440091019600-source-1744891740994-target
+      source: '17440091019600'
+      sourceHandle: source
+      target: '1744891740994'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: parameter-extractor
+        targetType: answer
+      id: 1744891541929-source-1744891431216-target
+      source: '1744891541929'
+      sourceHandle: source
+      target: '1744891431216'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: parameter-extractor
+        targetType: answer
+      id: 1744891740994-source-1744891431216-target
+      source: '1744891740994'
+      sourceHandle: source
+      target: '1744891431216'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    nodes:
+    - data:
+        desc: ''
+        selected: false
+        title: 开始
+        type: start
+        variables:
+        - label: 发生时间
+          max_length: 256
+          options: []
+          required: true
+          type: text-input
+          variable: time
+        - label: 发生地点
+          max_length: 256
+          options: []
+          required: true
+          type: text-input
+          variable: location
+        - label: 参与者
+          max_length: 256
+          options: []
+          required: true
+          type: text-input
+          variable: participant
+        - label: 孩子的行为
+          max_length: 256
+          options: []
+          required: true
+          type: text-input
+          variable: child_behavior
+        - label: 可能的触发事件
+          max_length: 256
+          options: []
+          required: true
+          type: text-input
+          variable: trigger_event
+        - label: 孩子档案
+          max_length: 4800
+          options:
+          - name
+          - age
+          - behavior_features
+          required: true
+          type: paragraph
+          variable: child_introduction
+      height: 220
+      id: '1739195662030'
+      position:
+        x: 94.60976808259977
+        y: 273.0002761689919
+      positionAbsolute:
+        x: 94.60976808259977
+        y: 273.0002761689919
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
+    - data:
+        context:
+          enabled: false
+          variable_selector: []
+        desc: ''
+        model:
+          completion_params:
+            frequency_penalty: 0.3
+            presence_penalty: 0.2
+            temperature: 0.5
+            top_p: 0.85
+          mode: chat
+          name: gpt-4o-mini
+          provider: langgenius/openai/openai
+        prompt_template:
+        - id: 85c6b8f4-a528-4ac6-abfb-a7507a616212
+          role: system
+          text: "#### **Context（背景）：**\n\n\n- **角色身份：**\n  - **职业：** 儿童心理学家\n  - **专业领域：**\
+            \ 专注于自闭症谱系障碍（ASD），具有丰富的临床评估和行为干预经验\n\n\n- **输入信息：**\n  - **心理学背景：** 提供与自闭症相关的理论知识、研究成果和临床观察\n\
+            \  - **孩子档案：** 包括孩子的基本信息（年龄、性别）、诊断信息、行为特点、兴趣爱好、家庭环境等\n  - **结构化场景：** 特定情境下孩子的行为表现及环境描述，例如家庭用餐时的情境、学校课堂中的互动等\n\
+            \n\n#### **Objective（目标）：**\n\n\n- **主要目标：**\n  - 根据提供的心理学背景、孩子档案和结构化场景，深入分析自闭症儿童的行为及其背后的心理机制\n\
+            \  - 提供科学有效的干预建议，帮助理解和支持自闭症儿童的行为改善\n\n\n- **次要目标：**\n  - 分享成功的干预案例，增强理论与实践的结合\n\
+            \  - 推动自闭症研究的深入，促进临床实践的发展\n\n\n#### **Style（风格）：**\n\n\n- **语言特点：**\n\
+            \  - 使用专业、清晰且简明的语言，适合心理学专业人士和相关从业者阅读\n  - 内容结构严谨，逻辑性强，确保信息传达准确\n\n\n-\
+            \ **格式安排：**\n  - 按照指定内容模块分段，每个部分使用明确的标题\n  - 引用研究或案例时，注明详细出处，确保信息来源可靠\n\
+            \n\n- **语气与态度：**\n  - 保持客观、中立，体现专业精神\n  - 体现对自闭症儿童及其家庭的理解与尊重，避免任何偏见或刻板印象\n\
+            \n\n#### **Task（任务）：**\n\n\n根据输入的{{心理学案例}}、{{孩子档案}}和{{结构化场景}}，提供以下内容：\n\
+            \n\n1. **自闭症心理学原理：**\n   - 分析行为背后的心理机制，如固定性思维模式、感官敏感性、情绪调节困难等\n\n\n2.\
+            \ **具体行为的自闭症特点：**\n   - 反映特定行为特征，如高依赖性、低适应性、重复行为等\n\n\n3. **自闭症儿童的典型反应：**\n\
+            \   - 描述在类似场景中的常见反应，如情绪失控、回避行为等\n\n\n4. **有效干预方法：**\n   - 结合当前情境，提供具体的干预建议，如提前沟通、使用视觉辅助工具、情绪管理策略等\n\
+            \n\n5. **成功干预案例：**\n   - 分享相关的研究案例和实践经验，若有，请附加详细出处\n\n\n#### **Restrictions（限制）：**\n\
+            \n\n- **内容要求：**\n  - 避免使用负面刻板印象或贬低性的描述\n  - 不将自闭症儿童描绘为完全依赖或能力缺失\n  - 确保所有建议和分析基于科学研究和临床实践\n\
+            \n\n- **语言要求：**\n  - 使用尊重且中性的语言，避免带有偏见的词汇\n  - 避免复杂的隐喻、俚语或双关语，确保语言专业且易于理解\n\
+            \n\n- **格式要求：**\n  - 按照指定模块清晰分段，每部分用明确的标题标出\n  - 引用研究时，注明作者、年份和出处，确保信息来源可靠\n\
+            \n\n- **准确性保障：**\n  - 描述需符合最新的自闭症研究和临床指南\n  - 避免一刀切的观点，尊重每个自闭症儿童的独特性和个体差异\n\
+            \n\n---\n\n\n### **示例提示**\n\n\n---\n\n\n**系统提示：** 请根据以下CoSTAR提示模板，以专注于自闭症谱系障碍（ASD）的儿童心理学家的身份，结合提供的{{心理学背景}}、{{孩子档案}}和{{结构化场景}}，回答并提供相关内容。确保回答结构清晰、专业且具针对性，并在必要时附加相关研究出处。\n\
+            \n\n---\n\n\n**任务：**\n\n\n1. **自闭症心理学原理：**\n2. **具体行为的自闭症特点：**\n3. **自闭症儿童的典型反应：**\n\
+            4. **有效干预方法：**\n5. **成功干预案例：**\n\n\n---\n\n\n**Restrictions：** 如上所述。\n\
+            \n\n---\n\n\n### **回答示例**\n\n\n---\n\n\n**自闭症心理学原理：**\n\n\n- **固定性思维模式：**\
+            \ 自闭症儿童常表现出对熟悉事物的高度依赖，任何变化都可能引发认知冲突和焦虑。例如，他们可能对每日例行活动有严格的顺序要求，变化会导致情绪失控。\n\
+            \n\n- **感官敏感性：** 自闭症儿童对感官刺激具有不同程度的敏感性，尤其是视觉和听觉。例如，过于明亮的灯光或突兀的噪音（如切好的牛排的声音）可能引发不适或逃避行为。\n\
+            \n\n- **情绪调节困难：** 面对突发事件或意外情况时，自闭症儿童常缺乏有效的情绪管理能力，导致情绪失控，如大喊、哭泣或退缩。\n\n\
+            \n**具体行为的自闭症特点：**\n\n\n- **高依赖性：** 自闭症儿童在面对新食物时，往往依赖菜单图片中的食物外观作为视觉预期，任何偏差可能导致拒绝进食。\n\
+            \n\n- **低适应性：** 对环境变化的适应能力较差，例如，当餐厅菜单发生调整时，可能会表现出强烈抗拒和不适应。\n\n\n**自闭症儿童的典型反应：**\n\
+            \n\n- **情绪失控：** 在面对不熟悉或突发的变化时，可能会突然情绪失控，大喊或哭泣，表现出明显的情绪波动。\n\n\n- **拒绝行为：**\
+            \ 拒绝食用不符合预期的食物，甚至推开餐具，体现出对食物外观变化的强烈不适应。\n\n\n**有效干预方法：**\n\n\n- **提前沟通：**\
+            \ 在预期食物可能发生变化前，与孩子进行沟通，解释即将变化的内容，帮助他们心理准备。例如，提前展示新的菜单图片，解释食物的不同之处。\n\n\
+            \n- **视觉辅助工具：** 使用视觉卡片或图片引导孩子逐步接受新的食物或环境变化，降低他们的焦虑感。\n\n\n- **情绪管理策略：**\
+            \ 教授孩子简单的情绪调节技巧，如深呼吸、找安静的地方休息，以帮助他们在情绪失控前进行自我调节。\n\n\n**成功干预案例：**\n\n\n\
+            - **研究1：** Brown et al. (2021) 通过提前展示视觉卡片，帮助自闭症儿童减少40%的情绪失控现象。\n\n\n \
+            \ **出处：** Brown, A., *Managing Cognitive Rigidity in ASD Children*, *Journal\
+            \ of Autism Research*, 2021.\n\n\n---\n\n\n### **附加说明**\n\n\n- **个体差异的考虑：**\
+            \ 自闭症谱系障碍涵盖广泛的症状和能力，每个自闭症儿童都有其独特的特点和需求，应避免一概而论。\n\n\n- **专业资源参考：**\n \
+            \ - **教育资源：** 《自闭症谱系障碍的教育策略》—— 探讨在学校环境中支持自闭症儿童的有效方法。\n  - **心理学研究：** 《理解自闭症儿童的心理特征》——\
+            \ 深入分析自闭症儿童的认知和情感特点。\n\n\n- **伦理与尊重：** 在模拟自闭症儿童相关内容时，需保持高度的尊重和同理心，避免任何形式的歧视或贬低。目标是促进理解和支持，而非刻板化或误解。\n\
+            \n\n---\n\n\n通过以上优化后的CoSTAR提示模板，您可以更系统、专业地指导模型生成关于自闭症儿童心理学分析和干预的内容。如需进一步调整或有其他具体需求，请随时告知！"
+        - id: e75cf222-7ba7-4a16-835f-a6d3fb319c23
+          role: user
+          text: '孩子档案：
+
+            {{#1739195662030.child_introduction#}}
+
+            结构化场景:
+
+            发生时间：{{#1739195662030.time#}}
+
+            发生地点：{{#1739195662030.location#}}
+
+            参与人：{{#1739195662030.participant#}}
+
+            孩子的行为：{{#1739195662030.child_behavior#}}
+
+            可能的触发事件：{{#1739195662030.trigger_event#}}
+
+            家长的反应：{{#sys.query#}}
+
+            '
+        retry_config:
+          max_retries: 1
+          retry_enabled: true
+          retry_interval: 1000
+        selected: false
+        title: 心理学检索者
+        type: llm
+        variables: []
+        vision:
+          enabled: false
+      height: 115
+      id: '1743995553111'
+      position:
+        x: 568.2511339947084
+        y: 194.12209229816415
+      positionAbsolute:
+        x: 568.2511339947084
+        y: 194.12209229816415
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
+    - data:
+        desc: ''
+        instruction: 提取{{#1739195662030.child_introduction#}}内容中的 name, age, sex,
+          diagnosis, interest, sensitivity, behaviour 这些参数
+        model:
+          completion_params:
+            frequency_penalty: 0.3
+            presence_penalty: 0.2
+            temperature: 0.5
+            top_p: 0.85
+          mode: chat
+          name: gpt-4o-mini
+          provider: langgenius/openai/openai
+        parameters:
+        - description: 姓名
+          name: name
+          required: false
+          type: string
+        - description: 年龄
+          name: age
+          required: true
+          type: string
+        - description: 性别
+          name: sex
+          required: true
+          type: string
+        - description: 诊断信息
+          name: diagnosis
+          required: false
+          type: string
+        - description: 兴趣爱好
+          name: interest
+          required: true
+          type: string
+        - description: 感官偏好与敏感性
+          name: sensitivity
+          required: false
+          type: string
+        - description: 行为偏好
+          name: behaviour
+          required: false
+          type: string
+        query:
+        - '1739195662030'
+        - child_introduction
+        reasoning_mode: prompt
+        selected: false
+        title: 模拟者-参数提取器
+        type: parameter-extractor
+        variables: []
+        vision:
+          enabled: false
+      height: 90
+      id: '1743998956331'
+      position:
+        x: 749.2113839045041
+        y: 543.2040328023104
+      positionAbsolute:
+        x: 749.2113839045041
+        y: 543.2040328023104
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
+    - data:
+        context:
+          enabled: false
+          variable_selector: []
+        desc: ''
+        model:
+          completion_params:
+            frequency_penalty: 0.3
+            presence_penalty: 0.2
+            temperature: 0.5
+            top_p: 0.85
+          mode: chat
+          name: gpt-4o-mini
+          provider: langgenius/openai/openai
+        prompt_template:
+        - id: 80e7f066-e199-4659-b01d-2d520495f62e
+          role: system
+          text: "你是一名儿童心理学专家，专门研究自闭症儿童行为模式。以下是该孩子的基本信息：\n- **角色信息：**\n  - **姓名：**\
+            \ {{#1743998956331.name#}}\n  - **年龄：**{{#1743998956331.age#}}\n  - **性别：**\
+            \ {{#1743998956331.sex#}}\n  - **诊断：** {{#1743998956331.diagnosis#}}\n\
+            \n- **兴趣与爱好：**\n  - **主要兴趣：** {{#1743998956331.interest#}}\n\n- **感官偏好与敏感性：**\n\
+            \  - **感官敏感性：** {{#1743998956331.sensitivity#}}\n\n- **日常习惯与例行程序：**\n\
+            \  - **行为特点：** {{#1743998956331.behaviour#}}\n\n请基于以上信息，生成一个 JSON 结构，描述该孩子的行为偏好：\n\
+            ```json\n{\n  \"沟通方式\": \"\",\n  \"情绪稳定性\": \"\",\n  \"感官敏感度\": \"\",\n\
+              \"社交偏好\": \"\"\n}\n"
+        selected: false
+        title: 模拟者-行为偏好
+        type: llm
+        variables: []
+        vision:
+          enabled: false
+      height: 90
+      id: '1744006701480'
+      position:
+        x: 1077.985884099414
+        y: 522.4784190171764
+      positionAbsolute:
+        x: 1077.985884099414
+        y: 522.4784190171764
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
+    - data:
+        context:
+          enabled: false
+          variable_selector: []
+        desc: ''
+        memory:
+          query_prompt_template: 孩子家长的反应：{{#sys.query#}}
+          role_prefix:
+            assistant: ''
+            user: ''
+          window:
+            enabled: true
+            size: 50
+        model:
+          completion_params:
+            frequency_penalty: 0.3
+            presence_penalty: 0.2
+            temperature: 0.5
+            top_p: 0.85
+          mode: chat
+          name: gpt-4o-mini
+          provider: langgenius/openai/openai
+        prompt_template:
+        - id: d882cbf7-09b1-41e0-9e80-77169597d8ee
+          role: system
+          text: "你是一个自闭症儿童行为模拟 AI，根据以下信息推测孩子的即时反应：\n- 孩子的行为特征: {{#conversation.behavior_preference#}}\n\
+            - 场景信息（包含：发生时间, 发生地点, 参与者, 孩子的行为, 可能的触发事件, 家长应对方式）: \n发生时间：{{#1739195662030.time#}}\n\
+            发生地点：{{#1739195662030.location#}}\n参与者：{{#1739195662030.participant#}}\n\
+            孩子的行为：{{#1739195662030.child_behavior#}}\n可能得触发事件：{{#1739195662030.trigger_event#}}\n\
+            孩子家长的反应：通过用户（user）的对话中取得\n\n请基于孩子的行为特征和当前场景，输出 模拟出自闭症儿童的当前反应，包括：\n   -\
+            \ emotion: 情绪（字符串）\n   - action: 动作（字符串）\n   - saying: 语言表达（字符串）\n   -\
+            \ abnormal: 是否为异常行为（如果孩子的情绪表现出极端焦虑（如尖叫、自伤），请标记为 `\"异常\": true`，否则标记为 `\"\
+            异常\": false`）\n\n## 请严格以以下 JSON 格式输出，不要添加解释说明：\n```json\n{\n  \"emotion\"\
+            : \"情绪内容\",\n  \"action\": \"动作内容\",\n  \"saying\": \"语言表达内容\",\n  \"\
+            abnormal\":  \"是否异常\"\n}\n"
+        selected: false
+        title: 模拟者-模拟行为
+        type: llm
+        variables: []
+        vision:
+          enabled: false
+      height: 90
+      id: '1744006988510'
+      position:
+        x: 1730.5466882695107
+        y: 462.9601905089264
+      positionAbsolute:
+        x: 1730.5466882695107
+        y: 462.9601905089264
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
+    - data:
+        context:
+          enabled: false
+          variable_selector: []
+        desc: ''
+        memory:
+          query_prompt_template: '{{#sys.query#}}'
+          role_prefix:
+            assistant: ''
+            user: ''
+          window:
+            enabled: true
+            size: 50
+        model:
+          completion_params:
+            frequency_penalty: 0.3
+            presence_penalty: 0.2
+            temperature: 0.5
+            top_p: 0.85
+          mode: chat
+          name: gpt-4o-mini
+          provider: langgenius/openai/openai
+        prompt_template:
+        - id: 86650d83-b5fc-47ff-a7c3-6f688abbad1f
+          role: system
+          text: "你是一个互动观察心理专家，负责基于以下输入分析孩子当前行为的心理学原因，评估家长的应对表现，并提供进一步建议。你的目标是帮助家长理解孩子的行为特点，并优化互动方式。请根据下面的信息做出应答：\n\
+            自闭症儿童的档案信息：\n{{#1739195662030.child_introduction#}}\n结构化场景：\n发生时间：{{#1739195662030.time#}}\n\
+            发生地点：{{#1739195662030.location#}}\n参与者：{{#1739195662030.participant#}}\n\
+            孩子的行为：{{#1739195662030.child_behavior#}}\n可能得触发事件：{{#1739195662030.trigger_event#}}\n\
+            自闭症儿童上一轮的反应：\n{{#conversation.pre_autism#}}\n家长上一轮回复：\n{{#conversation.pre_parent_response#}}\n\
+            模拟当前自闭症儿童的反应\n{{#1744006988510.text#}}\n家长本次给出的应对方式：\n{{#sys.query#}}\n\
+            \n你需要输出的应答内容包括：\n- reason: 行为背后的心理原因（孩子当前行为的心理学分析）\n- evaluate: 评估家长表现（本轮对话家长行为的正面与不足）\n\
+            - suggestion: 针对当前状态的具体指导\n- answer: 三条家长回复选项：\n  - 一条符合常识但不符合自闭症特点。\n\
+            \  - 一条接近家长原始应对方式。\n  - 一条建议的最佳回复。\n\n请严格以以下 JSON 格式输出，不要添加解释说明：\n```json\n\
+            {\n  \"reason\": \"小明的行为体现了典型自闭症儿童的特点：对熟悉事物的高度依赖和对变化的强烈敏感性。。。\",\n  \"\
+            evaluate\": \"上轮家长试图安抚小明并强调“为了你好”，这体现了父母的关爱和理解。。。。没有给予他足够的尊重和回应。\",\n\
+            \  \"suggestion\": \"面对这种情况，家长应避免强调原因，而是专注于孩子的感受和需求。\",\n  \"answer\"\
+            : \"1.别闹了，吃饭是必须的，快吃下去吧.\\n2.爸爸妈妈知道你不喜欢这个菜，但是我们还是要吃饱才能玩乐高积木。\\n3.我知道你看到食物不是菜单上的样子，感觉很失望。我们可以试试其他菜色，你喜欢吃什么？\"\
+            \n}"
+        selected: false
+        title: 互动观察心理专家
+        type: llm
+        variables: []
+        vision:
+          enabled: false
+      height: 90
+      id: '1744009031333'
+      position:
+        x: 2278.8046496759794
+        y: 374.12108687058435
+      positionAbsolute:
+        x: 2278.8046496759794
+        y: 374.12108687058435
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
+    - data:
+        desc: ''
+        items:
+        - input_type: variable
+          operation: over-write
+          value:
+          - '1744006988510'
+          - text
+          variable_selector:
+          - conversation
+          - pre_autism
+          write_mode: over-write
+        - input_type: variable
+          operation: over-write
+          value:
+          - sys
+          - query
+          variable_selector:
+          - conversation
+          - pre_parent_response
+          write_mode: over-write
+        selected: false
+        title: '变量赋值 '
+        type: assigner
+        version: '2'
+      height: 116
+      id: '17440091019600'
+      position:
+        x: 2608.352724134559
+        y: 374.12108687058435
+      positionAbsolute:
+        x: 2608.352724134559
+        y: 374.12108687058435
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
+    - data:
+        desc: ''
+        items:
+        - input_type: variable
+          operation: over-write
+          value:
+          - '1744006701480'
+          - text
+          variable_selector:
+          - conversation
+          - behavior_preference
+          write_mode: over-write
+        selected: false
+        title: 行为偏好赋值
+        type: assigner
+        version: '2'
+      height: 88
+      id: '1744014119208'
+      position:
+        x: 1364.119921832882
+        y: 552.4154167068143
+      positionAbsolute:
+        x: 1364.119921832882
+        y: 552.4154167068143
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
+    - data:
+        cases:
+        - case_id: 'true'
+          conditions:
+          - comparison_operator: not empty
+            id: e85f9d1d-d924-417c-adf6-3e76d18828cb
+            value: 模拟者行为偏好
+            varType: string
+            variable_selector:
+            - conversation
+            - behavior_preference
+          id: 'true'
+          logical_operator: and
+        desc: ''
+        selected: false
+        title: 条件分支
+        type: if-else
+      height: 126
+      id: '1744014334417'
+      position:
+        x: 446.981531382482
+        y: 374.12108687058435
+      positionAbsolute:
+        x: 446.981531382482
+        y: 374.12108687058435
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
+    - data:
+        answer: "{\n  \"child\": {\n    \"emotion\": \"{{#1744891541929.emotion#}}\"\
+          ,\n    \"action\": \"{{#1744891541929.action#}}\",\n    \"saying\": \"{{#1744891541929.saying#}}\"\
+          ,\n    \"abnormal\": \"{{#1744891541929.abnormal#}}\"\n  },\n  \"expert\"\
+          : {\n    \"reason\": \"{{#1744891740994.reason#}}\",\n    \"evaluate\":\
+          \ \"{{#1744891740994.evaluate#}}\",\n    \"suggestion\": \"{{#1744891740994.suggestion#}}\"\
+          ,\n    \"answer\": \"{{#1744891740994.answer#}}\"\n  }\n}"
+        desc: ''
+        selected: true
+        title: 直接回复
+        type: answer
+        variables: []
+      height: 330
+      id: '1744891431216'
+      position:
+        x: 3516.352724134559
+        y: 374.12108687058435
+      positionAbsolute:
+        x: 3516.352724134559
+        y: 374.12108687058435
+      selected: true
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
+    - data:
+        desc: ''
+        instruction: ''
+        model:
+          completion_params:
+            temperature: 0.7
+          mode: chat
+          name: gpt-4o-mini
+          provider: langgenius/openai/openai
+        parameters:
+        - description: emotion
+          name: emotion
+          required: true
+          type: string
+        - description: action
+          name: action
+          required: true
+          type: string
+        - description: saying
+          name: saying
+          required: true
+          type: string
+        - description: abnormal
+          name: abnormal
+          required: true
+          type: string
+        query:
+        - '1744006988510'
+        - text
+        reasoning_mode: prompt
+        selected: false
+        title: 模拟行为参数
+        type: parameter-extractor
+        variables: []
+        vision:
+          enabled: false
+      height: 90
+      id: '1744891541929'
+      position:
+        x: 2900.15363360084
+        y: 322.7594017730537
+      positionAbsolute:
+        x: 2900.15363360084
+        y: 322.7594017730537
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
+    - data:
+        desc: ''
+        model:
+          completion_params:
+            temperature: 0.7
+          mode: chat
+          name: gpt-4o-mini
+          provider: langgenius/openai/openai
+        parameters:
+        - description: reason
+          name: reason
+          required: true
+          type: string
+        - description: evaluate
+          name: evaluate
+          required: true
+          type: string
+        - description: suggestion
+          name: suggestion
+          required: true
+          type: string
+        - description: answer
+          name: answer
+          required: true
+          type: string
+        query:
+        - '1744009031333'
+        - text
+        reasoning_mode: prompt
+        selected: false
+        title: 专家参数提取
+        type: parameter-extractor
+        variables: []
+        vision:
+          enabled: false
+      height: 90
+      id: '1744891740994'
+      position:
+        x: 2900.15363360084
+        y: 451.7594017730537
+      positionAbsolute:
+        x: 2900.15363360084
+        y: 451.7594017730537
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
+    viewport:
+      x: 16.072141049144193
+      y: 236.91827945979352
+      zoom: 0.5251752703707049
