@@ -26,6 +26,7 @@ CREATE TABLE scenarios (
   participant TEXT,
   child_behavior TEXT,
   trigger_event TEXT,
+  parent_response TEXT,
   created_at TIMESTAMPTZ DEFAULT now(),
   updated_at TIMESTAMPTZ DEFAULT now()
 );

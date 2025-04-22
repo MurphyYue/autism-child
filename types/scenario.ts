@@ -7,6 +7,7 @@ export interface Scenario {
   location: string;
   child_behavior: string;
   trigger_event: string;
+  parent_response: string;
   created_at: string;
   updated_at: string;
 }

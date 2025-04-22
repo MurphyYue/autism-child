@@ -119,6 +119,7 @@ export default function AIScenarioChat({
         participant: scenario.participant,
         child_behavior: scenario.child_behavior,
         trigger_event: scenario.trigger_event,
+        parent_response: scenario.parent_response
       });
 
       if (error) throw error;
@@ -204,6 +205,12 @@ export default function AIScenarioChat({
                           "trigger_event" in message.content && (
                             <div>
                               {t('scenario_trigger_event')}: {message.content.trigger_event}
+                            </div>
+                          )}
+                        {typeof message.content === "object" &&
+                          "parent_response" in message.content && (
+                            <div>
+                              {t('scenario_parent_response')}: {message.content.parent_response}
                             </div>
                           )}
                       </div>

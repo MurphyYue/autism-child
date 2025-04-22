@@ -41,6 +41,7 @@ export default function CreateScenarioDialog({
   const [participant, setParticipant] = useState("");
   const [childBehavior, setChildBehavior] = useState("");
   const [triggerEvent, setTriggerEvent] = useState("");
+  const [parentResponse, setParentResponse] = useState("");
   const [loading, setLoading] = useState(false);
   const { toast } = useToast();
 
@@ -57,6 +58,7 @@ export default function CreateScenarioDialog({
         participant,
         child_behavior: childBehavior,
         trigger_event: triggerEvent,
+        parent_response: parentResponse,
       });
 
       if (error) throw error;
@@ -152,6 +154,16 @@ export default function CreateScenarioDialog({
               value={triggerEvent}
               onChange={(e) => setTriggerEvent(e.target.value)}
               placeholder={t('enter_trigger')}
+              rows={3}
+            />
+          </div>
+
+          <div className="space-y-2">
+            <Label>{t2('scenario_parent_response')}</Label>
+            <Textarea
+              value={parentResponse}
+              onChange={(e) => setParentResponse(e.target.value)}
+              placeholder={t('enter_response')}
               rows={3}
             />
           </div>

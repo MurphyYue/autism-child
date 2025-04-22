@@ -117,7 +117,7 @@ export default function SimulatedConversationPage() {
       const { data, error } = await supabase
         .from("scenarios")
         .select(
-          "id, title, time, participant, location, child_behavior, trigger_event, profile_id, created_at, updated_at"
+          "id, title, time, participant, location, child_behavior, trigger_event, parent_response, profile_id, created_at, updated_at"
         )
         .eq("profile_id", id || selectedProfile)
         .order("created_at", { ascending: false });
@@ -128,6 +128,7 @@ export default function SimulatedConversationPage() {
           ...item,
           created_at: item.created_at || "",
           updated_at: item.updated_at || "",
+          parent_response: item.parent_response || "",
         })) || []
       );
     } catch (error: any) {

@@ -37,6 +37,7 @@ export default function EditScenarioDialog({
   const [participant, setParticipant] = useState('');
   const [childBehavior, setChildBehavior] = useState('');
   const [triggerEvent, setTriggerEvent] = useState('');
+  const [parentResponse, setParentResponse] = useState('');
   const [loading, setLoading] = useState(false);
   const { toast } = useToast();
   const t = useTranslations('Scenarios');
@@ -48,6 +49,7 @@ export default function EditScenarioDialog({
     setParticipant(scenario.participant || '');
     setChildBehavior(scenario.child_behavior);
     setTriggerEvent(scenario.trigger_event);
+    setParentResponse(scenario.parent_response);
   }, [scenario]);
 
   const formatJson = (json: Record<string, any>): string => {
@@ -80,6 +82,7 @@ export default function EditScenarioDialog({
           participant,
           child_behavior: childBehavior,
           trigger_event: triggerEvent,
+          parent_response: parentResponse
         })
         .eq('id', scenario.id);
 
@@ -114,6 +117,7 @@ export default function EditScenarioDialog({
               value={time}
               onChange={(e) => setTime(e.target.value)}
               required
+              placeholder={t2('enter_time')}
             />
           </div>
 
@@ -124,6 +128,7 @@ export default function EditScenarioDialog({
               value={location}
               onChange={(e) => setLocation(e.target.value)}
               required
+              placeholder={t2('enter_location')}
             />
           </div>
 
@@ -134,6 +139,7 @@ export default function EditScenarioDialog({
               value={participant}
               onChange={(e) => setParticipant(e.target.value)}
               required
+              placeholder={t2('enter_participant')}
             />
           </div>
 
@@ -146,6 +152,7 @@ export default function EditScenarioDialog({
               value={childBehavior}
               onChange={(e) => setChildBehavior(e.target.value)}
               rows={3}
+              placeholder={t2('enter_behavior')}
             />
           </div>
 
@@ -158,6 +165,20 @@ export default function EditScenarioDialog({
               value={triggerEvent}
               onChange={(e) => setTriggerEvent(e.target.value)}
               rows={3}
+              placeholder={t2('enter_trigger')}
+            />
+          </div>
+
+          <div className="space-y-2">
+            <Label htmlFor="parentResponse">
+              {t('scenario_parent_response')}
+            </Label>
+            <Textarea
+              id="parentResponse"
+              value={parentResponse}
+              onChange={(e) => setParentResponse(e.target.value)}
+              rows={3}
+              placeholder={t2('enter_response')}
             />
           </div>
 
