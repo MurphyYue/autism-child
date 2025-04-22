@@ -186,7 +186,7 @@ export default function SimulatedConversationPage() {
       };
 
       const response = await getStarCatResponse(
-        t("initialize_conversion"),
+        scenario.parent_response,
         undefined,
         inputMsg
       );
