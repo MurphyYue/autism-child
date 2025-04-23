@@ -102,11 +102,11 @@ export default function ScenariosPage() {
   }
 
   return (
-    <div className="flex-1 bg-gradient-to-b from-blue-50 to-blue-100 dark:from-gray-900 dark:to-gray-800 p-6">
+    <div className="flex-1 bg-gradient-to-b from-blue-50 to-blue-100 dark:from-gray-900 dark:to-gray-800 p-6 box-border">
       <div className="max-w-6xl mx-auto">
         <div className="flex justify-between items-center mb-8">
           <h1 className="text-3xl font-bold hidden sm:inline-block">{t('title')}</h1>
-          <div className="flex gap-2">
+          <div className="w-full flex justify-between">
             <Button
               onClick={() => setIsCreateOpen(true)}
               disabled={!profiles?.name}
@@ -120,7 +120,6 @@ export default function ScenariosPage() {
                 setIsChatOpen(true);
               }}
               disabled={!profiles?.name}
-              variant="secondary"
             >
               <MessageSquarePlus className="w-4 h-4 mr-2" />
               {t('ai_assistant')}

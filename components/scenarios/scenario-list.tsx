@@ -54,10 +54,10 @@ export default function ScenarioList({ scenarios, profile, onUpdate }: ScenarioL
   return (
     <div className="space-y-4">
       {scenarios.map((scenario) => (
-        <Card key={scenario.id} className="p-6">
-          <div className="flex justify-between items-start mb-4">
+        <Card key={scenario.id} className="p-4 pb-2">
+          <div className="items-start mb-2">
             <div>
-              <div className="flex items-center gap-2 mb-2">
+              <div className="flex items-center gap-2">
                 <h2 className="text-xl font-semibold">{scenario.title}</h2>
                 <span className="text-sm text-gray-500">
                   ({getProfileName()})
@@ -67,7 +67,7 @@ export default function ScenarioList({ scenarios, profile, onUpdate }: ScenarioL
                 {format(new Date(scenario.created_at), 'PPP')} at {scenario.location}
               </p>
             </div>
-            <div className="flex space-x-2">
+            <div className="flex justify-end">
               <Button
                 variant="ghost"
                 size="icon"
