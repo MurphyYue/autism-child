@@ -30,7 +30,6 @@ export default function ScenariosPage() {
   const [loading, setLoading] = useState(true);
   const [isCreateOpen, setIsCreateOpen] = useState(false);
   const [isChatOpen, setIsChatOpen] = useState(false);
-  const [activeTab, setActiveTab] = useState("list");
 
   useEffect(() => {
     if (!user) {
@@ -106,7 +105,7 @@ export default function ScenariosPage() {
       <div className="max-w-6xl mx-auto">
         <div className="flex justify-between items-center mb-8">
           <h1 className="text-3xl font-bold hidden sm:inline-block">{t('title')}</h1>
-          <div className="w-full flex justify-between">
+          <div className="flex-1 flex justify-between sm:justify-end gap-6">
             <Button
               onClick={() => setIsCreateOpen(true)}
               disabled={!profiles?.name}
@@ -114,12 +113,25 @@ export default function ScenariosPage() {
               <Plus className="w-4 h-4 mr-2" />
               {t('add_manually')}
             </Button>
+            {/* Desktop AI Assistant Button */}
             <Button
               onClick={() => {
-                setActiveTab("chat");
                 setIsChatOpen(true);
               }}
               disabled={!profiles?.name}
+              className="hidden sm:flex"
+            >
+              <MessageSquarePlus className="w-4 h-4 mr-2" />
+              {t('ai_assistant')}
+            </Button>
+            {/* Mobile Chat Navigation Button */}
+            <Button
+              onClick={() => {
+                router.push('/scenarios/chat');
+              }}
+              disabled={!profiles?.name}
+              className="sm:hidden flex"
+              variant="secondary"
             >
               <MessageSquarePlus className="w-4 h-4 mr-2" />
               {t('ai_assistant')}
