@@ -52,22 +52,7 @@ export default function EditScenarioDialog({
     setParentResponse(scenario.parent_response);
   }, [scenario]);
 
-  const formatJson = (json: Record<string, any>): string => {
-    return Object.entries(json)
-      .map(([key, value]) => `${key}: ${value}`)
-      .join('\n');
-  };
 
-  const parseTextToJson = (text: string): Record<string, string> => {
-    const result: Record<string, string> = {};
-    text.split('\n').forEach((line) => {
-      const [key, value] = line.split(':').map((s) => s.trim());
-      if (key && value) {
-        result[key] = value;
-      }
-    });
-    return result;
-  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();

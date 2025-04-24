@@ -45,23 +45,24 @@ export default function EditProfileDialog({
   const [diagnosisAge, setDiagnosisAge] = useState(profile.diagnosis_age?.toString() || '1');
   const [diagnosisSource, setDiagnosisSource] = useState(profile.diagnosis_source || 'non-psychologist');
   const [severity, setSeverity] = useState(profile.severity || 'none');
+  console.log(profile.behavior_features?.can_initiate_conversation?.toString());
   const [canInitiateConversation, setCanInitiateConversation] = useState(
-    profile.behavior_features?.can_initiate_conversation?.toString() || 'no'
+    profile.behavior_features?.can_initiate_conversation
   );
   const [canExpressNeeds, setCanExpressNeeds] = useState(
-    profile.behavior_features?.can_express_needs?.toString() || 'no'
+    profile.behavior_features?.can_express_needs
   );
   const [hasFriends, setHasFriends] = useState(
-    profile.behavior_features?.has_friends?.toString() || 'no'
+    profile.behavior_features?.has_friends
   );
   const [hasSelfStimulation, setHasSelfStimulation] = useState(
-    profile.behavior_features?.has_self_stimulation?.toString() || 'no'
+    profile.behavior_features?.has_self_stimulation
   );
   const [isInSchool, setIsInSchool] = useState(
-    profile.behavior_features?.is_in_school?.toString() || 'no'
+    profile.behavior_features?.is_in_school
   );
   const [canPerformDailyTasks, setCanPerformDailyTasks] = useState(
-    profile.behavior_features?.can_perform_daily_tasks?.toString() || 'no'
+    profile.behavior_features?.can_perform_daily_tasks
   );
   const [sensoryResponse, setSensoryResponse] = useState(
     profile.sensory_preferences?.sensory_response || ''
@@ -88,12 +89,12 @@ export default function EditProfileDialog({
           diagnosis_source: diagnosisSource,
           severity,
           behavior_features: {
-            can_initiate_conversation: canInitiateConversation === 'yes',
-            can_express_needs: canExpressNeeds === 'yes',
-            has_friends: hasFriends === 'yes',
-            has_self_stimulation: hasSelfStimulation === 'yes',
-            is_in_school: isInSchool === 'yes',
-            can_perform_daily_tasks: canPerformDailyTasks === 'yes',
+            can_initiate_conversation: canInitiateConversation,
+            can_express_needs: canExpressNeeds,
+            has_friends: hasFriends,
+            has_self_stimulation: hasSelfStimulation,
+            is_in_school: isInSchool,
+            can_perform_daily_tasks: canPerformDailyTasks,
           },
           sensory_preferences: {
             sensory_response: sensoryResponse,
@@ -220,7 +221,7 @@ export default function EditProfileDialog({
                 </div>
                 <div className="flex items-center space-x-2">
                   <RadioGroupItem value="non-psychologist" id="non-psychologist" />
-                  <Label htmlFor="non-psychologist">{t('non_psychologist')}</Label>
+                  <Label htmlFor="non-psychologist">{t('non-psychologist')}</Label>
                 </div>
               </RadioGroup>
             </div>

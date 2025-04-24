@@ -32,12 +32,12 @@ export default function CreateProfileDialog({
   const [severity, setSeverity] = useState('none');
   
   // Behavior indicators
-  const [canInitiateConversation, setCanInitiateConversation] = useState('yes');
-  const [canExpressNeeds, setCanExpressNeeds] = useState('yes');
-  const [hasFriends, setHasFriends] = useState('yes');
-  const [hasSelfStimulation, setHasSelfStimulation] = useState('yes');
-  const [isInSchool, setIsInSchool] = useState('yes');
-  const [canPerformDailyTasks, setCanPerformDailyTasks] = useState('yes');
+  const [canInitiateConversation, setCanInitiateConversation] = useState('');
+  const [canExpressNeeds, setCanExpressNeeds] = useState('');
+  const [hasFriends, setHasFriends] = useState('');
+  const [hasSelfStimulation, setHasSelfStimulation] = useState('');
+  const [isInSchool, setIsInSchool] = useState('');
+  const [canPerformDailyTasks, setCanPerformDailyTasks] = useState('');
   
   // Sensory responses
   const [sensoryResponse, setSensoryResponse] = useState('');
@@ -55,12 +55,12 @@ export default function CreateProfileDialog({
     setLoading(true);
     try {
       const behaviorFeatures = {
-        can_initiate_conversation: canInitiateConversation === 'yes',
-        can_express_needs: canExpressNeeds === 'yes',
-        has_friends: hasFriends === 'yes',
-        has_self_stimulation: hasSelfStimulation === 'yes',
-        is_in_school: isInSchool === 'yes',
-        can_perform_daily_tasks: canPerformDailyTasks === 'yes',
+        can_initiate_conversation: canInitiateConversation,
+        can_express_needs: canExpressNeeds,
+        has_friends: hasFriends,
+        has_self_stimulation: hasSelfStimulation,
+        is_in_school: isInSchool,
+        can_perform_daily_tasks: canPerformDailyTasks,
       };
 
       const sensoryFeatures = {
@@ -216,7 +216,7 @@ export default function CreateProfileDialog({
                 </div>
                 <div className="flex items-center space-x-2">
                   <RadioGroupItem value="non-psychologist" id="non-psychologist" />
-                  <Label htmlFor="non-psychologist">{t('non_psychologist')}</Label>
+                  <Label htmlFor="non-psychologist">{t('non-psychologist')}</Label>
                 </div>
               </RadioGroup>
             </div>

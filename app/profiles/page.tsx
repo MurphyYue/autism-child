@@ -83,15 +83,15 @@ export default function ProfilesPage() {
     });
   };
 
-  const renderBehaviorStatus = (value: boolean) => (
+  const renderBehaviorStatus = (value: string) => (
     <span
       className={`px-2 py-1 rounded-full text-sm ${
-        value
+        value === 'yes'
           ? "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200"
           : "bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200"
       }`}
     >
-      {value ? "Yes" : "No"}
+      {value === 'yes' ? "Yes" : "No"}
     </span>
   );
 
@@ -114,6 +114,11 @@ export default function ProfilesPage() {
       </span>
     );
   };
+
+  const genDiagnosisSource = (source: string | undefined) => {
+    if (!source) return t('no_info');
+    return t(source);
+  }
 
   if (loading) {
     return (
@@ -191,7 +196,7 @@ export default function ProfilesPage() {
                           {t('diagnosis_source')}:
                         </span>
                         <span className="font-medium">
-                          {profile.diagnosis_source}
+                          {genDiagnosisSource(profile.diagnosis_source)}
                         </span>
                       </div>
                       <div className="flex justify-between items-center">
