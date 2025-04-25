@@ -95,7 +95,7 @@ export function Navbar() {
           <span>{t("login")}</span>
         </div>
       )}
-      {/* <LocaleSwitcher /> */}
+      <LocaleSwitcher />
     </>
   );
 
