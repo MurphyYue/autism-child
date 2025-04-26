@@ -2,20 +2,14 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import {
-  Home,
-  Users,
-  MessageSquareDot,
-  MessagesSquare,
-  LogIn,
-} from "lucide-react";
+import { Home, Users, MessageSquareDot, MessagesSquare } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useAuth } from "@/components/auth-provider";
 import { Button } from "@/components/ui/button";
 import { LogOut } from "lucide-react";
 import LocaleSwitcher from "@/components/locale-switcher";
 import { Menu } from "lucide-react";
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import { Sheet, SheetContent, SheetTrigger, SheetHeader, SheetTitle, SheetDescription } from "@/components/ui/sheet";
 import Image from "next/image";
 import { useTranslations } from "next-intl";
 
@@ -73,7 +67,7 @@ export function Navbar() {
             <span>{t("conversation")}</span>
           </Link>
           <div
-            className="flex items-center gap-2 text-sm font-medium transition-colors hover:text-primary cursor-pointer"
+            className="flex items-center gap-2 text-sm font-medium transition-colors text-muted-foreground hover:text-primary cursor-pointer"
             onClick={async () => {
               await signOut();
               window.location.href = "/auth/login";
@@ -128,6 +122,10 @@ export function Navbar() {
               </Button>
             </SheetTrigger>
             <SheetContent side="right" className="w-64">
+              <SheetHeader>
+                <SheetTitle></SheetTitle>
+                <SheetDescription></SheetDescription>
+              </SheetHeader>
               <div className="flex flex-col gap-4 mt-4">
                 <NavItems />
               </div>

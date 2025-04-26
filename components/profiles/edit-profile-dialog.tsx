@@ -45,7 +45,6 @@ export default function EditProfileDialog({
   const [diagnosisAge, setDiagnosisAge] = useState(profile.diagnosis_age?.toString() || '1');
   const [diagnosisSource, setDiagnosisSource] = useState(profile.diagnosis_source || 'non-psychologist');
   const [severity, setSeverity] = useState(profile.severity || 'none');
-  console.log(profile.behavior_features?.can_initiate_conversation?.toString());
   const [canInitiateConversation, setCanInitiateConversation] = useState(
     profile.behavior_features?.can_initiate_conversation
   );
