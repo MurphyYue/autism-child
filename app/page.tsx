@@ -21,20 +21,20 @@ export default function Home() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mx-auto max-w-4xl">
           <FeatureCard
             icon={<UserPlus className="h-8 w-8" />}
-            title="Profile Management"
-            description="Create and manage detailed profiles for your children"
+            title={t("profle_management")}
+            description={t("profle_management_desc")}
             href="/profiles"
           />
           <FeatureCard
             icon={<Brain className="h-8 w-8" />}
-            title="Structured Scenarios"
-            description="Create and manage structured interaction scenarios"
+            title={t("structured_scenarios")}
+            description={t("structured_scenarios_desc")}
             href="/scenarios"
           />
           <FeatureCard
             icon={<MessageCircle className="h-8 w-8" />}
-            title="Simulated Conversation"
-            description="Practice communication with AI assistance"
+            title={t("conversation_simulation")}
+            description={t("conversation_simulation_desc")}
             href="/chat"
           />
         </div>

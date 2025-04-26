@@ -1,7 +1,13 @@
 {
   "Home": {
     "title": "自闭症沟通助手",
-    "subtitle": "通过人工智能辅助工具和结构化互动，帮助父母更好地与孩子沟通和理解。"
+    "subtitle": "通过人工智能辅助工具和结构化互动，帮助父母更好地与孩子沟通和理解。",
+    "profle_management": "档案管理",
+    "profle_management_desc": "创建和管理孩子的详细档案",
+    "structured_scenarios": "结构化场景",
+    "structured_scenarios_desc": "创建和管理结构化互动场景",
+    "conversation_simulation": "对话模拟",
+    "conversation_simulation_desc": "通过AI辅助练习沟通"
   },
   "LocaleSwitcher": {
     "zh": "中文",

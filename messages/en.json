@@ -1,7 +1,13 @@
 {
   "Home": {
     "title": "Autism Communication Assistant",
-    "subtitle": "Empowering parents to better communicate with and understand their children through AI-assisted tools and structured interactions."
+    "subtitle": "Empowering parents to better communicate with and understand their children through AI-assisted tools and structured interactions.",
+    "profle_management": "Profile Management",
+    "profle_management_desc": "Create and manage detailed profiles for your children",
+    "structured_scenarios": "Structured Scenarios",
+    "structured_scenarios_desc": "Create and manage structured interaction scenarios",
+    "conversation_simulation": "Conversation Simulation",
+    "conversation_simulation_desc": "Practice communication with AI assistance"
   },
   "LocaleSwitcher": {
     "zh": "中文",
