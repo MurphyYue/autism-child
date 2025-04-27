@@ -86,9 +86,9 @@ export default function EditScenarioDialog({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-[425px] md:max-h-[76vh] overflow-y-auto md:max-w-[725px] touch-pan-y dialog-scroll">
+      <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
         <DialogHeader>
-          <DialogTitle>Edit Scenario</DialogTitle>
+          <DialogTitle>{t2("edit_scenario")}</DialogTitle>
         </DialogHeader>
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="space-y-2">
@@ -173,10 +173,11 @@ export default function EditScenarioDialog({
               type="button"
               variant="outline"
               onClick={() => onOpenChange(false)}
+              size="sm"
             >
               {t('cancel')}
             </Button>
-            <Button type="submit" disabled={loading}>
+            <Button type="submit" disabled={loading} size="sm">
               {loading ? t2('saving') : t2('save_changes')}
             </Button>
           </div>

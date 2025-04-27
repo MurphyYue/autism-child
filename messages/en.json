@@ -118,6 +118,7 @@
       "close": "Close",
       "send": "Send",
       "try_again": "Try Again",
+      "back": "back",
       "suggestions": {
         "title": "Suggested prompts:",
         "morning_routine": "Morning routine difficulties",

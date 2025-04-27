@@ -85,7 +85,6 @@
     "scenario_trigger_event": "触发事件",
     "scenario_parent_response": "您的反应",
     "scenario_responses": "反应",
-    "edit_scenario": "编辑场景",
     "delete_scenario": "删除场景",
     "add": "添加",
     "edit": "编辑",
@@ -118,6 +117,7 @@
       "close": "关闭",
       "send": "发送",
       "try_again": "重试",
+      "back": "返回",
       "suggestions": {
         "title": "建议提示：",
         "morning_routine": "早晨例行程序的困难",
@@ -131,6 +131,7 @@
       "child_profile": "儿童档案",
       "creating": "创建中...",
       "create_scenario": "创建场景",
+      "edit_scenario": "修改场景",
       "enter_title": "输入标题",
       "enter_time": "输入时间",
       "enter_location": "输入地点",

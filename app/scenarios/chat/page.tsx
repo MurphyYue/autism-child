@@ -31,6 +31,7 @@ export default function ChatPage() {
   const { toast } = useToast();
   const t = useTranslations("Scenarios");
   const t2 = useTranslations("Scenarios.chat");
+  const t3 = useTranslations("Scenarios.create");
   const router = useRouter();
   const [profile, setProfile] = useState<Profile>({ id: "", name: "" });
   const [messages, setMessages] = useState<Message[]>([
@@ -195,9 +196,9 @@ export default function ChatPage() {
               size="sm"
               onClick={() => router.push("/scenarios")}
             >
-              Back to Scenarios
+              {t2("back")}
             </Button>
-            <Label htmlFor="profile">Child Profile: {profile.name}</Label>
+            <Label htmlFor="profile">{t3("child_profile")}: {profile.name}</Label>
           </div>
 
           <div className="flex-1 overflow-y-auto p-4 space-y-4">

@@ -90,7 +90,7 @@ export default function CreateScenarioDialog({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-[425px] md:max-h-[76vh] overflow-y-auto md:max-w-[725px] touch-pan-y dialog-scroll">
+      <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
         <DialogHeader>
           <DialogTitle>{t('title')}</DialogTitle>
         </DialogHeader>
