@@ -47,6 +47,7 @@ interface Message {
   role: "user" | "assistant" | "expert";
   content: string;
   suggestedResponses?: string[];
+  abnormal?: boolean;
 }
 
 export default function SimulatedConversationPage() {
@@ -152,9 +153,8 @@ export default function SimulatedConversationPage() {
       role: "assistant",
       content: `**${t("emotion")}:** ${childObj.emotion}\n\n**${t("action")}:** ${
         childObj.action
-      }\n\n**${t("saying")}:** ${childObj.saying}\n\n**${t("abnormal")}:** ${
-        childObj.abnormal === "true" ? "Yes" : "No"
-      }`,
+      }\n\n**${t("saying")}:** ${childObj.saying}\n\n`,
+      abnormal: childObj.abnormal === "true"
     };
 
     const expertMessage: Message = {
@@ -584,6 +584,16 @@ export default function SimulatedConversationPage() {
                   <ReactMarkdown className="prose dark:prose-invert">
                     {message.content}
                   </ReactMarkdown>
+                  {message.abnormal && message.role === "assistant" && (
+                    <div className="mt-3 space-y-2">
+                      <div className="text-red-500">{t("abnormal")}</div>
+                    </div>
+                  )}
+                  {!message.abnormal && message.role === "assistant" && (
+                    <div className="mt-3 space-y-2">
+                      <div className="text-green-500">{t("normal")}</div>
+                    </div>
+                  )}
                   {message.suggestedResponses && (
                     <div className="mt-3 space-y-2">
                       <Label

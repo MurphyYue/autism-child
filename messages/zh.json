@@ -165,6 +165,7 @@
     "initialize_conversion": "初始化对话(无此人的回复)",
     "saying": "说话",
     "abnormal": "异常",
+    "normal": "正常",
     "emotion": "情绪",
     "action": "行动",
     "reason": "原因",

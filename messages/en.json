@@ -165,6 +165,7 @@
     "initialize_conversion": "Initializing Conversation(no response from this person)",
     "saying": "Speaking",
     "abnormal": "Abnormal",
+    "normal": "Normal",
     "emotion": "Emotion",
     "action": "Action",
     "reason": "Reason",
