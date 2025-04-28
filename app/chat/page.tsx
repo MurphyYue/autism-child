@@ -60,13 +60,13 @@ export default function SimulatedConversationPage() {
   const [loading, setLoading] = useState(false);
   const [conversationId, setConversationId] = useState<string>();
   const messagesEndRef = useRef<HTMLDivElement>(null);
-  const { user } = useAuth();
+  const { user, userLoading } = useAuth();
   const router = useRouter();
   const { toast } = useToast();
   const t = useTranslations("Chat");
 
   useEffect(() => {
-    if (!user) {
+    if (!user && !userLoading) {
       router.push("/auth/login");
       return;
     }

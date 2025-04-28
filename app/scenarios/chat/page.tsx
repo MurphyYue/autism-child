@@ -27,7 +27,7 @@ interface Message {
 }
 
 export default function ChatPage() {
-  const { user } = useAuth();
+  const { user, userLoading } = useAuth();
   const { toast } = useToast();
   const t = useTranslations("Scenarios");
   const t2 = useTranslations("Scenarios.chat");
@@ -43,7 +43,7 @@ export default function ChatPage() {
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (!user) {
+    if (!user && !userLoading) {
       router.push("/auth/login");
       return;
     }

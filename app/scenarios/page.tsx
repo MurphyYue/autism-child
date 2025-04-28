@@ -21,7 +21,7 @@ interface Profile {
 }
 
 export default function ScenariosPage() {
-  const { user } = useAuth();
+  const { user, userLoading } = useAuth();
   const { toast } = useToast();
   const t = useTranslations('Scenarios');
   const router = useRouter();
@@ -32,7 +32,7 @@ export default function ScenariosPage() {
   const [isChatOpen, setIsChatOpen] = useState(false);
 
   useEffect(() => {
-    if (!user) {
+    if (!user && !userLoading) {
       router.push("/auth/login");
       return;
     }

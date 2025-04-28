@@ -31,13 +31,13 @@ export default function ProfilesPage() {
   const [loading, setLoading] = useState(true);
   const [isCreateOpen, setIsCreateOpen] = useState(false);
   const [isEditOpen, setIsEditOpen] = useState(false);
-  const { user } = useAuth();
+  const { user, userLoading } = useAuth();
   const router = useRouter();
   const { toast } = useToast();
   const t = useTranslations('Profile');
 
   useEffect(() => {
-    if (!user) {
+    if (!user && !userLoading) {
       router.push("/auth/login");
       return;
     }
