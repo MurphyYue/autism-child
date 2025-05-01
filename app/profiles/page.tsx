@@ -132,7 +132,7 @@ export default function ProfilesPage() {
   }
 
   return (
-    <div className="flex-1 bg-gradient-to-b from-blue-50 to-blue-100 dark:from-gray-900 dark:to-gray-800 p-2 sm:p-6">
+    <div className="flex-1 bg-gradient-to-b from-blue-50 to-blue-100 dark:from-gray-900 dark:to-gray-800 p-4 sm:p-6">
       <div className="max-w-6xl mx-auto">
         <div className="flex items-center gap-4 sm:mb-8">
           <div className="hidden sm:inline-block">

@@ -98,7 +98,7 @@ export function Navbar() {
       <div className="container flex h-14 items-center justify-between w-full">
         <Link href="/" className="flex items-center space-x-2">
           <Image
-            src="/images/logo.png"
+            src="/images/logo-192x192.png"
             alt="Autism Child Logo"
             width={40}
             height={40}

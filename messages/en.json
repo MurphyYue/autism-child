@@ -157,7 +157,7 @@
     "title": "Simulated Conversation",
     "placeholder": "Type your message or select a suggested response...",
     "scenario_title": "Select scenario",
-    "scenario_choose": "Choose a scenario",
+    "scenario_choose": "Select a scenario to start the conversation",
     "child_simulation": "Child Simulation",
     "expert_insight": "Expert Insight",
     "suggested_responses": "Suggested Responses",

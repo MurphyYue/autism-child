@@ -157,7 +157,7 @@
     "title": "模拟对话",
     "placeholder": "输入回复或选择建议的回复...",
     "scenario_title": "选择场景",
-    "scenario_choose": "选择场景",
+    "scenario_choose": "选择场景后开始对话",
     "child_simulation": "儿童模拟",
     "expert_insight": "专家见解",
     "suggested_responses": "回复建议",

@@ -16,13 +16,13 @@ export const metadata: Metadata = {
   icons: {
     icon: [
       {
-        url: "/images/logo.png",
+        url: "/images/logo-512x512.png",
         type: "image/png",
       }
     ],
     apple: [
       {
-        url: "/images/logo.png",
+        url: "/images/logo-192x192.png",
         type: "image/png",
         sizes: "180x180"
       }
