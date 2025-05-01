@@ -67,7 +67,7 @@ export default function SimulatedConversationPage() {
 
   useEffect(() => {
     if (!user && !userLoading) {
-      router.push("/auth/login");
+      router.push("/auth/login?redirectTo=/chat");
       return;
     }
     fetchProfiles();
@@ -327,7 +327,7 @@ export default function SimulatedConversationPage() {
       console.log(error);
       toast({
         title: "Error",
-        description: "Failed to initialize conversation",
+        description: "Failed to initialize conversation, please try again",
         variant: "destructive",
       });
       setSelectedScenario(""); // Reset scenario selection on error

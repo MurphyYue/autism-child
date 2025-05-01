@@ -38,7 +38,8 @@ export default function ProfilesPage() {
 
   useEffect(() => {
     if (!user && !userLoading) {
-      router.push("/auth/login");
+      // User is not logged in, redirect to login page and add a parameter to redirect back to the current page
+      router.push("/auth/login?redirectTo=/profiles");
       return;
     }
 

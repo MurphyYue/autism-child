@@ -33,7 +33,7 @@ export default function ScenariosPage() {
 
   useEffect(() => {
     if (!user && !userLoading) {
-      router.push("/auth/login");
+      router.push("/auth/login?redirectTo=/scenarios");
       return;
     }
 

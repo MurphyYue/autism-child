@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card } from '@/components/ui/card';
@@ -16,6 +16,7 @@ export default function LoginPage() {
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const router = useRouter();
+  const searchParams = useSearchParams();
   const { toast } = useToast();
   const t = useTranslations("Login");
 
@@ -31,12 +32,20 @@ export default function LoginPage() {
 
       if (error) throw error;
 
-      toast({
-        title: 'Login successful',
-        description: 'Welcome back!',
-      });
+      // toast({
+      //   title: 'Login successful',
+      //   description: 'Welcome back!',
+      // });
+      // use the router parameter "redirectTo" to redirect to the page the user was trying to access
+      if (error) throw error;
 
-      router.push('/profiles');
+      const redirectTo = searchParams.get('redirectTo');
+      if (redirectTo) {
+        router.push(redirectTo);
+      } else {
+        router.push('/');
+      }
+      // router.push('/');
     } catch (error: any) {
       toast({
         title: 'Error',
