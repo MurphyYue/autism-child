@@ -14,6 +14,12 @@ const inter = Inter({ subsets: ["latin"] });
 export const metadata: Metadata = {
   title: "Autism Communication Assistant",
   description: "An app to help parents communicate with children with autism",
+  viewport: {
+    width: 'device-width',
+    initialScale: 1,
+    maximumScale: 1,
+    userScalable: false,
+  },
   icons: {
     icon: [
       {
@@ -28,7 +34,7 @@ export const metadata: Metadata = {
         sizes: "180x180"
       }
     ]
-  }
+  },
 };
 
 export default async function RootLayout({
