@@ -21,6 +21,9 @@ export default function PWAInstallModal() {
     setIsIOS(isIOSDevice);
     setIsStandalone(inStandaloneMode);
 
+    // Don't show if user dismissed in this session
+    if (sessionStorage.getItem('pwa-dismissed') === 'true') setIsVisible(false);
+    // Check for the beforeinstallprompt event
     const promptHandler = (e: any) => {
       e.preventDefault();
       deferredPrompt = e;
@@ -47,6 +50,11 @@ export default function PWAInstallModal() {
     setShowPrompt(false);
   };
 
+  const handleDismiss = () => {
+    setIsVisible(false);
+    sessionStorage.setItem('pwa-dismissed', 'true');
+  };
+
   if (isStandalone) return null; // Already installed
   if (!isIOS && !showPrompt) return null; // No install option needed
   if (!isVisable) return null;
@@ -54,7 +62,7 @@ export default function PWAInstallModal() {
   return (
     <div className="fixed bottom-4 left-4 right-4 bg-white shadow-lg border rounded-xl p-4 z-50 max-w-md mx-auto">
       <button
-        onClick={() => setIsVisible(false)} 
+        onClick={() => handleDismiss()} 
         className="absolute top-2 right-2 text-gray-500 hover:text-gray-700"
         aria-label="Close"
       >
