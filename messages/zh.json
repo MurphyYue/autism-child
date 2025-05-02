@@ -184,5 +184,13 @@
     "choose_password": "选择密码",
     "enter_email": "输入邮箱",
     "enter_password": "输入密码"
+  },
+  "Installation": {
+    "title": "安装此应用",
+    "description": "在 Safari 浏览器中点击底部菜单栏的",
+    "share": "“分享”按钮",
+    "share_next": "，然后选择",
+    "add_to_home_screen": "“添加到主屏幕”",
+    "install": "安装"
   }
 }

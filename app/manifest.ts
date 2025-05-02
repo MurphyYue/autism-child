@@ -2,8 +2,8 @@ import type { MetadataRoute } from 'next'
  
 export default function manifest(): MetadataRoute.Manifest {
   return {
-    name: 'star cat',
-    short_name: 'star cat',
+    name: 'StarCat',
+    short_name: 'StarCat',
     description: 'communicate with your simulated star cat',
     start_url: '/',
     display: 'standalone',

@@ -184,5 +184,13 @@
     "choose_password": "Choose a password",
     "enter_email": "Enter your email",
     "enter_password": "Enter your password"
+  },
+  "Installation": {
+    "title": "Install this app",
+    "description": "In Safari browser, click the bottom menu bar's",
+    "share": "\"Share\" button",
+    "share_next": ", then select",
+    "add_to_home_screen": "\"Add to Home Screen\"",
+    "install": "Install"
   }
 }

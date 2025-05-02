@@ -7,6 +7,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { Navbar } from "@/components/ui/navbar";
 import { NextIntlClientProvider } from "next-intl";
 import { getLocale } from "next-intl/server";
+import PWAInstallModal from '@/components/PWAInstallModal';
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -48,6 +49,7 @@ export default async function RootLayout({
           <AuthProvider>
             <NextIntlClientProvider>
               <div className="min-h-screen flex flex-col">
+                <PWAInstallModal />
                 <Navbar />
                 <main className="flex-1 flex">{children}</main>
               </div>
