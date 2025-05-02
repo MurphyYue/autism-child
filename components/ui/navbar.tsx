@@ -102,7 +102,7 @@ export function Navbar() {
             alt="Autism Child Logo"
             width={40}
             height={40}
-            className="w-auto h-8 md:h-10 ml-2 rounded-full"
+            className="w-auto h-8 md:h-10 ml-4 rounded-full"
             priority
           />
         </Link>
@@ -117,8 +117,8 @@ export function Navbar() {
           {/* <LocaleSwitcher /> */}
           <Sheet>
             <SheetTrigger asChild>
-              <Button variant="ghost" size="icon">
-                <Menu className="h-5 w-5" />
+              <Button variant="ghost" size="icon" className="mr-4">
+                <Menu className="h-6 w-6" />
               </Button>
             </SheetTrigger>
             <SheetContent side="right" className="w-64">
