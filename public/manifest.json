@@ -1,0 +1,16 @@
+{
+  "name": "Star Cat",
+  "short_name": "Star Cat",
+  "description": "Support platform for people communicate with their children with autism",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#4f46e5",
+  "icons": [
+    {
+      "src": "/images/logo-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    }
+  ]
+}

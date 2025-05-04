@@ -2,7 +2,12 @@ import { Card } from '@/components/ui/card';
 import { Brain, MessageCircle, UserPlus } from 'lucide-react';
 import Link from 'next/link';
 import {useTranslations} from 'next-intl';
+import { Metadata } from 'next'
 
+export const metadata: Metadata = {
+  title: 'Home - Star Cat',
+  description: 'Welcome to Star Cat - An app to help parents communicate with their children with autism.',
+}
 
 export default function Home() {
   const t = useTranslations('Home');

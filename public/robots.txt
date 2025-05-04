@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://autism-child.vercel.app/sitemap.xml
