@@ -107,7 +107,7 @@ export default function SimulatedConversationPage() {
     } catch (error: any) {
       toast({
         title: "Error",
-        description: error.message,
+        description: t("profile_get_error"),
         variant: "destructive",
       });
     }
@@ -135,7 +135,7 @@ export default function SimulatedConversationPage() {
     } catch (error: any) {
       toast({
         title: "Error",
-        description: error.message,
+        description: t("scenario_get_error"),
         variant: "destructive",
       });
     }
@@ -327,7 +327,7 @@ export default function SimulatedConversationPage() {
       console.log(error);
       toast({
         title: "Error",
-        description: "Failed to initialize conversation, please try again",
+        description: t("conversation_init_error"),
         variant: "destructive",
       });
       setSelectedScenario(""); // Reset scenario selection on error
@@ -496,7 +496,7 @@ export default function SimulatedConversationPage() {
     } catch (error: any) {
       toast({
         title: "Error",
-        description: error.message || "Failed to send message",
+        description: t("message_send_error"),
         variant: "destructive",
       });
       // Remove the user message if the API call fails

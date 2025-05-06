@@ -32,8 +32,8 @@ export default function RegisterPage() {
       if (error) throw error;
 
       toast({
-        title: 'Registration successful',
-        description: 'Please check your email to confirm your account.',
+        title: t("register_success"),
+        description: t("register_success_desc"),
       });
 
       router.push('/auth/login');

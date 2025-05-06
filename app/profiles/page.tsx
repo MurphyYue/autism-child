@@ -58,7 +58,7 @@ export default function ProfilesPage() {
     } catch (error: any) {
       toast({
         title: "Error",
-        description: error.message,
+        description: t("get_profile_error"),
         variant: "destructive",
       });
     } finally {
@@ -71,7 +71,7 @@ export default function ProfilesPage() {
     fetchProfile();
     toast({
       title: "Success",
-      description: "Profile created successfully",
+      description: t("create_profile_success")
     });
   };
 
@@ -80,7 +80,7 @@ export default function ProfilesPage() {
     fetchProfile();
     toast({
       title: "Success",
-      description: "Profile updated successfully",
+      description: t("update_profile_success"),
     });
   };
 

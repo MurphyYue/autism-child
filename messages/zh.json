@@ -70,7 +70,10 @@
     "is_in_school": "目前在学校就读",
     "sensory_response_description": "孩子对声音、光线或触摸是否有特殊反应？",
     "special_interests_description": "孩子是否对某些事物特别感兴趣，如颜色、玩具或活动？",
-    "environmental_response_description": "孩子在某些环境下是否会表现出不适或情绪反应？"
+    "environmental_response_description": "孩子在某些环境下是否会表现出不适或情绪反应？",
+    "create_profile_success": "孩子档案创建成功",
+    "update_profile_success": "孩子档案更新成功",
+    "get_profile_error": "孩子档案获取失败"
   },
   "Scenarios": {
     "title": "沟通场景",
@@ -170,7 +173,11 @@
     "action": "行动",
     "reason": "原因",
     "evaluate": "评估",
-    "suggestion": "建议"
+    "suggestion": "建议",
+    "profile_get_error": "获取儿童档案失败",
+    "scenario_get_error": "获取场景信息失败",
+    "conversation_init_error": "初始化对话失败，请重试！",
+    "message_send_error": "发送消息失败，请重试！"
   },
   "Login": {
     "title": "登录",
@@ -183,7 +190,9 @@
     "register": "注册",
     "choose_password": "选择密码",
     "enter_email": "输入邮箱",
-    "enter_password": "输入密码"
+    "enter_password": "输入密码",
+    "register_success": "注册成功",
+    "register_success_desc": "请检查您的邮箱以确认账号"
   },
   "Installation": {
     "title": "安装此应用",

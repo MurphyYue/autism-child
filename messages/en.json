@@ -70,7 +70,10 @@
     "is_in_school": "Currently attending school",
     "sensory_response_description": "Does the child have any special reactions to sounds, lights, or touch?",
     "special_interests_description": "Does the child have any special interests, including colors, toys, or activities?",
-    "environmental_response_description": "Does the child show discomfort or emotional reactions in certain environments?"
+    "environmental_response_description": "Does the child show discomfort or emotional reactions in certain environments?",
+    "create_profile_success": "Profile created successfully",
+    "update_profile_success": "Profile updated successfully",
+    "get_profile_error": "Profile get successfully"
   },
   "Scenarios": {
     "title": "Communication Scenarios",
@@ -170,7 +173,11 @@
     "action": "Action",
     "reason": "Reason",
     "evaluate": "Evaluation",
-    "suggestion": "Suggestion"
+    "suggestion": "Suggestion",
+    "profile_get_error": "Failed to get child profile",
+    "scenario_get_error": "Failed to get scenario",
+    "conversation_init_error": "Failed to initialize conversation, please try again",
+    "message_send_error": "Failed to send message, please try again"
   },
   "Login": {
     "title": "Login",
@@ -183,7 +190,9 @@
     "register": "Register",
     "choose_password": "Choose a password",
     "enter_email": "Enter your email",
-    "enter_password": "Enter your password"
+    "enter_password": "Enter your password",
+    "register_success": "Registration successful",
+    "register_success_desc": "Please check your email to confirm your account."
   },
   "Installation": {
     "title": "Install this app",
