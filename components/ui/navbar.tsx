@@ -94,7 +94,7 @@ export function Navbar() {
   );
 
   return (
-    <nav className="sticky top-0 z-50 border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+    <nav className="sticky top-0 z-50 border-b dark:border-slate-700 bg-gradient-to-r from-blue-100/90 via-purple-100/90 to-pink-100/90 dark:from-slate-500/90 dark:via-slate-600/90 dark:to-slate-700/90 backdrop-blur supports-[backdrop-filter]:bg-gradient-to-r supports-[backdrop-filter]:from-blue-100/60 supports-[backdrop-filter]:via-purple-100/60 supports-[backdrop-filter]:to-pink-100/60 dark:supports-[backdrop-filter]:from-slate-500/60 dark:supports-[backdrop-filter]:via-slate-700/60 dark:supports-[backdrop-filter]:to-slate-800/60">
       <div className="container flex h-14 items-center justify-between w-full">
         <Link href="/" className="flex items-center space-x-2">
           <Image
