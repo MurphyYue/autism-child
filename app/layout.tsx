@@ -8,19 +8,21 @@ import { Navbar } from "@/components/ui/navbar";
 import { NextIntlClientProvider } from "next-intl";
 import { getLocale } from "next-intl/server";
 import PWAInstallModal from '@/components/PWAInstallModal';
+import type { Viewport } from 'next'
 
 const inter = Inter({ subsets: ["latin"] });
+
+export const viewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  maximumScale: 1,
+  userScalable: false,
+}
 
 export const metadata: Metadata = {
   title: "Autism Communication Assistant",
   description: "An app to help parents communicate with their children with autism",
   metadataBase: new URL('https://autism-child.vercel.app'),
-  viewport: {
-    width: 'device-width',
-    initialScale: 1,
-    maximumScale: 1,
-    userScalable: false,
-  },
   keywords: 'autism, children, support, scenarios, conversation, simulation, profile management, star cat',
   openGraph: {
     title: 'Star Cat - Support for Children with Autism',
