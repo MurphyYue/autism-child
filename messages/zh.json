@@ -7,7 +7,13 @@
     "structured_scenarios": "结构化场景",
     "structured_scenarios_desc": "创建和管理结构化互动场景",
     "conversation_simulation": "对话模拟",
-    "conversation_simulation_desc": "通过AI辅助练习沟通"
+    "conversation_simulation_desc": "通过AI辅助练习沟通",
+    "start_to_use": "开始使用",
+    "main_function": "主要功能",
+    "main_function_desc": "我们提供多种工具，帮助您与孩子建立更好的沟通。",
+    "start_to_communicate": "开始您的沟通之旅",
+    "start_to_communicate_desc": "立即创建孩子的档案，探索结构化场景，提升沟通效果",
+    "free_to_use": "免费开始使用"
   },
   "LocaleSwitcher": {
     "zh": "中文",

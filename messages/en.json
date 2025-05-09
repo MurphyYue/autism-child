@@ -1,13 +1,19 @@
 {
   "Home": {
-    "title": "Star child Communication Assistant",
+    "title": "Star Cat",
     "subtitle": "Empowering parents to better communicate with and understand their autism children through AI-assisted tools and structured interactions.",
     "profle_management": "Profile Management",
     "profle_management_desc": "Create and manage detailed profiles for your children",
     "structured_scenarios": "Structured Scenarios",
     "structured_scenarios_desc": "Create and manage structured interaction scenarios",
     "conversation_simulation": "Conversation Simulation",
-    "conversation_simulation_desc": "Practice communication with AI assistance"
+    "conversation_simulation_desc": "Practice communication with AI assistance",
+    "start_to_use": "Get Started",
+    "main_function": "Main Functions",
+    "main_function_desc": "We provide a variety of tools to help you establish better communication with your child.",
+    "start_to_communicate": "Start to Communication Trip",
+    "start_to_communicate_desc": "Create your child's profile immediately, explore structured scenarios, and improve communication",
+    "free_to_use": "Free to Use"
   },
   "LocaleSwitcher": {
     "zh": "中文",
