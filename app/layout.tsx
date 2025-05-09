@@ -14,6 +14,7 @@ const inter = Inter({ subsets: ["latin"] });
 export const metadata: Metadata = {
   title: "Autism Communication Assistant",
   description: "An app to help parents communicate with their children with autism",
+  metadataBase: new URL('https://autism-child.vercel.app'),
   viewport: {
     width: 'device-width',
     initialScale: 1,
