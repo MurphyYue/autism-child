@@ -147,7 +147,13 @@ export default function ProfilesPage() {
         </div>
 
         {!profile ? (
-          <Card className="p-6 text-center">
+          <div className="p-6 text-center" style={{
+            background:
+              "radial-gradient(circle at 30% 20%, rgba(184, 196, 255, 0.6), transparent 25%), " +
+              "radial-gradient(circle at 70% 60%, rgba(255, 184, 222, 0.6), transparent 25%), " +
+              "radial-gradient(circle at 40% 80%, rgba(184, 255, 214, 0.6), transparent 25%), " +
+              "radial-gradient(circle at 80% 30%, rgba(255, 222, 184, 0.6), transparent 25%)",
+          }}>
             <p className="text-gray-600 dark:text-gray-400 mb-4">
               {t('no_profile')}
             </p>
@@ -155,10 +161,16 @@ export default function ProfilesPage() {
               <Plus className="w-4 h-4 mr-2" />
               {t('create_profile')}
             </Button>
-          </Card>
+          </div>
         ) : (
           <div className="space-y-6">
-            <Card className="p-6">
+            <div className="p-6" style={{
+              background:
+                "radial-gradient(circle at 30% 20%, rgba(184, 196, 255, 0.6), transparent 25%), " +
+                "radial-gradient(circle at 70% 60%, rgba(255, 184, 222, 0.6), transparent 25%), " +
+                "radial-gradient(circle at 40% 80%, rgba(184, 255, 214, 0.6), transparent 25%), " +
+                "radial-gradient(circle at 80% 30%, rgba(255, 222, 184, 0.6), transparent 25%)",
+            }}>
               <div className="flex justify-between items-start mb-6">
                 <div>
                   <h2 className="text-2xl font-semibold mb-2">
@@ -304,7 +316,7 @@ export default function ProfilesPage() {
                   </div>
                 </div>
               </div>
-            </Card>
+            </div>
 
             <div className="flex justify-end">
               <Button asChild className="hidden sm:inline-block">

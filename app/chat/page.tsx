@@ -21,6 +21,7 @@ import ReactMarkdown from "react-markdown";
 import TextareaAutosize from "react-textarea-autosize";
 import { type Scenario } from "@/types/scenario";
 import { useTranslations } from "next-intl";
+import './gradient-bg.css';
 
 interface Profile {
   id: string;
@@ -524,7 +525,13 @@ export default function SimulatedConversationPage() {
           {t("title")}
         </h1>
 
-        <Card className="flex flex-col h-full sm:h-[600px]">
+        <div className="flex flex-col h-full sm:h-[600px]" style={{
+              background:
+                "radial-gradient(circle at 30% 20%, rgba(184, 196, 255, 0.6), transparent 25%), " +
+                "radial-gradient(circle at 70% 60%, rgba(255, 184, 222, 0.6), transparent 25%), " +
+                "radial-gradient(circle at 40% 80%, rgba(184, 255, 214, 0.6), transparent 25%), " +
+                "radial-gradient(circle at 80% 30%, rgba(255, 222, 184, 0.6), transparent 25%)",
+            }}>
           <div className="p-4 border-b space-y-4">
             {selectedProfile && (
               <div>
@@ -533,7 +540,7 @@ export default function SimulatedConversationPage() {
                   value={selectedScenario}
                   onValueChange={setSelectedScenario}
                 >
-                  <SelectTrigger>
+                  <SelectTrigger className="bg-gradient-to-tr from-yellow-100/30 via-blue-100/20 to-pink-100/30 dark:from-yellow-900/20 dark:via-blue-800/20 dark:to-pink-900/20 z-0">
                     <SelectValue placeholder={t("scenario_choose")} />
                   </SelectTrigger>
                   <SelectContent>
@@ -669,7 +676,7 @@ export default function SimulatedConversationPage() {
               </Button>
             </div>
           </div>
-        </Card>
+        </div>
       </div>
     </div>
   );

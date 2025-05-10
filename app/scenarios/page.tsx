@@ -92,7 +92,13 @@ export default function ScenariosPage() {
 
   if (loading) {
     return (
-      <div className="flex-1 bg-gradient-to-b from-blue-50 to-blue-100 dark:from-gray-900 dark:to-gray-800 p-6">
+      <div className="flex-1 p-6" style={{
+        background:
+          "radial-gradient(circle at 30% 20%, rgba(184, 196, 255, 0.6), transparent 25%), " +
+          "radial-gradient(circle at 70% 60%, rgba(255, 184, 222, 0.6), transparent 25%), " +
+          "radial-gradient(circle at 40% 80%, rgba(184, 255, 214, 0.6), transparent 25%), " +
+          "radial-gradient(circle at 80% 30%, rgba(255, 222, 184, 0.6), transparent 25%)",
+      }}>
         <div className="max-w-6xl mx-auto">
           <h1 className="text-3xl font-bold mb-8">{t('loading')}</h1>
         </div>
@@ -101,7 +107,13 @@ export default function ScenariosPage() {
   }
 
   return (
-    <div className="flex-1 bg-gradient-to-b from-blue-50 to-blue-100 dark:from-gray-900 dark:to-gray-800 p-6 box-border">
+    <div className="flex-1 p-6 box-border" style={{
+      background:
+        "radial-gradient(circle at 30% 20%, rgba(184, 196, 255, 0.6), transparent 25%), " +
+        "radial-gradient(circle at 70% 60%, rgba(255, 184, 222, 0.6), transparent 25%), " +
+        "radial-gradient(circle at 40% 80%, rgba(184, 255, 214, 0.6), transparent 25%), " +
+        "radial-gradient(circle at 80% 30%, rgba(255, 222, 184, 0.6), transparent 25%)",
+    }}>
       <div className="max-w-6xl mx-auto">
         <div className="flex justify-between items-center mb-8">
           <h1 className="text-3xl font-bold hidden sm:inline-block">{t('title')}</h1>
