@@ -16,23 +16,23 @@ export default function Home() {
   return (
     <div className="flex-1">
       <div className="relative overflow-hidden">
-        <div className="absolute inset-0 bg-[url('/images/home_bg_3.jpg')] bg-cover opacity-10"></div>
-        <div className="container mx-auto px-4 py-16 sm:py-24 relative z-10">
+        <div className="absolute inset-0 bg-[url('/images/home_bg_3.jpg')] bg-cover dark:opacity-10 opacity-30"></div>
+        <div className="container mx-auto px-4 py-16 sm:py-24 relative z-10 bg-white bg-opacity-40 dark:bg-opacity-0">
           <div className="flex flex-col md:flex-row items-center">
             <div className="md:w-1/2 text-center md:text-left mb-10 md:mb-0">
-              <div className="inline-block p-2 bg-blue-100 dark:bg-blue-900 rounded-lg mb-4">
+              <div className="inline-block p-2 bg-blue-400 dark:bg-blue-900 rounded-lg mb-4">
                 <Star className="h-6 w-6 text-yellow-500" />
               </div>
-              <h1 className="text-4xl md:text-6xl font-extrabold mb-8 leading-tight bg-clip-text text-transparent bg-gradient-to-r from-white via-purple-100 to-pink-200 dark:from-blue-100 dark:via-purple-100 dark:to-pink-200 animate-gradient-x filter drop-shadow-lg">
+              <h1 className="text-4xl md:text-6xl font-extrabold mb-8 leading-tight bg-clip-text text-transparent bg-gradient-to-r from-red-700 via-red-400 to-yellow-400 dark:from-blue-400 dark:via-purple-400 dark:to-pink-400 animate-gradient-x filter drop-shadow-lg">
                 {t("title")}
               </h1>
-              <p className="text-base md:text-xl bg-clip-text text-transparent bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 dark:from-white dark:via-purple-100 dark:to-pink-100 max-w-xl mb-8">
+              <p className="text-base md:text-xl bg-clip-text text-transparent bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 dark:from-white dark:via-purple-400 dark:to-pink-400 max-w-xl mb-8">
                 {t("subtitle")}
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
                 <Link
                   href="/chat"
-                  className="px-6 py-3 bg-blue-600 text-white font-medium rounded-lg transition-all duration-300 shadow-md hover:shadow-xl transform hover:-translate-y-0.5 bg-opacity-40 hover:bg-opacity-100"
+                  className="px-6 py-3 dark:bg-blue-600 bg-blue-700 text-white font-medium rounded-lg transition-all duration-300 shadow-md hover:shadow-xl transform hover:-translate-y-0.5 dark:bg-opacity-40 bg-opacity-70 hover:bg-opacity-100"
                 >
                   <span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-100 to-white">
                     {t("start_to_use")}
@@ -83,7 +83,7 @@ export default function Home() {
               description={t("profle_management_desc")}
               href="/profiles"
               color="bg-purple-100 dark:bg-purple-900 text-purple-600 dark:text-purple-300"
-              bgColor="bg-pruple-100 dark:bg-purple-900 dark:bg-opacity-30"
+              bgColor="bg-purple-300 dark:bg-purple-900 dark:bg-opacity-30"
             />
             <FeatureCard
               icon={<Brain className="h-10 w-10" />}
@@ -91,7 +91,7 @@ export default function Home() {
               description={t("structured_scenarios_desc")}
               href="/scenarios"
               color="bg-green-100 dark:bg-green-900 text-green-600 dark:text-green-300"
-              bgColor="bg-green-100 dark:bg-green-900 dark:bg-opacity-30"
+              bgColor="bg-green-300 dark:bg-green-900 dark:bg-opacity-30"
             />
             <FeatureCard
               icon={<MessageCircle className="h-10 w-10" />}
@@ -99,7 +99,7 @@ export default function Home() {
               description={t("conversation_simulation_desc")}
               href="/chat"
               color="bg-blue-100 dark:bg-blue-900 text-blue-600 dark:text-blue-300"
-              bgColor="bg-blue-100 dark:bg-blue-900 dark:bg-opacity-30"
+              bgColor="bg-blue-300 dark:bg-blue-900 dark:bg-opacity-30"
             />
           </div>
         </div>
@@ -131,7 +131,7 @@ export default function Home() {
 
       {/* CTA Section */}
       <div className="relative overflow-hidden">
-        <div className="absolute inset-0 bg-[url('/images/home_bg_2.jpg')] bg-contain opacity-10"></div>
+        <div className="absolute inset-0 bg-[url('/images/home_bg_2.jpg')] bg-contain dark:opacity-10 opacity-30"></div>
         <div className="container mx-auto px-4 py-16">
           <div className="bg-gradient-to-r from-blue-500 to-purple-600 rounded-2xl p-8 md:p-12 shadow-xl">
             <div className="text-center">
