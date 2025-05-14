@@ -167,13 +167,30 @@ export default function SimulatedConversationPage() {
     const scenario = scenarios.find((s) => s.id === selectedScenario);
     const profile = profiles.find((p) => p.id === selectedProfile);
     if (!scenario || !profile) return;
-
+    const { name, age, gender, diagnosis_age, diagnosis_source, severity, behavior_features, sensory_preferences} = profile;
+    const childIntroduction = {
+      name,
+      age,
+      gender,
+      diagnosis_age,
+      diagnosis_source,
+      severity,
+      has_friends: behavior_features.has_friends,
+      is_in_school: behavior_features.is_in_school,
+      can_express_needs: behavior_features.can_express_needs,
+      has_self_stimulation: behavior_features.has_self_stimulation,
+      can_perform_daily_tasks: behavior_features.can_perform_daily_tasks,
+      can_initiate_conversation: behavior_features.can_initiate_conversation,
+      sensory_preferences: sensory_preferences.sensory_preferences,
+      special_interests: sensory_preferences.special_interests,
+      environmental_response: sensory_preferences.environmental_response
+    };
     try {
       setLoading(true);
       setMessages([]); // Clear previous messages
 
       const inputMsg = {
-        child_introduction: JSON.stringify(profile),
+        child_introduction: childIntroduction,
         time: scenario.time,
         location: scenario.location,
         participant: scenario.participant,
