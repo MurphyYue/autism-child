@@ -10,18 +10,7 @@ import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { useToast } from '@/hooks/use-toast';
 import { supabase } from '@/lib/supabase';
 import { useTranslations } from 'next-intl';
-
-interface Profile {
-  id: string;
-  name: string;
-  age: number;
-  gender?: string;
-  diagnosis_age?: number;
-  diagnosis_source?: string;
-  severity?: string;
-  behavior_features: Record<string, any>;
-  sensory_preferences: Record<string, any>;
-}
+import { type Profile } from "@/types/profile";
 
 interface EditProfileDialogProps {
   open: boolean;

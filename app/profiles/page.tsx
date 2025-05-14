@@ -12,19 +12,7 @@ import CreateProfileDialog from "@/components/profiles/create-profile-dialog";
 import EditProfileDialog from "@/components/profiles/edit-profile-dialog";
 import Link from "next/link";
 import {useTranslations} from 'next-intl';
-
-interface Profile {
-  id: string;
-  name: string;
-  age: number;
-  gender?: string;
-  diagnosis_age?: number;
-  diagnosis_source?: string;
-  severity?: string;
-  behavior_features: Record<string, any>;
-  sensory_preferences: Record<string, any>;
-  created_at: string;
-}
+import { type Profile } from "@/types/profile";
 
 export default function ProfilesPage() {
   const [profile, setProfile] = useState<Profile | null>(null);

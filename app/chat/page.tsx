@@ -20,15 +20,10 @@ import { Send, Bot, Brain, ArrowRight } from "lucide-react";
 import ReactMarkdown from "react-markdown";
 import TextareaAutosize from "react-textarea-autosize";
 import { type Scenario } from "@/types/scenario";
+import { type Profile } from "@/types/profile";
 import { useTranslations } from "next-intl";
 import './gradient-bg.css';
 
-interface Profile {
-  id: string;
-  name: string;
-  age?: number;
-  behavior_features?: Record<string, any>;
-}
 
 interface ChildResponse {
   emotion: string;
@@ -98,7 +93,7 @@ export default function SimulatedConversationPage() {
     try {
       const { data, error } = await supabase
         .from("profiles")
-        .select("id, name, age, behavior_features")
+        .select("id, name, age, behavior_features, sensory_preferences")
         .order("name");
 
       if (error) throw error;
