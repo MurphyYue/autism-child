@@ -40,8 +40,26 @@ export default function LoginPage() {
       if (error) throw error;
 
       const redirectTo = searchParams.get('redirectTo');
+
+      // Define allowed redirect paths to prevent open redirect vulnerability
+      const allowedPaths = ['/', '/chat', '/profiles', '/scenarios', '/scenarios/chat'];
+
+      // Validate redirect URL - only allow relative paths within the application
       if (redirectTo) {
-        router.push(redirectTo);
+        // Check if redirect starts with '/' and doesn't contain '//' (to prevent protocol-relative URLs)
+        const isRelativePath = redirectTo.startsWith('/') && !redirectTo.startsWith('//');
+
+        // Check if redirect is to an allowed path
+        const isValidRedirect = isRelativePath && allowedPaths.some(path =>
+          redirectTo === path || redirectTo.startsWith(path + '/')
+        );
+
+        if (isValidRedirect) {
+          router.push(redirectTo);
+        } else {
+          console.warn('Invalid redirect attempt blocked:', redirectTo);
+          router.push('/');
+        }
       } else {
         router.push('/');
       }
