@@ -14,6 +14,7 @@ import { useToast } from '@/hooks/use-toast';
 import { supabase } from '@/lib/supabase';
 import { useTranslations } from 'next-intl';
 import { type Scenario } from '@/types/scenario';
+import { useAuth } from '@/components/auth-provider';
 
 interface DeleteScenarioDialogProps {
   open: boolean;
@@ -30,13 +31,24 @@ export default function DeleteScenarioDialog({
 }: DeleteScenarioDialogProps) {
   const { toast } = useToast();
   const t = useTranslations('Scenarios');
+  const { user } = useAuth();
   const handleDelete = async () => {
-    // check if the row is existing
+    if (!user?.id) {
+      toast({
+        title: 'Error',
+        description: 'User not authenticated',
+        variant: 'destructive',
+      });
+      return;
+    }
+
+    // check if the row is existing and belongs to the user's profile
     const { data, error: fetchError } = await supabase
       .from('scenarios')
-      .select('id')
+      .select('id, profile_id')
       .eq('id', scenario.id)
       .single();
+
     if (fetchError || !data) {
       toast({
         title: 'Error',
@@ -45,11 +57,30 @@ export default function DeleteScenarioDialog({
       });
       return;
     }
+
+    // Verify ownership through profile user_id
+    const { data: profile } = await supabase
+      .from('profiles')
+      .select('id')
+      .eq('id', data.profile_id)
+      .eq('user_id', user.id)
+      .maybeSingle();
+
+    if (!profile) {
+      toast({
+        title: 'Error',
+        description: 'You do not have permission to delete this scenario',
+        variant: 'destructive',
+      });
+      return;
+    }
+
     try {
       const { error } = await supabase
         .from('scenarios')
         .delete()
-        .eq('id', scenario.id);
+        .eq('id', scenario.id)
+        .eq('profile_id', data.profile_id); // Additional safety check
       if (error) throw error;
 
       onSuccess();
