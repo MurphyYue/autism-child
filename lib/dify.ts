@@ -1,14 +1,4 @@
-import axios from 'axios';
-
-const DIFY_API_MAIN_KEY = process.env.NEXT_PUBLIC_DIFY_MAIN_API_KEY;
-const DIFY_API_SCENARIO_KEY = process.env.NEXT_PUBLIC_DIFY_SCENARIO_API_KEY;
-
-const DIFY_API_URL = process.env.NODE_ENV === 'production' ? '/api' : process.env.NEXT_PUBLIC_DIFY_API_URL;
-const DIFY_AUSERID = process.env.NEXT_PUBLIC_DIFY_USERID;
-
-if (!DIFY_API_MAIN_KEY || !DIFY_API_URL || !DIFY_API_SCENARIO_KEY || !DIFY_AUSERID) {
-  throw new Error('Dify API configuration is missing');
-}
+// Client-side Dify API calls now go through our API route to protect keys
 
 interface DifyResponse {
   answer: string;
@@ -16,48 +6,46 @@ interface DifyResponse {
   suggestions?: string[];
 }
 
-export async function getDifyResponse(
+async function callDifyAPI(
   message: string,
-  apiKey: string,
+  type: 'main' | 'scenario',
   conversationId?: string,
-  inputs?: Record<string, any>,
+  inputs?: Record<string, any>
 ): Promise<DifyResponse> {
   try {
-    const response = await axios.post(
-      `${DIFY_API_URL}/chat-messages`,
-      {
-        inputs: {
-          ...inputs,
-        },
-        query: message,
-        conversation_id: conversationId,
-        response_mode: 'blocking',
-        user: DIFY_AUSERID,
+    const response = await fetch('/api/chat', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
       },
-      {
-        headers: {
-          'Authorization': `Bearer ${apiKey}`,
-          'Content-Type': 'application/json',
-        },
-      }
-    );
+      body: JSON.stringify({
+        message,
+        type,
+        conversationId,
+        inputs,
+      }),
+    });
 
-    return {
-      answer: response.data.answer,
-      conversation_id: response.data.conversation_id,
-      suggestions: response.data.suggestions || [],
-    };
+    if (!response.ok) {
+      if (response.status === 429) {
+        throw new Error('Too many requests. Please try again later.');
+      }
+      throw new Error('Failed to get response from chat API');
+    }
+
+    return await response.json();
   } catch (error) {
     console.error('Dify API Error:', error);
-    throw new Error('Failed to get response from Dify API');
+    throw error;
   }
 }
+
 export async function getStarCatResponse(
   message: string,
   conversationId?: string,
   inputs?: Record<string, any>
 ): Promise<DifyResponse> {
-  return getDifyResponse(message, DIFY_API_MAIN_KEY ?? '', conversationId, inputs)
+  return callDifyAPI(message, 'main', conversationId, inputs);
 }
 
 export async function getScenarioResponse(
@@ -65,5 +53,5 @@ export async function getScenarioResponse(
   conversationId?: string,
   inputs?: Record<string, any>
 ): Promise<DifyResponse> {
-  return getDifyResponse(message, DIFY_API_SCENARIO_KEY ?? '', conversationId, inputs)
+  return callDifyAPI(message, 'scenario', conversationId, inputs);
 }
