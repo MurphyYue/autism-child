@@ -11,6 +11,7 @@ import { useToast } from '@/hooks/use-toast';
 import { supabase } from '@/lib/supabase';
 import { useTranslations } from 'next-intl';
 import { type Profile } from "@/types/profile";
+import { useAuth } from '@/components/auth-provider';
 
 interface EditProfileDialogProps {
   open: boolean;
@@ -27,6 +28,7 @@ export default function EditProfileDialog({
 }: EditProfileDialogProps) {
   const { toast } = useToast();
   const t = useTranslations('Profile');
+  const { user } = useAuth();
   const [loading, setLoading] = useState(false);
   const [name, setName] = useState(profile.name);
   const [age, setAge] = useState(profile.age.toString());
@@ -64,6 +66,14 @@ export default function EditProfileDialog({
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!user?.id) {
+      toast({
+        title: t('error'),
+        description: 'User not authenticated',
+        variant: 'destructive',
+      });
+      return;
+    }
     setLoading(true);
 
     try {
@@ -90,7 +100,8 @@ export default function EditProfileDialog({
             environmental_response: environmentalResponse,
           },
         })
-        .eq('id', profile.id);
+        .eq('id', profile.id)
+        .eq('user_id', user.id); // Verify ownership
 
       if (error) throw error;
 
