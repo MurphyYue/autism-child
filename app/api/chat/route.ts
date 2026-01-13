@@ -1,6 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getStarCatResponse, getScenarioResponse } from '@/lib/dify-server';
 
+// Simple in-memory rate limiting store
+const rateLimitStore = new Map<string, number[]>();
+
 export async function POST(req: NextRequest) {
   try {
     const { message, conversationId, inputs, type = 'main' } = await req.json();
@@ -19,11 +22,7 @@ export async function POST(req: NextRequest) {
 
     // Simple in-memory rate limiting (for production, use Redis)
     const now = Date.now();
-    const rateLimitData = global.rateLimitData as Map<string, number[]>;
-    if (!rateLimitData) {
-      (global.rateLimitData as Map<string, number[]>) = new Map();
-    }
-    const timestamps = (global.rateLimitData as Map<string, number[]>).get(rateLimitKey) || [];
+    const timestamps = rateLimitStore.get(rateLimitKey) || [];
     const recentTimestamps = timestamps.filter(t => now - t < 60000); // 1 minute window
 
     if (recentTimestamps.length >= 10) {
@@ -34,7 +33,7 @@ export async function POST(req: NextRequest) {
     }
 
     recentTimestamps.push(now);
-    (global.rateLimitData as Map<string, number[]>).set(rateLimitKey, recentTimestamps);
+    rateLimitStore.set(rateLimitKey, recentTimestamps);
 
     // Call appropriate Dify API based on type
     const response = type === 'scenario'

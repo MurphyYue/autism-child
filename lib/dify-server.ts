@@ -23,15 +23,32 @@ async function getDifyResponse(
   inputs?: Record<string, any>
 ): Promise<DifyResponse> {
   try {
+    const url = `${DIFY_API_URL}/chat-messages`;
+
+    // Process inputs - convert child_introduction object to string if present
+    const processedInputs: Record<string, any> = {};
+    if (inputs) {
+      for (const [key, value] of Object.entries(inputs)) {
+        if (key === 'child_introduction' && typeof value === 'object') {
+          // Convert child_introduction object to JSON string for Dify
+          processedInputs[key] = JSON.stringify(value);
+        } else {
+          processedInputs[key] = value;
+        }
+      }
+    }
+
+    const requestBody = {
+      inputs: processedInputs,
+      query: message,
+      conversation_id: conversationId || undefined,
+      response_mode: 'blocking',
+      user: DIFY_USER_ID,
+    };
+
     const response = await axios.post(
-      `${DIFY_API_URL}/chat-messages`,
-      {
-        inputs: inputs || {},
-        query: message,
-        conversation_id: conversationId,
-        response_mode: 'blocking',
-        user: DIFY_USER_ID,
-      },
+      url,
+      requestBody,
       {
         headers: {
           'Authorization': `Bearer ${apiKey}`,
@@ -46,9 +63,14 @@ async function getDifyResponse(
       conversation_id: response.data.conversation_id,
       suggestions: response.data.suggestions || [],
     };
-  } catch (error) {
-    console.error('Dify API Error:', error);
-    throw new Error('Failed to get response from Dify API');
+  } catch (error: any) {
+    console.error('Dify API Error Details:', {
+      message: error.message,
+      status: error.response?.status,
+      statusText: error.response?.statusText,
+      data: error.response?.data,
+    });
+    throw new Error(error.response?.data?.message || 'Failed to get response from Dify API');
   }
 }
 
