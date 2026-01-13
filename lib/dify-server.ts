@@ -57,7 +57,7 @@ export async function getStarCatResponse(
   conversationId?: string,
   inputs?: Record<string, any>
 ): Promise<DifyResponse> {
-  return getDifyResponse(message, DIFY_API_MAIN_KEY, conversationId, inputs);
+  return getDifyResponse(message, DIFY_API_MAIN_KEY!, conversationId, inputs);
 }
 
 export async function getScenarioResponse(
@@ -65,5 +65,5 @@ export async function getScenarioResponse(
   conversationId?: string,
   inputs?: Record<string, any>
 ): Promise<DifyResponse> {
-  return getDifyResponse(message, DIFY_API_SCENARIO_KEY, conversationId, inputs);
+  return getDifyResponse(message, DIFY_API_SCENARIO_KEY!, conversationId, inputs);
 }
