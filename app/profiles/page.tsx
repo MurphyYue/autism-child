@@ -35,11 +35,13 @@ export default function ProfilesPage() {
   }, [user, router]);
 
   const fetchProfile = async () => {
+    if (!user?.id) return;
     try {
       const { data, error } = await supabase
         .from("profiles")
         .select("*")
-        .single();
+        .eq("user_id", user.id)
+        .maybeSingle();
 
       if (error && error.code !== "PGRST116") throw error;
       setProfile(data);

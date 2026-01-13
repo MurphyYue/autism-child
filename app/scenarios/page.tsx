@@ -41,10 +41,12 @@ export default function ScenariosPage() {
   }, [user, router]);
 
   const fetchProfiles = async () => {
+    if (!user?.id) return;
     try {
       const { data, error } = await supabase
         .from("profiles")
         .select("id, name")
+        .eq("user_id", user.id)
         .order("name");
 
       if (error) throw error;
