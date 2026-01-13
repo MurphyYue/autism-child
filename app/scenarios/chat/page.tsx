@@ -10,6 +10,8 @@ import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Send, Bot } from "lucide-react";
 import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
+import rehypeSanitize from "rehype-sanitize";
 import TextareaAutosize from "react-textarea-autosize";
 import { useTranslations } from "next-intl";
 import { getScenarioResponse } from "@/lib/dify";
@@ -277,11 +279,16 @@ export default function ChatPage() {
                       </Button>
                     </>
                   ) : (
-                    <ReactMarkdown className="prose dark:prose-invert">
-                      {typeof message.content === "string"
-                        ? message.content
-                        : JSON.stringify(message.content)}
-                    </ReactMarkdown>
+                    <div className="prose dark:prose-invert">
+                      <ReactMarkdown
+                        remarkPlugins={[remarkGfm]}
+                        rehypePlugins={[rehypeSanitize]}
+                      >
+                        {typeof message.content === "string"
+                          ? message.content
+                          : JSON.stringify(message.content)}
+                      </ReactMarkdown>
+                    </div>
                   )}
                 </div>
               </div>

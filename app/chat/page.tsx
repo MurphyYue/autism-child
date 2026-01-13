@@ -18,6 +18,8 @@ import { supabase } from "@/lib/supabase";
 import { getStarCatResponse } from "@/lib/dify";
 import { Send, Bot, Brain, ArrowRight } from "lucide-react";
 import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
+import rehypeSanitize from "rehype-sanitize";
 import TextareaAutosize from "react-textarea-autosize";
 import { type Scenario } from "@/types/scenario";
 import { type Profile } from "@/types/profile";
@@ -602,9 +604,14 @@ export default function SimulatedConversationPage() {
                       </span>
                     </div>
                   )}
-                  <ReactMarkdown className="prose dark:prose-invert">
-                    {message.content}
-                  </ReactMarkdown>
+                  <div className="prose dark:prose-invert">
+                    <ReactMarkdown
+                      remarkPlugins={[remarkGfm]}
+                      rehypePlugins={[rehypeSanitize]}
+                    >
+                      {message.content}
+                    </ReactMarkdown>
+                  </div>
                   {message.abnormal && message.role === "assistant" && (
                     <div className="mt-3 space-y-2">
                       <div className="text-red-500">{t("abnormal")}</div>

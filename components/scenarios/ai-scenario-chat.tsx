@@ -7,6 +7,8 @@ import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
 import { Send, Bot } from "lucide-react";
 import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
+import rehypeSanitize from "rehype-sanitize";
 import TextareaAutosize from "react-textarea-autosize";
 import { useTranslations } from 'next-intl';
 import {
@@ -219,11 +221,16 @@ export default function AIScenarioChat({
                       </Button>
                     </>
                   ) : (
-                    <ReactMarkdown className="prose dark:prose-invert">
-                      {typeof message.content === "string"
-                        ? message.content
-                        : JSON.stringify(message.content)}
-                    </ReactMarkdown>
+                    <div className="prose dark:prose-invert">
+                      <ReactMarkdown
+                        remarkPlugins={[remarkGfm]}
+                        rehypePlugins={[rehypeSanitize]}
+                      >
+                        {typeof message.content === "string"
+                          ? message.content
+                          : JSON.stringify(message.content)}
+                      </ReactMarkdown>
+                    </div>
                   )}
                 </div>
               </div>
