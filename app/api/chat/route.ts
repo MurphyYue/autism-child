@@ -1,11 +1,21 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getStarCatResponse, getScenarioResponse } from '@/lib/dify-server';
+import { validateCSRFToken } from '@/lib/csrf';
 
 // Simple in-memory rate limiting store
 const rateLimitStore = new Map<string, number[]>();
 
 export async function POST(req: NextRequest) {
   try {
+    // Validate CSRF token
+    const isValidCSRF = await validateCSRFToken(req);
+    if (!isValidCSRF) {
+      return NextResponse.json(
+        { error: 'Invalid CSRF token' },
+        { status: 403 }
+      );
+    }
+
     const { message, conversationId, inputs, type = 'main' } = await req.json();
 
     // Validate request

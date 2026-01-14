@@ -6,6 +6,38 @@ interface DifyResponse {
   suggestions?: string[];
 }
 
+// Cache CSRF token to avoid fetching it every time
+let csrfTokenCache: string | null = null;
+let csrfTokenPromise: Promise<string> | null = null;
+
+// Fetch CSRF token from server
+async function getCSRFToken(): Promise<string> {
+  // Return cached token if available
+  if (csrfTokenCache) {
+    return csrfTokenCache;
+  }
+
+  // If a fetch is already in progress, wait for it
+  if (csrfTokenPromise) {
+    return csrfTokenPromise;
+  }
+
+  // Fetch new token
+  csrfTokenPromise = fetch('/api/csrf')
+    .then(res => res.json())
+    .then(data => {
+      csrfTokenCache = data.token;
+      csrfTokenPromise = null;
+      return data.token;
+    })
+    .catch(error => {
+      csrfTokenPromise = null;
+      throw error;
+    });
+
+  return csrfTokenPromise;
+}
+
 async function callDifyAPI(
   message: string,
   type: 'main' | 'scenario',
@@ -13,10 +45,14 @@ async function callDifyAPI(
   inputs?: Record<string, any>
 ): Promise<DifyResponse> {
   try {
+    // Get CSRF token
+    const csrfToken = await getCSRFToken();
+
     const response = await fetch('/api/chat', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
+        'x-csrf-token': csrfToken,
       },
       body: JSON.stringify({
         message,
@@ -29,6 +65,31 @@ async function callDifyAPI(
     if (!response.ok) {
       if (response.status === 429) {
         throw new Error('Too many requests. Please try again later.');
+      }
+      if (response.status === 403) {
+        // CSRF token might be stale, clear cache and retry once
+        csrfTokenCache = null;
+        const newCsrfToken = await getCSRFToken();
+
+        const retryResponse = await fetch('/api/chat', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'x-csrf-token': newCsrfToken,
+          },
+          body: JSON.stringify({
+            message,
+            type,
+            conversationId,
+            inputs,
+          }),
+        });
+
+        if (!retryResponse.ok) {
+          throw new Error('Failed to get response from chat API');
+        }
+
+        return await retryResponse.json();
       }
       throw new Error('Failed to get response from chat API');
     }
