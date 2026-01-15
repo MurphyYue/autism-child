@@ -2,45 +2,41 @@ import { MetadataRoute } from 'next'
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://autism-child.vercel.app'
 
+// Routes to include in sitemap
+const routes = ['', '/profiles', '/scenarios', '/chat', '/scenarios/chat']
+
 export default function sitemap(): MetadataRoute.Sitemap {
-  // Public routes that should be indexed
-  const publicRoutes = [
-    {
-      url: SITE_URL,
-      lastModified: new Date(),
-      changeFrequency: 'weekly' as const,
-      priority: 1,
-    },
-  ]
+  const sitemap: MetadataRoute.Sitemap = []
 
-  // Protected routes (still useful for sitemap as users may land here after login)
-  // These have lower priority since they require authentication
-  const protectedRoutes = [
-    {
-      url: `${SITE_URL}/profiles`,
+  for (const route of routes) {
+    // English version (/en prefix)
+    sitemap.push({
+      url: `${SITE_URL}/en${route}`,
       lastModified: new Date(),
-      changeFrequency: 'monthly' as const,
-      priority: 0.7,
-    },
-    {
-      url: `${SITE_URL}/scenarios`,
-      lastModified: new Date(),
-      changeFrequency: 'monthly' as const,
-      priority: 0.7,
-    },
-    {
-      url: `${SITE_URL}/chat`,
-      lastModified: new Date(),
-      changeFrequency: 'monthly' as const,
-      priority: 0.7,
-    },
-    {
-      url: `${SITE_URL}/scenarios/chat`,
-      lastModified: new Date(),
-      changeFrequency: 'monthly' as const,
-      priority: 0.6,
-    },
-  ]
+      changeFrequency: route === '' ? ('weekly' as const) : ('monthly' as const),
+      priority: route === '' ? 1 : 0.7,
+      alternates: {
+        languages: {
+          en: `${SITE_URL}/en${route}`,
+          zh: `${SITE_URL}${route}`,
+        },
+      },
+    })
 
-  return [...publicRoutes, ...protectedRoutes]
+    // Chinese version (default, no prefix)
+    sitemap.push({
+      url: `${SITE_URL}${route}`,
+      lastModified: new Date(),
+      changeFrequency: route === '' ? ('weekly' as const) : ('monthly' as const),
+      priority: route === '' ? 1 : 0.7,
+      alternates: {
+        languages: {
+          en: `${SITE_URL}/en${route}`,
+          zh: `${SITE_URL}${route}`,
+        },
+      },
+    })
+  }
+
+  return sitemap
 }

@@ -4,8 +4,8 @@ import { Check, Globe } from 'lucide-react';
 import * as Select from '@radix-ui/react-select';
 import clsx from 'clsx';
 import { useTransition } from 'react';
-import { Locale } from '@/i18n/config';
-import { setUserLocale } from '@/services/locale';
+import { useRouter, usePathname } from '@/i18n/routing';
+import { useLocale } from 'next-intl';
 
 type Props = {
   defaultValue: string;
@@ -19,11 +19,15 @@ export default function LocaleSwitcherSelect({
   label
 }: Props) {
   const [isPending, startTransition] = useTransition();
+  const router = useRouter();
+  const pathname = usePathname();
+  const locale = useLocale();
 
   function onChange(value: string | boolean) {
-    const locale = (typeof value === 'boolean') ? (value ? 'zh' : 'en') : value as Locale;
+    const newLocale = (typeof value === 'boolean') ? (value ? 'zh' : 'en') : value;
     startTransition(() => {
-      setUserLocale(locale);
+      // Use router.replace with locale option to switch language
+      router.replace(pathname, { locale: newLocale });
     });
   }
 
@@ -35,7 +39,7 @@ export default function LocaleSwitcherSelect({
           <Select.Trigger
             aria-label={label}
             className={clsx(
-              'rounded-sm p-2 transition-colors hover:bg-slate-200',
+              'rounded-sm p-2 transition-colors hover:bg-slate-200 dark:hover:bg-slate-700',
               isPending && 'pointer-events-none opacity-60'
             )}
           >
@@ -57,7 +61,7 @@ export default function LocaleSwitcherSelect({
                     value={item.value}
                   >
                     <div className="mr-2 w-[1rem]">
-                      {item.value === defaultValue && (
+                      {item.value === locale && (
                         <Check className="h-5 w-5 text-primary" />
                       )}
                     </div>
@@ -72,12 +76,13 @@ export default function LocaleSwitcherSelect({
       </div>
 
       {/* Mobile Switch */}
-      <div className="md:hidden flex items-center space-x-2" onClick={() => onChange(defaultValue === 'zh' ? 'en' : 'zh')} >
-        <Globe 
-          className="flex items-center gap-2 text-sm font-medium transition-colors hover:text-primary cursor-pointer" 
-        />
+      <div
+        className="md:hidden flex items-center space-x-2 cursor-pointer"
+        onClick={() => onChange(locale === 'zh' ? 'en' : 'zh')}
+      >
+        <Globe className="flex items-center gap-2 text-sm font-medium transition-colors hover:text-primary" />
         <span className="text-sm">
-          {defaultValue === 'zh' ? 'English' : '中文'}
+          {locale === 'zh' ? 'English' : '中文'}
         </span>
       </div>
     </div>
