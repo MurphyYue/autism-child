@@ -14,6 +14,9 @@ export const viewport: Viewport = {
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://autism-child.vercel.app'),
+  verification: {
+    google: "TmiOghvCkAlIoz6faXTiOw6QW-VXs73U8ObDhEYV0ZU",
+  },
   icons: {
     icon: [
       {
